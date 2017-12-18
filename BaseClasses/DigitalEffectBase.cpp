@@ -73,9 +73,9 @@ bool DigitalEffectBase::setInterpolationTable(const int interpolationOrder,const
 			interpolationTable[j][q] /= polynomial_normaliser[j];
 		}
 	}
-//	delete[] polynomial_normaliser;
-//	delete[] alphas;
-//	delete[] anchors;
+	delete[] polynomial_normaliser;
+	delete[] alphas;
+	delete[] anchors;
 	return true;
 }
 //==============================================================================
