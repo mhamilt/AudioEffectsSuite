@@ -12,7 +12,6 @@
 #include <iostream>
 #include <cmath>
 
-
 class DelayEffectBase;
 //==============================================================================
 /**
