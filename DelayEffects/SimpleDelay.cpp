@@ -13,6 +13,6 @@
 double SimpleDelay::process(double inputSample)
 {
 		delaySample(inputSample*.707);
-		return (getInterpolatedOut(currentDelayIndex) + inputSample);
+		return (getInterpolatedOut(double(currentDelayIndex)) + inputSample);
 //		return inputSample;
 }

@@ -8,8 +8,9 @@
 
 #include <iostream>
 #include "../../../BaseClasses/DigitalEffectBase.cpp"
-#include "../DelayEffects/SimpleDelay.cpp"
+#include "../../../DelayEffects/SimpleDelay.cpp"
 #include "../../../AudioIOClasses/AudioWavFileReadWrite.cpp"
+#include "../../../AudioIOClasses/AudioPlayer.cpp"
 
 int main(int argc, const char * argv[])
 {
@@ -39,6 +40,8 @@ int main(int argc, const char * argv[])
 		out[i] = delay.process(in[i]);
 	}
 	audioReadWriter.writeWavMS(out, ofile, totalSamples, sampleRate);
+//==============================================================================
+
 	
 	return EXIT_SUCCESS;
 }
