@@ -11,7 +11,7 @@
 
 #include <iostream>
 #include <cmath>
-#include "../BaseClasses/DigitalEffectBase.cpp"
+#include "../BaseClasses/DelayEffectBase.cpp"
 
 class SimpleDelay;
 //==============================================================================
@@ -23,7 +23,7 @@ class SimpleDelay;
 	
 	@see process
  */
-class SimpleDelay : public DigitalEffectBase
+class SimpleDelay : public DelayEffectBase
 {
 public: // Methods
 	//==============================================================================
@@ -31,9 +31,9 @@ public: // Methods
 	
 		@param delayInSamples Set the amount of delay in samples
 		
-		@see DigitalEffectBase constructor
+		@see DelayEffectBase constructor
 	*/
-	SimpleDelay(int delayInSamples) : DigitalEffectBase(44100){delayTimeSamples=delayInSamples;};
+	SimpleDelay(int delayInSamples) : DelayEffectBase(44100){delayTimeSamples=delayInSamples;};
 	
 	/** Destructor. */
 	~SimpleDelay(){};
