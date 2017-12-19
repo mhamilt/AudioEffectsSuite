@@ -7,7 +7,7 @@
 
 //==========================================================================
 /***/
-static const int kNumberBuffers = 2;                        // 1
+static const int kNumberBuffers = 3;                        // 1
 /***/
 struct AQPlayerState
 {
