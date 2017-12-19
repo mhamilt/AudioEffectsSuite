@@ -1,29 +1,29 @@
 //
-//  DigitalEffectBase.hpp
+//  DelayEffectBase.hpp
 //  AudioEffectsSuite
 //
 //  Created by admin on 12/12/2017.
 //  Copyright © 2017 admin. All rights reserved.
 //
 
-#ifndef DigitalEffectBase_hpp
-#define DigitalEffectBase_hpp
+#ifndef DelayEffectBase_hpp
+#define DelayEffectBase_hpp
 
 #include <stdio.h>
 
-class DigitalEffectBase;
+class DelayEffectBase;
 //==============================================================================
 /**
 	A Base class for delay based digital effects. Provides the basic methods
 	that are shared amongst Flanger, Delay, Chorus and Phaser
  
- @see DigitalEffectBase
+ @see DelayEffectBase
  */
-class DigitalEffectBase
+class DelayEffectBase
 {
 public:
 	/** Destructor. */
-	virtual ~DigitalEffectBase();
+	virtual ~DelayEffectBase();
 	
 	//==============================================================================
 	/** Returns the names of all the available output channels on this device.
@@ -85,7 +85,7 @@ private:	//Methods
 protected: // member variable
 	//==============================================================================
 	/** Constructor. */
-	DigitalEffectBase();
+	DelayEffectBase();
 	
 	//==============================================================================
 	/** Table of interpolation values as a 2D array indexed by
@@ -96,4 +96,4 @@ protected: // member variable
 
 
 
-#endif /* DigitalEffectBase_hpp */
+#endif /* DelayEffectBase_hpp */
