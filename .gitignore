@@ -34,3 +34,4 @@
 # macOS Projects
 *.xcodeproj
 *.DS_Store
+**/DerivedData
