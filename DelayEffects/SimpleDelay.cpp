@@ -12,7 +12,9 @@
 
 double SimpleDelay::process(double inputSample)
 {
-		delaySample(inputSample*.707+ .707*getInterpolatedOut(currentDelayIndex));
-		return (getInterpolatedOut(double(currentDelayIndex)*.5) + inputSample);
+		delaySample((inputSample*.707)+ (.5*getInterpolatedOut(currentDelayWriteIndex)));
+		const double out = getInterpolatedOut(currentDelayWriteIndex)+inputSample;
+	
+		return out;
 		
 }

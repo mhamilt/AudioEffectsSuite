@@ -67,7 +67,7 @@ bool DelayEffectBase::setInterpolationTable(const int interpolationOrder,const i
 						polynomial_normaliser[j] = polynomial_normaliser[j]*(anchors[j]-anchors[m]);
 					}
 					interpolationTable[j][q] *= (alphas[q]-anchors[m]);
-
+					
 				}
 			}
 			interpolationTable[j][q] /= polynomial_normaliser[j];
@@ -82,9 +82,9 @@ bool DelayEffectBase::setInterpolationTable(const int interpolationOrder,const i
 
 double DelayEffectBase::getInterpolatedOut(double bufferIndex)
 {
-	const int order = 4;
+	const int order = interpOrder;
 	const int orderHalf = order*.5;
-	const int res = 100;
+	const int res = interpResolution;
 	double interpOut = 0;
 	int intBufferIndex = floor(bufferIndex);
 	int alphaIndex = int(floor((bufferIndex-intBufferIndex)*res));
@@ -94,7 +94,7 @@ double DelayEffectBase::getInterpolatedOut(double bufferIndex)
 		
 		int interpIndex = (i+1 - orderHalf) + intBufferIndex;
 		
-		if(interpIndex < 0 || interpIndex > maxDelayBufferSize)
+		if(interpIndex < 0 || (interpIndex >= maxDelayBufferSize))
 		{
 			if(interpIndex < 0){interpIndex = maxDelayBufferSize+interpIndex;}
 			else{interpIndex = interpIndex-maxDelayBufferSize;}
@@ -120,11 +120,34 @@ bool DelayEffectBase::setDelayBuffer(int bufferSizeSamples)
 	return true;
 }
 //==============================================================================
+void DelayEffectBase::storeSample(double inputSample)
+{
+	delayBuffer[currentDelayWriteIndex] = inputSample;
+}
+void DelayEffectBase::incDelayBuffWriteIndex()
+{
+	currentDelayWriteIndex++;
+	if(currentDelayWriteIndex>=delayTimeSamples){currentDelayWriteIndex=0;}
+}
+
+void DelayEffectBase::incDelayBuffReadIndex(double indexInc)
+{
+	currentDelayReadIndex += indexInc;
+	if(currentDelayReadIndex>=double(delayTimeSamples)){currentDelayReadIndex=0;}
+	if(currentDelayReadIndex<0){currentDelayReadIndex=0;}
+}
+
+void DelayEffectBase::setDelayBuffReadIndex(double index)
+{
+	currentDelayReadIndex = index;
+	if(currentDelayReadIndex>=double(delayTimeSamples)){currentDelayReadIndex=0;}
+	if(currentDelayReadIndex<0){currentDelayReadIndex=0;}
+}
+
 void DelayEffectBase::delaySample(double inputSample)
 {
-	delayBuffer[currentDelayIndex] = inputSample;
-	currentDelayIndex++;
-	if(currentDelayIndex>=delayTimeSamples){currentDelayIndex=0;}
+	storeSample(inputSample);
+	incDelayBuffWriteIndex();
 }
 
 //==============================================================================

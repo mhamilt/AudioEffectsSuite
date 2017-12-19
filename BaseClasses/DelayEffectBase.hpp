@@ -105,13 +105,32 @@ protected:
 	 */
 	bool setDelayBuffer(int bufferSizeSamples);
 	
-	/** store input sample into the delay buffer and increment currentDelayIndex
+	/** store input sample into the delay buffer
+	 
+	 @param inputSample sample to be stored for delay (double)
+	 */
+	void storeSample(double inputSample);
+	
+	/** Increments the currentDelayWriteBufferIndex by 1
+	 */
+	void incDelayBuffWriteIndex();
+	
+	/** Increments the currentDelayBufferReadIndex by indexInc
+		@param indexInc The amount to increment the delay buffer index
+	 */
+	void incDelayBuffReadIndex(double indexInc);
+	
+	/** sets the currentDelayBufferReadIndex by indexInc (Currently no wrapping)
+		@param index the read index index required 
+	 */
+	void setDelayBuffReadIndex(double index);
+	
+	/** store input sample into the delay buffer and increment currentDelayWriteIndex
 		for tracking when to loop back to start of buffer
 	 
 	 @param inputSample sample to be stored for delay (double)
 	 */
 	void delaySample(double inputSample);
-	
 	/** get the value of the requested buffer index by interpolating other points
 		@param bufferIndex	The required buffer index
 		
@@ -138,13 +157,16 @@ protected:// member variables
 	int delayTimeSamples = 44100;
 	
 	/***/
-	int currentDelayIndex = 0;
+	int currentDelayWriteIndex = 0;
+	
+	/***/
+	double currentDelayReadIndex = 0;
 	
 	/***/
 	static const int interpOrder = 4;
 	
 	/***/
-	static const int interpResolution = 100;
+	static const int interpResolution = 1000;
 	
 	bool error;
 };

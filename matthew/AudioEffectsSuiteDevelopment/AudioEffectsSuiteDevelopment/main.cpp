@@ -19,13 +19,11 @@ int main(int argc, const char * argv[])
 	//	printf("Path relative to the working directory is: %s\n", argv[0]);
 	
 	// Delay class initiliases with a delay value in samples.
-	SimpleDelay delay(44100);
+	SimpleDelay delay(40);
 
 	//Set absolute path of files
 	const char ifile[] = "/Users/admin/Downloads/MtoS.wav";
 	const char ofile[] = "/Users/admin/Downloads/MtoS_delayed.wav";
-	
-	
 	
 //==============================================================================
 	AudioWavFileReadWrite audioReadWriter;
@@ -39,9 +37,9 @@ int main(int argc, const char * argv[])
 	{
 		out[i] = delay.process(in[i]);
 	}
-//	audioReadWriter.writeWavMS(out, ofile, totalSamples, sampleRate);
+	audioReadWriter.writeWavMS(out, ofile, totalSamples, sampleRate);
 //==============================================================================
-//	playAudio(ofile);
+	playAudio(ofile);
 //==============================================================================
 	
 	return EXIT_SUCCESS;
