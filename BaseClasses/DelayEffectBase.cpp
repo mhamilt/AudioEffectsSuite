@@ -5,7 +5,7 @@
 //  Created by admin on 12/12/2017.
 //  Copyright © 2017 admin. All rights reserved.
 //
-<<<<<<< HEAD
+
 #ifndef DelayEffectBase_cpp
 #define DelayEffectBase_cpp
 
@@ -164,11 +164,4 @@ void DelayEffectBase::printInterpTable()
 	}
 }
 #endif /* DelayEffectBase_cpp */
-=======
 
-#include "DelayEffectBase.hpp"
-
-DelayEffectBase::DelayEffectBase () {}
-DelayEffectBase::~DelayEffectBase() {}
-
->>>>>>> master
