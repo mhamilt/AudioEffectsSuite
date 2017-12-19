@@ -1,32 +1,32 @@
 //
-//  DigitalEffectBase.hpp
+//  DelayEffectBase.hpp
 //  AudioEffectsSuite
 //
 //  Created by admin on 12/12/2017.
 //  Copyright © 2017 admin. All rights reserved.
 //
 
-#ifndef DigitalEffectBase_hpp
-#define DigitalEffectBase_hpp
+#ifndef DelayEffectBase_hpp
+#define DelayEffectBase_hpp
 
 #include <iostream>
 #include <cmath>
 
 
-class DigitalEffectBase;
+class DelayEffectBase;
 //==============================================================================
 /**
 	A Base class for delay based digital effects. Provides the basic methods
 	that are shared amongst Flanger, Delay, Chorus and Phaser
  
- @see DigitalEffectBase
+ @see DelayEffectBase
  */
-class DigitalEffectBase
+class DelayEffectBase
 {
 public: // Methods
 	//==============================================================================
 	/** Constructor. */
-	DigitalEffectBase(int bufferSizeSamples)
+	DelayEffectBase(int bufferSizeSamples)
 	{
 		setInterpolationTable(interpOrder,interpResolution);
 		error = setDelayBuffer(bufferSizeSamples);
@@ -34,7 +34,7 @@ public: // Methods
 	
 public:
 	/** Destructor. */
-	~DigitalEffectBase(){delete[] delayBuffer;};
+	~DelayEffectBase(){delete[] delayBuffer;};
 	
 	//==============================================================================
 	//	/** Returns the number of output channels
@@ -151,4 +151,4 @@ protected:// member variables
 
 
 
-#endif /* DigitalEffectBase_hpp */
+#endif /* DelayEffectBase_hpp */

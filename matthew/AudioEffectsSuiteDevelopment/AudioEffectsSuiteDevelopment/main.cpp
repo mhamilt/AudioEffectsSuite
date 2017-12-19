@@ -7,7 +7,7 @@
 //
 
 #include <iostream>
-#include "../../../BaseClasses/DigitalEffectBase.cpp"
+#include "../../../BaseClasses/DelayEffectBase.cpp"
 #include "../../../DelayEffects/SimpleDelay.cpp"
 #include "../../../AudioIOClasses/AudioWavFileReadWrite.cpp"
 #include "../../../AudioIOClasses/AudioPlayer.cpp"

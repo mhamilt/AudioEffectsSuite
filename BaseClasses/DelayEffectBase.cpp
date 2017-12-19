@@ -1,17 +1,17 @@
 //
-//  DigitalEffectBase.cpp
+//  DelayEffectBase.cpp
 //  AudioEffectsSuite
 //
 //  Created by admin on 12/12/2017.
 //  Copyright © 2017 admin. All rights reserved.
 //
-#ifndef DigitalEffectBase_cpp
-#define DigitalEffectBase_cpp
+#ifndef DelayEffectBase_cpp
+#define DelayEffectBase_cpp
 
-#include "DigitalEffectBase.hpp"
+#include "DelayEffectBase.hpp"
 
 //==============================================================================
-bool DigitalEffectBase::setInterpolationTable(const int interpolationOrder,const int alphaResolution)
+bool DelayEffectBase::setInterpolationTable(const int interpolationOrder,const int alphaResolution)
 {
 	const int order = interpolationOrder;
 	const int res = alphaResolution;
@@ -80,7 +80,7 @@ bool DigitalEffectBase::setInterpolationTable(const int interpolationOrder,const
 }
 //==============================================================================
 
-double DigitalEffectBase::getInterpolatedOut(double bufferIndex)
+double DelayEffectBase::getInterpolatedOut(double bufferIndex)
 {
 	const int order = 4;
 	const int orderHalf = order*.5;
@@ -106,13 +106,13 @@ double DigitalEffectBase::getInterpolatedOut(double bufferIndex)
 }
 
 //==============================================================================
-//bool DigitalEffectBase::setMaxBufferSize()
+//bool DelayEffectBase::setMaxBufferSize()
 //{
 //	maxDelayBufferSize = 44100;
 //	return true;
 //}
 //==============================================================================
-bool DigitalEffectBase::setDelayBuffer(int bufferSizeSamples)
+bool DelayEffectBase::setDelayBuffer(int bufferSizeSamples)
 {
 	delayBuffer = new double [maxDelayBufferSize];
 	if(!delayBuffer){return false;}
@@ -120,7 +120,7 @@ bool DigitalEffectBase::setDelayBuffer(int bufferSizeSamples)
 	return true;
 }
 //==============================================================================
-void DigitalEffectBase::delaySample(double inputSample)
+void DelayEffectBase::delaySample(double inputSample)
 {
 	delayBuffer[currentDelayIndex] = inputSample;
 	currentDelayIndex++;
@@ -128,7 +128,7 @@ void DigitalEffectBase::delaySample(double inputSample)
 }
 
 //==============================================================================
-void DigitalEffectBase::printInterpTable()
+void DelayEffectBase::printInterpTable()
 {
 	for (int j = 0; j<interpResolution; j++)
 	{
@@ -139,4 +139,4 @@ void DigitalEffectBase::printInterpTable()
 		printf("\n");
 	}
 }
-#endif /* DigitalEffectBase_cpp */
+#endif /* DelayEffectBase_cpp */
