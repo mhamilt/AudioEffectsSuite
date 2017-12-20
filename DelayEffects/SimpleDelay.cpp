@@ -16,5 +16,4 @@ double SimpleDelay::process(double inputSample)
 		const double out = getInterpolatedOut(currentDelayWriteIndex)+inputSample;
 	
 		return out;
-		
 }
