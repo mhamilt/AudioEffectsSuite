@@ -11,9 +11,18 @@
 
 double SimpleFlanger::process(double inputSample)
 {
-	return inputSample;
-} 
-
+	delaySample(inputSample);
+	const double out = (inputSample)+(getInterpolatedOut(modulationIndex));
+	updateModulation();
+	return out;
+}
+//==============================================================================
+void SimpleFlanger::updateModulation()
+{
+	modulationAngle+= angleDelta;
+	modulationIndex = currentDelayWriteIndex-(modulationDepth*(1+(sin(modulationAngle))));
+	return;
+}
 //==============================================================================
 
 void SimpleFlanger::capGain(double& gain)
@@ -32,5 +41,17 @@ void SimpleFlanger::capGain(double& gain)
 //==============================================================================
 void SimpleFlanger::setEffectGain(double gain)
 {
+}
 
+void SimpleFlanger::setAngleDelta()
+{
+	const double cyclesPerSample = modulationRate * timeStep;
+	angleDelta = cyclesPerSample * 2.0 * internal_Pi;
+}
+
+void SimpleFlanger::setEffectParams(double gain, double depth, double rate)
+{
+	modulationDepth = depth*.5;
+	modulationRate  = rate;
+	setAngleDelta();
 }

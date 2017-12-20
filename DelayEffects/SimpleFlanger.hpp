@@ -30,7 +30,7 @@ public: // Methods
 		
 		@see DelayEffectBase constructor
 	 */
-	SimpleFlanger() : DelayEffectBase(44100){};
+	SimpleFlanger() : DelayEffectBase(400){};
 	
 	/** Destructor. */
 	~SimpleFlanger(){};
@@ -43,18 +43,52 @@ public: // Methods
 	 */
 	virtual void setEffectGain(double gain);
 	
+	/** setEffectGain: sets the parameters for effect
+		@param	gain	effect gain
+		@param	depth	depth of modulation in samples
+		@param	rate	rate of modulation in Hz
+	 */
+	virtual void setEffectParams(double gain, double depth, double rate);
 	//==============================================================================
 	/**Apply the DSP effect*/
 	double process(double inputSample) override;
 	
 private: //Methods
 	/** capGain: caps gain to a range of 1 and -1;
-	*	@param gain address of gain value
-	*/
+	 *	@param gain address of gain value
+	 */
 	virtual void capGain(double& gain);
-
+	
+	/** setAngleDelta: sets the angleDelta for delay modulation*/
+	virtual void setAngleDelta();
+	
+	/** updateModulation: updates the modulationIndex by the correct
+		increment*/
+	virtual void updateModulation();
+	
 private: //member vairables
+	/** internal class declaration of pi
+		it would likely make sense to have this moved
+		to a higher class
+		*/
+	constexpr static const double internal_Pi = 3.141592653589793;
+	
 	/***/
+	double modulationDepth = 0, modulationRate = 0, effectGain = .707;
+	
+	//	M1 = M01*(1+sin(2*pi*f1.*n/FS))
+	/***/
+	double modulationIndex = 0;
+	
+	/** 1/sampleRate: The time in seconds between samples*/
+	double timeStep = 1./44100.;
+	
+	/** 2 * pi * modulationRate / sampleRate */
+	double modulationConstant, modulationAngle = 0;
+	
+	//const double cyclesPerSample = modulationRate * timeStep;
+	/**increment value for modulation signal*/
+	double angleDelta = 2*internal_Pi*timeStep;
 };
 
 

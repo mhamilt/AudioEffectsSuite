@@ -32,13 +32,12 @@ int main(int argc, const char * argv[])
 	in = audioReadWriter.readWav(ifile, &totalSamples, &sampleRate);
 	double *out = new double[totalSamples];
 //==============================================================================
-	delay.setDelayGain(.707);
-	double incFeedback = 1/double(totalSamples);
+	// Change Parameters
+	flanger.setEffectParams(1, 200, .25);
 //==============================================================================
 	for (int i = 0; i<totalSamples;i++)
 	{
-		out[i] = delay.process(in[i]);
-		delay.setFeedbackGain((double(i)*incFeedback));
+		out[i] = flanger.process(in[i]);
 	}
 //==============================================================================
 	audioReadWriter.writeWavMS(out, ofile, totalSamples, sampleRate);

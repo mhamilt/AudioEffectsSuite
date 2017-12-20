@@ -29,6 +29,7 @@ public: // Methods
 	{
 		setInterpolationTable(interpOrder,interpResolution);
 		error = setDelayBuffer(bufferSizeSamples);
+		delayTimeSamples = bufferSizeSamples;
 	};
 	
 public:
@@ -119,7 +120,7 @@ protected:// member variables
 	double* delayBuffer = 0;
 	
 	/** Maximum number of samples that can be stored in delayBuffer*/
-	int maxDelayBufferSize = 410000;
+	int maxDelayBufferSize = 441000;
 	
 	/** the delay time of signal in samples*/
 	int delayTimeSamples = 44100;
