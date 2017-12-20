@@ -1,11 +1,3 @@
-//
-//  AudioWavFileReader.hpp
-//  FDTD_C_Plate
-//
-//  Created by admin on 15/12/2017.
-//  Copyright © 2017 admin. All rights reserved.
-//
-
 #ifndef AudioWavFileReadWrite_hpp
 #define AudioWavFileReadWrite_hpp
 
@@ -13,11 +5,25 @@
 #include <cmath>
 
 
+/*!
+ @class AudioWavFileReadWrite
+ @abstract
+     A class with methods to read and write wav files.
+ 
+ @discussion
+	Currently this class only tackles 16-bit PCM audio. Sample values read from
+	a wav file are normalised in a double type array between 1.0 and -1.0. Basic
+	functionality to cover
 
+		- Read wav file as a single stream
+		- Read multi-channel files and store as an array of pointer (2D Array)
+		- Read/Write Header files
+		- Memory allocation of read file
+ 
+	Currently memory allocation of written file is dealt with outside the class 
+	but will be expanded upon
+*/
 //==============================================================================
-/**
- A class with methods to read and write wav files.
- */
 class AudioWavFileReadWrite
 {
 public: // Type definitions
