@@ -37,33 +37,6 @@ public:
 	~DelayEffectBase(){delete[] delayBuffer;};
 	
 	//==============================================================================
-	//	/** Returns the number of output channels
-	//	 */
-	//	virtual int getOutputNumber() = 0;
-	//
-	//	/** Returns the number of input channels
-	//	 */
-	//	virtual int getInputNumber() = 0;
-	//
-	//	//==============================================================================
-	//	/** Returns the delay buffer size
-	//	 */
-	//	virtual int getDelayBufferSizeSamples() = 0;
-	//
-	//	/** Returns the current audio buffer size
-	//	 */
-	//	virtual int getAudioBufferSizeSamples() = 0;
-	//
-	//	/** Returns the current sample rate
-	//	 */
-	//	virtual double getCurrentSampleRate() = 0;
-	//
-	//	/** Returns the current bit-depth
-	//	 */
-	//	virtual int getCurrentBitDepth() = 0;
-	//
-	
-	//==============================================================================
 	/** Main process block for applying audio effect
 		@param inputSample The input audio sample for the effect to be applied to
 		
