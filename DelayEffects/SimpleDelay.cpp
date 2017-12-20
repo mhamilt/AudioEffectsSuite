@@ -12,8 +12,36 @@
 
 double SimpleDelay::process(double inputSample)
 {
-		delaySample((inputSample*.707)+ (.5*getInterpolatedOut(currentDelayWriteIndex)));
-		const double out = getInterpolatedOut(currentDelayWriteIndex)+inputSample;
+	delaySample((inputSample*delayGain)+ (feedbackGain*getInterpolatedOut(currentDelayWriteIndex)));
+	const double out = getInterpolatedOut(currentDelayWriteIndex)+inputSample;
 	
-		return out;
+	return out;
 }
+
+//==============================================================================
+
+void SimpleDelay::capGain(double& gain)
+{
+	if (gain > 1.)
+	{
+		gain = 1.;
+	}
+	else if (gain < -1.)
+	{
+		gain = -1.;
+	}
+	return;
+}
+
+void SimpleDelay::setDelayGain(double gain)
+{
+	capGain(gain);
+	delayGain = gain;
+}
+
+void SimpleDelay::setFeedbackGain(double gain)
+{
+	capGain(gain);
+	feedbackGain = gain;
+}
+//==============================================================================

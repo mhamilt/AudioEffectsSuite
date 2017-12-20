@@ -23,6 +23,7 @@
 	Currently memory allocation of written file is dealt with outside the class 
 	but will be expanded upon
 */
+
 //==============================================================================
 class AudioWavFileReadWrite
 {
