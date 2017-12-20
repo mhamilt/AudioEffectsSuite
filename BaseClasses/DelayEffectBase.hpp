@@ -12,7 +12,6 @@
 #include <iostream>
 #include <cmath>
 
-
 class DelayEffectBase;
 //==============================================================================
 /**
@@ -43,9 +42,7 @@ public:
 		@returns an audio sample as a double with effect applied
 	 */
 	virtual double process(double inputSample) = 0;
-	
-	
-	
+
 private:	//Methods
 	//==============================================================================
 	/** Sets the internal lagrange interpolation table. Ideally it should be shared
@@ -117,9 +114,7 @@ protected:// member variables
 		interpolationTable[pointIndex][alphaIndex]
 	 */
 	double** interpolationTable = 0;
-	
-	double testArray [4];
-	
+
 	/** buffer to stored audio buffer for delay effects*/
 	double* delayBuffer = 0;
 	

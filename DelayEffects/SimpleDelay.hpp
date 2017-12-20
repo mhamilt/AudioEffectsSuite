@@ -16,8 +16,8 @@
 class SimpleDelay;
 //==============================================================================
 /**
-	Delay Effect Class for applying an delay effect onto an audio stream,
-	sample by sample
+	Simple Delay effect consiting of a single tap delay with Effect Gain and
+	feed back controls
 	
 	Constructor requires internal delay in samples
 	
@@ -59,8 +59,9 @@ public: // Methods
 	void setFeedbackGain(double gain);
 	
 	//==============================================================================
-	/**Delay sample by 1 seconds and*/
+	/**apply the DSP effect*/
 	double process(double inputSample) override;
+	
 private: //Methods
 	/** capGain: caps gain to a range of 1 and -1;
 	*	@param gain address of gain value

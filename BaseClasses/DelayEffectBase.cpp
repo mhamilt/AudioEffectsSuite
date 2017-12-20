@@ -107,14 +107,9 @@ double DelayEffectBase::getInterpolatedOut(double bufferIndex)
 }
 
 //==============================================================================
-//bool DelayEffectBase::setMaxBufferSize()
-//{
-//	maxDelayBufferSize = 44100;
-//	return true;
-//}
-//==============================================================================
 bool DelayEffectBase::setDelayBuffer(int bufferSizeSamples)
 {
+	maxDelayBufferSize = bufferSizeSamples;
 	delayBuffer = new double [maxDelayBufferSize];
 	if(!delayBuffer){return false;}
 	std::fill(delayBuffer, delayBuffer+maxDelayBufferSize, 0);
