@@ -17,6 +17,7 @@ int main(int argc, const char * argv[])
 {
 //==============================================================================
 	//	printf("Path relative to the working directory is: %s\n", argv[0]);
+	const double sampRate = 44100;
 	
 	// Delay class initiliases with a delay value in samples.
 	SimpleDelay delay(4000);
@@ -33,7 +34,8 @@ int main(int argc, const char * argv[])
 	double *out = new double[totalSamples];
 //==============================================================================
 	// Change Parameters
-	flanger.setEffectParams(1, 200, .25);
+	const double flangeDepth = sampRate*0.001;
+	flanger.setEffectParams(1, flangeDepth, 5.5);
 //==============================================================================
 	for (int i = 0; i<totalSamples;i++)
 	{

@@ -17,6 +17,8 @@ class SimpleFlanger;
 //==============================================================================
 /**
 	Simple Flanger Effect Consistig of a single voice flanger
+	The flanger has an effective range between 0 and 15 miliseconds
+	in this case dleay buffer should be set to sampleRate*3/200
 	
 	Constructor requires internal delay in samples
 	
@@ -30,7 +32,7 @@ public: // Methods
 		
 		@see DelayEffectBase constructor
 	 */
-	SimpleFlanger() : DelayEffectBase(400){};
+	SimpleFlanger() : DelayEffectBase(int(44100*0.02)){};
 	
 	/** Destructor. */
 	~SimpleFlanger(){};
