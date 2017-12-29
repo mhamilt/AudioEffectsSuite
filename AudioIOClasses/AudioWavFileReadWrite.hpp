@@ -3,7 +3,8 @@
 
 #include <iostream>
 #include <cmath>
-
+#include <cstdint>
+#include <fstream>
 
 /*!
  @class AudioWavFileReadWrite
@@ -129,13 +130,13 @@ public:
 	void writeWavMS(double* audio,const char outputFile[], int numberOfFrames, double sampleRate);
 	
 	/** writes audio data to a mono wav file
-		@param audioL pointer to audio data left channel
-		@param audioR pointer to audio data right channel
+		@param audioData double pointer to a 2D array of audio data 
+						 audioData[channel][sample]
 		@param outputFile character array of path and filename
 		@param numberOfFrames number of frames to be written
 		@param sampleRate sampling rate of file
 		*/
-	void writeWavSS(double *audioL,double *audioR,const char outputFile[], int numberOfFrames, double sampleRate);
+	void writeWavSS(double **audioData, const char outputFile[], int numberOfFrames, double sampleRate);
 	
 	//==============================================================================
 	
@@ -156,9 +157,9 @@ public:
 		@param sampleRate int pointer that is set to
 						  sampling rate of read file
 		@returns a double pointer to a 2D array of type double or NULL on error
+		audioData[channel][sample]
 	 */
 	double **readStereoWav(const char *filename, int *sampsPerChan, int *sampleRate);
-	
 	
 private: // Methods
 	//==============================================================================
@@ -219,6 +220,13 @@ private: // Methods
 		@returns size_t of data written or zero on error
 		*/
 	size_t writeWaveHeaderToFile(FILE * file);
+	
+	//==============================================================================
+	/** checks the file header to confirm if it is a wav file
+		@params fileHeader the file header
+		@returns true if it is a wav file or false if not
+		*/
+	bool checkHeader (waveFormatHeader fileHeader);
 	
 private: // Variables
 	int wavReadFileSampRate, wavFileFrameNum;

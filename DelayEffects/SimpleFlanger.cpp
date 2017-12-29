@@ -17,18 +17,14 @@ double SimpleFlanger::process(double inputSample)
 	return out;
 }
 //==============================================================================
+// possibly add clipping of mudulation via tan or similar
+// offset with
+// tanh(sin(x))+tanh(1);
+// (tanh(amp*sin(x))/(tanh(amp)) + 1)*.5 // tanh(1) is constant // amp controls level of clipping
 void SimpleFlanger::updateModulation()
 {
 	modulationAngle+= angleDelta;
 	modulationIndex = currentDelayWriteIndex-(modulationDepth*(1+(sin(modulationAngle))));
-	
-	// possibly add clipping of mudulation via tan or similar
-	// offset with
-	// tanh(sin(x))+tanh(1);
-	//	modulationIndex = currentDelayWriteIndex-
-	//					 (modulationDepth *
-	//					 (tanh((4*sin(modulationAngle) ) ) + 0.761594156)*0.65 );
-	
 	return;
 }
 //==============================================================================
