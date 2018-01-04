@@ -27,7 +27,6 @@ public: // Methods
 	/** Constructor. */
 	DelayEffectBase(int bufferSizeSamples)
 	{
-		setInterpolationTable(interpOrder,interpResolution);
 		error = setDelayBuffer(bufferSizeSamples);
 		delayTimeSamples = bufferSizeSamples;
 	};
@@ -55,7 +54,7 @@ private:	//Methods
 	 @returns    false and an error description if there's a problem,
 	 or sets the interpolation lookup table and returns true
 	 */
-	bool setInterpolationTable(const int interpolationOrder,const int alphaResolution);
+	static double** setInterpolationTable();
 	
 	/***/
 	void printInterpTable();
@@ -114,7 +113,7 @@ protected:// member variables
 	/** Table of interpolation values as a 2D array indexed by
 		interpolationTable[pointIndex][alphaIndex]
 	 */
-	double** interpolationTable = 0;
+	static double** interpolationTable;
 
 	/** buffer to stored audio buffer for delay effects*/
 	double* delayBuffer = 0;
@@ -137,6 +136,7 @@ protected:// member variables
 	/***/
 	static const int interpResolution = 1000;
 	
+	/** internal class error boolean*/
 	bool error;
 };
 

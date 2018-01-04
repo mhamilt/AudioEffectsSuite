@@ -20,42 +20,42 @@ int main(int argc, const char * argv[])
 	//	printf("Path relative to the working directory is: %s\n", argv[0]);
 	
 	// Delay class initiliases with a delay value in samples.
-	SimpleDelay delay(4000);
-	SimpleFlanger flanger;
+	SimpleDelay delayLeft(8000);
+	SimpleDelay delayRight(800);
 	SimpleFlanger flangerLeft;
 	SimpleFlanger flangerRight;
-	//Set absolute path of files
 	const char ifile[] = "/Users/admin/Documents/Masters/PBMMI/Audio_Examples/GuitarStrum_12s_MN.wav";
-	//	const char ofile[] = "/Users/admin/Downloads/MtoS_delayed.wav";
-	/// Users/admin/Documents/Masters/PBMMI/Audio_Examples/trigen.wav
-	const char ofile[] = "/Users/admin/Downloads/MtoS_delayed.wav";
+	//	"/Users/admin/Documents/Masters/PBMMI/Audio_Examples/GuitarStrum_12s_MN.wav"
+	//	"/Users/admin/Downloads/Space Lion.wav"
+	//	"/Users/admin/Documents/Masters/PBMMI/Audio_Examples/trigen.wav"
 	//	"/Users/admin/Documents/Masters/PBMMI/Audio_Examples/Dance_Stereo.wav"
+	const char ofile[] = "/Users/admin/Downloads/MtoS_delayed.wav";
 	//==============================================================================
 	AudioWavFileReadWrite audioReadWriter;
 	int numOfFrames, sampleRate;
-	double *in, **stereoIn;
-	in = audioReadWriter.readWav(ifile, &numOfFrames, &sampleRate);
+	double **stereoIn;
 	stereoIn = audioReadWriter.readStereoWav(ifile, &numOfFrames, &sampleRate);
 	
-	double *out = new double[numOfFrames];
 	double** stereoOut = new double*[2];
 	stereoOut[0] = new double[numOfFrames];
 	stereoOut[1] = new double[numOfFrames];
 	//==============================================================================
-	// Change Parameters
-		const double flangeDepth = sampleRate*0.001;
-	//	flanger.setEffectParams(1, flangeDepth, 6.15);
+	// // Change Parameters
+	delayLeft.setDelayGain(.75);
+	delayLeft.setFeedbackGain(0.0);
+	delayRight.setDelayGain(.75);
+	delayRight.setFeedbackGain(0.0);
+	
+	const double flangeDepth = sampleRate*0.001;
 	flangerLeft.setEffectParams(1, flangeDepth*2, .15);
 	flangerRight.setEffectParams(1, flangeDepth, .15);
 	//==============================================================================
 	for (int i = 0; i<numOfFrames;i++)
 	{
-		//	out[i] = flanger.process(in[i]);
-		stereoOut[0][i] = .6*flangerLeft.process(stereoIn[0][i]);
-		stereoOut[1][i] = .6*flangerRight.process(stereoIn[1][i]);
+		stereoOut[0][i] = delayLeft.process(flangerLeft.process(stereoIn[0][i]));
+		stereoOut[1][i] = delayRight.process(flangerRight.process(stereoIn[1][i]));
 	}
 	//==============================================================================
-	//	audioReadWriter.writeWavMS(out, ofile, totalSamples, sampleRate);
 	audioReadWriter.writeWavSS(stereoOut, ofile, numOfFrames, sampleRate);
 	//==============================================================================
 	playAudio(ofile);

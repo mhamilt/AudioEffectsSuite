@@ -12,25 +12,25 @@
 #include "DelayEffectBase.hpp"
 
 //==============================================================================
-bool DelayEffectBase::setInterpolationTable(const int interpolationOrder,const int alphaResolution)
+double** DelayEffectBase::setInterpolationTable()
 {
-	const int order = interpolationOrder;
-	const int res = alphaResolution;
-	interpolationTable = new double*[order];
-	if(!interpolationTable){return false;}
+	const int order = interpOrder;
+	const int res = interpResolution;
+	double** interpTable = new double*[order];
+	if(!interpTable){return NULL;}
 	
 	for(int i=0;i<order;i++)
 	{
-		interpolationTable[i] = new double[res+1];
-		if(!interpolationTable[i]){return false;}
-		std::fill(interpolationTable[i], interpolationTable[i]+res, 1);
+		interpTable[i] = new double[res+1];
+		if(!interpTable[i]){return NULL;}
+		std::fill(interpTable[i], interpTable[i]+res, 1);
 	}
 	
 	double *polynomial_normaliser = new double [order];
-	if(!polynomial_normaliser){return false;}
+	if(!polynomial_normaliser){return NULL;}
 	std::fill(polynomial_normaliser, polynomial_normaliser+order, 1);
 	double *alphas = new double [res];
-	if(!alphas){return false;}
+	if(!alphas){return NULL;}
 	
 	for(int i = 0; i<res;i++)
 	{
@@ -67,17 +67,17 @@ bool DelayEffectBase::setInterpolationTable(const int interpolationOrder,const i
 					{
 						polynomial_normaliser[j] = polynomial_normaliser[j]*(anchors[j]-anchors[m]);
 					}
-					interpolationTable[j][q] *= (alphas[q]-anchors[m]);
+					interpTable[j][q] *= (alphas[q]-anchors[m]);
 					
 				}
 			}
-			interpolationTable[j][q] /= polynomial_normaliser[j];
+			interpTable[j][q] /= polynomial_normaliser[j];
 		}
 	}
 	delete[] polynomial_normaliser;
 	delete[] alphas;
 	delete[] anchors;
-	return true;
+	return interpTable;
 }
 //==============================================================================
 
@@ -158,4 +158,10 @@ void DelayEffectBase::printInterpTable()
 		printf("\n");
 	}
 }
+
+//==============================================================================
+// set static variables
+//==============================================================================
+double** DelayEffectBase::interpolationTable = DelayEffectBase::setInterpolationTable();
+
 #endif /* DelayEffectBase_cpp */
