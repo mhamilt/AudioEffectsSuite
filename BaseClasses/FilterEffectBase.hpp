@@ -37,6 +37,7 @@ public:		// methods
 	 */
 	double applyFilter(double sampVal);
 	//==========================================================================
+	void printBuffers();
 protected:	// methods
 	//==========================================================================
 	/** set firCoefficients and iirCoefficients

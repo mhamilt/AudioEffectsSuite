@@ -9,7 +9,7 @@
 #include <iostream>
 #include <vector>
 #include "../../../BaseClasses/DelayEffectBase.cpp"
-//#include "../../../BaseClasses/FilterEffectBase.cpp"
+#include "../../../BaseClasses/FilterEffectBase.cpp"
 #include "../../../DelayEffects/SimpleDelay.cpp"
 #include "../../../DelayEffects/SimpleFlanger.cpp"
 #include "../../../AudioIOClasses/AudioWavFileReadWrite.cpp"
@@ -54,14 +54,14 @@ int main(int argc, const char * argv[])
 	flangerRight.setEffectParams(1, flangeDepth, .15);
 	//==============================================================================
 	for (int i = 0; i<numOfFrames;i++)
-//	for (int i = 0; i<4;i++)
+	//	for (int i = 0; i<4;i++)
 	{
-		stereoOut[0][i] = filterLeft.applyFilter((delayLeft.process(flangerLeft.process(stereoIn[0][i]))));
-		stereoOut[1][i] = filterRight.applyFilter(delayRight.process(flangerRight.process(stereoIn[1][i])));
+		stereoOut[0][i] = filterLeft.applyFilter(stereoIn[0][i]);
+		stereoOut[1][i] = filterRight.applyFilter(stereoIn[1][i]);
 	}
 	//==============================================================================
 	audioReadWriter.writeWavSS(stereoOut, ofile, numOfFrames, sampleRate);
-//	==============================================================================
+	//==============================================================================
 	playAudio(ofile);
 	//==============================================================================
 	

@@ -5,7 +5,7 @@
 //  Created by admin on 05/01/2018.
 //  Copyright © 2018 AudioEffectsSuiteTeam. All rights reserved.
 //
-
+#ifndef FilterEffectBase_hpp
 #include "FilterEffectBase.hpp"
 
 
@@ -184,12 +184,12 @@ bool FilterEffectBase::setChebyICoefficients(double cutFreq, bool shelfType, dou
 //==============================================================================
 bool FilterEffectBase::setSimpleLpf()
 {
-	clearMemory();
+//	clearMemory();
 	filterOrder = 5;
 	firCoefficients = new double[filterOrder];
 	iirCoefficients = new double[filterOrder];
-	firCoefficients[0] = 1*0.06; firCoefficients[1] = 4*0.06; firCoefficients[2] = 6*0.06; firCoefficients[3] = 4*0.06; firCoefficients[4] = 1*0.06;
-	iirCoefficients[0] = 0; iirCoefficients[1] = 0; iirCoefficients[2] = 0; iirCoefficients[4] = 0; iirCoefficients[4] = 0;
+	firCoefficients[0] = 1*0.0625; firCoefficients[1] = 4*0.0625; firCoefficients[2] = 6*0.0625; firCoefficients[3] = 4*0.0625; firCoefficients[4] = 1*0.0625;
+	iirCoefficients[0] = 0; iirCoefficients[1] = 0; iirCoefficients[2] = 0; iirCoefficients[3] = 0; iirCoefficients[4] = 0;
 	return true;
 }
 
@@ -208,3 +208,16 @@ void FilterEffectBase::clearMemory()
 	delete[] iirCoefficients;
 	}
 }
+
+//==============================================================================
+
+void FilterEffectBase::printBuffers()
+{
+	printf("FIRc\tIIRc\tFIRb\tIIRb\n");
+ for (int i = 0; i<filterOrder;i++)
+ {
+	printf("%.2f\t%.2f\t%.2f\t%.2f\n",firCoefficients[i],iirCoefficients[i],firBuffer[i],iirBuffer[i]);
+ }
+}
+
+#endif /* FilterEffectBase_hpp */
