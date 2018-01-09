@@ -53,8 +53,10 @@ protected:	// methods
 	 */
 	bool setChebyICoefficients(double cutFreq, bool shelfType, double ripple,int poles);
 	//==========================================================================
-	/** a simple fir low pass filter*/
-	bool setSimpleLpf();
+	/** a simple normalised fir low pass filter
+		@params order	number of delay coefficients
+		*/
+	bool setSimpleLpf(int order);
 private:	// methods
 	//==========================================================================
 	/** increment the buffer index and wrap it to the filter order*/
@@ -65,6 +67,11 @@ private:	// methods
 		required
 		*/
 	void clearMemory();
+	
+	/** will allocate memory to a buffer given the current filter order and set
+		all values == 0.00
+		*/
+	void allocateBufferMemory();
 	
 public:		// variables
 	//==========================================================================

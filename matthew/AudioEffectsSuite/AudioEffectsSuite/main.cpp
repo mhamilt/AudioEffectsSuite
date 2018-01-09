@@ -20,7 +20,7 @@ int main(int argc, const char * argv[])
 {
 	//==============================================================================
 	//	printf("Path relative to the working directory is: %s\n", argv[0]);
-	SimpleLPF filterLeft, filterRight;
+	SimpleLPF filterLeft(6), filterRight(6);
 	
 	// Delay class initiliases with a delay value in samples.
 	SimpleDelay delayLeft(8000);

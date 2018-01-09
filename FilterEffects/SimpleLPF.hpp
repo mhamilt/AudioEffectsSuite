@@ -13,19 +13,22 @@
 #include <cmath>
 #include "../BaseClasses/FilterEffectBase.cpp"
 
-/** Class for applying a simple 5th order FIR lowpass filter*/
+/** Class for applying a FIR lowpass filter
+	
+	Intialised with the order of FIR filter
+	*/
 class SimpleLPF : public FilterEffectBase
 {
 public:
-	SimpleLPF()
+/** Constructor: Intialised with the order of FIR filter
+	@param order	filter order
+	*/
+	SimpleLPF(int order)
 	{
-		setSimpleLpf();
-		firBuffer = new double[filterOrder];
-		iirBuffer = new double[filterOrder];
-		std::fill(firBuffer, firBuffer+filterOrder, 0);
-		std::fill(iirBuffer, iirBuffer+filterOrder, 0);
+		setSimpleLpf(order);
 	};
 public:
+	/** destructor*/
 	~SimpleLPF(){};
 };
 #endif /* SimpleLPF_hpp */
