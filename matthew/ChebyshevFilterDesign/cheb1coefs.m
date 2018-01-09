@@ -9,10 +9,10 @@ close all
 A = zeros(22,1);
 B = A; TA = A; TB = A;
 
-A(2) = 1; %%INDEX ISSUE
-B(2) = 1; %%INDEX ISSUE
-% A(3) = 1;
-% B(3) = 1;
+% A(2) = 1; %%INDEX ISSUE
+% B(2) = 1; %%INDEX ISSUE
+A(3) = 1;
+B(3) = 1;
 
 %% Main variables
 SR = 44.1e3;
@@ -88,9 +88,9 @@ for i = 1:Np*.5  %%INDEX ISSUE
 end %% for i
 
 
-B(2) = 0; %% B is the numerator %%INDEX ISSUE
-A = A(3:(3+Np-1))';
-B = -B(3:(3+Np-1))';
+B(3) = 0; %% B is the numerator %%INDEX ISSUE
+A = A(3:(3+Np))';
+B = -B(3:(3+Np))';
 
 %%%% Normalising
 SA = 0; SB = 0;
@@ -124,7 +124,7 @@ a = A;
 SR = 44.1e3;
 % x = zeros(SR,1);
 % x(1) = 1;
-x = (rand(SR*4,1));
+x = (rand(SR*120,1));
 N = length(x);
 m = Np;
 
@@ -132,7 +132,7 @@ m = Np;
 % y=[zeros(N+m,1)];
 y=[ones(m,1)*.5;zeros(N-m,1)];
 for n = m+1:N
-    y(n) = a*x(n-1:-1:n-m) + b*y(n-1:-1:n-m);
+    y(n) = a*x(n:-1:n-m) + b*y(n:-1:n-m);
 end
 
 XF = fft(x);
@@ -147,7 +147,7 @@ subplot(2,1,1)
 plot(fx,XF)
 subplot(2,1,2)
 % plot(fy,abs(YF));
-plot((y-.47)*20000)
+plot((y - (.492))*1e6 + 400)
 
 
 % (y - (.4 + depth(1 ~ 10)*.08)) * depth*intensity*constant
