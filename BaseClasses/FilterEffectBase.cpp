@@ -12,19 +12,18 @@
 //==============================================================================
 double FilterEffectBase::applyFilter(double sampVal)
 {
-	firBuffer[bufferIndex] = sampVal;
-	// coeff index increases 0 to order
-	// buffer index wraps round to avoid reallocating all sample values in memory
 	double outSample = 0;
-	int i = bufferIndex;
+	firBuffer[bufferIndex] = sampVal;
+	
 	for(int j = 0; j<filterOrder; j++)
 	{
+		int i = ((bufferIndex-j)+filterOrder)%filterOrder;
 		outSample += firCoefficients[j]*firBuffer[i] + iirCoefficients[j]*iirBuffer[i];
-		i++;
-		i%=filterOrder;
 	}
+	
 	iirBuffer[bufferIndex] = outSample;
 	incBufferIndex();
+	
 	return outSample;
 }
 
@@ -37,14 +36,21 @@ void FilterEffectBase::incBufferIndex()
 }
 
 //==============================================================================
-bool FilterEffectBase::setChebyICoefficients(double cutFreq, bool shelfType, double ripple,int poles)
+bool FilterEffectBase::setChebyICoefficients(double cutFreq, bool shelfType, double ripple,int order)
 {
+	double poles = (double)order;
+	filterOrder = order+1;
 	clearMemory();
-	filterOrder = poles+1;
-	firCoefficients = new double[filterOrder];
-	iirCoefficients = new double[filterOrder];
-	double* firTemp = new double[filterOrder];
-	double* iirTemp = new double[filterOrder];
+	allocateBufferMemory();
+	firCoefficients = new double[22];
+	iirCoefficients = new double[22];
+	double* firTemp = new double[22];
+	double* iirTemp = new double[22];
+	std::fill(firCoefficients, firCoefficients+22, 0);
+	std::fill(iirCoefficients, iirCoefficients+22, 0);
+	std::fill(firTemp, firTemp+22, 0);
+	std::fill(iirTemp, iirTemp+22, 0);
+	
 	
 	firCoefficients[2] = 1;
 	iirCoefficients[2] = 1;
@@ -79,10 +85,10 @@ bool FilterEffectBase::setChebyICoefficients(double cutFreq, bool shelfType, dou
 	}
 	
 	////// main algorithm
-	for (int i = 0; i<filterOrder; i++)
+	for (int i = 0; i<(order/2); i++)
 	{
 		////// Sub routine
-		const double alpha = pi/(2*poles) + (i-1-1)*(pi/poles);
+		const double alpha = pi/(2*poles) + (i-1)*(pi/poles);
 		
 		double Rp, Ip;
 		if(ripple!=0)
@@ -117,18 +123,16 @@ bool FilterEffectBase::setChebyICoefficients(double cutFreq, bool shelfType, dou
 		
 		if(shelfType==1){A1 = -A1; B1 = -B1;}
 		
-		for (int j = 0; j<filterOrder; j++)
+		for (int j = 0; j<22; j++)
 		{
-			firTemp[i] = firCoefficients[i];
-			iirTemp[i] = iirCoefficients[i];
+			firTemp[j] = firCoefficients[j];
+			iirTemp[j] = iirCoefficients[j];
 		}
-		
-		for (int j = 0; j<filterOrder; j++)
+		for (int j = 2; j<22; j++)
 		{
 			firCoefficients[j] = A0*firTemp[j] + A1*firTemp[j-1] + A2*firTemp[j-2];
 			iirCoefficients[j] =    iirTemp[j] - B1*iirTemp[j-1] - B2*iirTemp[j-2];
 		}
-		
 	} //// end for i
 	
 	iirCoefficients[2] = 0;
@@ -137,7 +141,6 @@ bool FilterEffectBase::setChebyICoefficients(double cutFreq, bool shelfType, dou
 		firCoefficients[j] = firCoefficients[j+2];
 		iirCoefficients[j] = -iirCoefficients[j+2];
 	}
-	
 	//////// Normalising
 	double SA = 0; double SB = 0;
 	if (shelfType==0)
@@ -150,7 +153,7 @@ bool FilterEffectBase::setChebyICoefficients(double cutFreq, bool shelfType, dou
 	}
 	else
 	{
-		for (int j = 0; j<filterOrder; j++)
+		for (int j = 0; j<order; j++)
 		{
 			SA += firCoefficients[j]*pow(-1,j);
 			SB += iirCoefficients[j]*pow(-1,j);
@@ -158,7 +161,6 @@ bool FilterEffectBase::setChebyICoefficients(double cutFreq, bool shelfType, dou
 	}
 	
 	const double gain = SA/(1-SB);
-	
 	for (int j = 0; j<filterOrder; j++)
 	{
 		firCoefficients[j] /= gain;
@@ -178,9 +180,6 @@ bool FilterEffectBase::setSimpleLpf(int order)
 	firCoefficients = new double[filterOrder];
 	iirCoefficients = new double[filterOrder];
 	std::fill(iirCoefficients, iirCoefficients+filterOrder, 0);
-	//	firCoefficients[0] = 1*0.0625; firCoefficients[1] = 4*0.0625; firCoefficients[2] = 6*0.0625; firCoefficients[3] = 4*0.0625; firCoefficients[4] = 1*0.0625;
-	//	iirCoefficients[0] = 0; iirCoefficients[1] = 0; iirCoefficients[2] = 0; iirCoefficients[3] = 0; iirCoefficients[4] = 0;
-	
 	int coef = 1;
 	double gain = 0;
 	for(int j = 0; j<filterOrder; j++)
@@ -232,17 +231,18 @@ void FilterEffectBase::allocateBufferMemory()
 	firBuffer = new double[filterOrder];
 	iirBuffer = new double[filterOrder];
 	std::fill(firBuffer, firBuffer+filterOrder, 0);
-	std::fill(iirBuffer, iirBuffer+filterOrder, 0);
+	std::fill(iirBuffer, iirBuffer+filterOrder, .5);
 }
 //==============================================================================
 
 void FilterEffectBase::printBuffers()
 {
-	printf("FIRc\tIIRc\tFIRb\tIIRb\n");
+	printf("FIRb\t\tIIRb\n");
  for (int i = 0; i<filterOrder;i++)
  {
-	 printf("%.2f\t%.2f\t%.2f\t%.2f\n",firCoefficients[i],iirCoefficients[i],firBuffer[i],iirBuffer[i]);
+	 printf("%.4e\t%.4e\n",firBuffer[i],iirBuffer[i]);
  }
+ printf("\n");
 }
 
 #endif /* FilterEffectBase_hpp */

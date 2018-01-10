@@ -47,11 +47,11 @@ protected:	// methods
 		@params cutFreq		normalised cutoff frequency (0 < x < .5)
 		@params shelfType	bool filter shelf type, false = low pass, true = high pass
 		@params ripple		percentage ripple (<.2929)
-		@params poles		number of poles
+		@params order		number of poles
 		
 		@returns boolean false on error and true on success
 	 */
-	bool setChebyICoefficients(double cutFreq, bool shelfType, double ripple,int poles);
+	bool setChebyICoefficients(double cutFreq, bool shelfType, double ripple,int order);
 	//==========================================================================
 	/** a simple normalised fir low pass filter
 		@params order	number of delay coefficients

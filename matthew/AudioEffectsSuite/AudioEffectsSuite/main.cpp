@@ -20,7 +20,7 @@ int main(int argc, const char * argv[])
 {
 	//==============================================================================
 	//	printf("Path relative to the working directory is: %s\n", argv[0]);
-	SimpleLPF filterLeft(6), filterRight(6);
+	SimpleLPF filterLeft(4), filterRight(4);
 	
 	// Delay class initiliases with a delay value in samples.
 	SimpleDelay delayLeft(8000);
@@ -54,7 +54,7 @@ int main(int argc, const char * argv[])
 	flangerRight.setEffectParams(1, flangeDepth, .15);
 	//==============================================================================
 	for (int i = 0; i<numOfFrames;i++)
-	//	for (int i = 0; i<4;i++)
+//		for (int i = 0; i<10;i++)
 	{
 		stereoOut[0][i] = filterLeft.applyFilter(stereoIn[0][i]);
 		stereoOut[1][i] = filterRight.applyFilter(stereoIn[1][i]);
