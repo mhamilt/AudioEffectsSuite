@@ -27,7 +27,7 @@ int main(int argc, const char * argv[])
 	SimpleDelay delayRight(800);
 	SimpleFlanger flangerLeft;
 	SimpleFlanger flangerRight;
-	const char ifile[] = "/Users/admin/Documents/Masters/PBMMI/Audio_Examples/GuitarStrum_12s_MN.wav";
+	const char ifile[] = "/Users/admin/Downloads/Space Lion.wav";
 	//	"/Users/admin/Documents/Masters/PBMMI/Audio_Examples/GuitarStrum_12s_MN.wav"
 	//	"/Users/admin/Downloads/Space Lion.wav"
 	//	"/Users/admin/Documents/Masters/PBMMI/Audio_Examples/trigen.wav"
@@ -58,6 +58,10 @@ int main(int argc, const char * argv[])
 	{
 		stereoOut[0][i] = filterLeft.applyFilter(stereoIn[0][i]);
 		stereoOut[1][i] = filterRight.applyFilter(stereoIn[1][i]);
+		double freq = .01 +double(i)/double(4*numOfFrames);
+		
+		filterLeft.changeChebyICoefficients(freq, false, .1);
+		filterRight.changeChebyICoefficients(freq, false, .1);
 	}
 	//==============================================================================
 	audioReadWriter.writeWavSS(stereoOut, ofile, numOfFrames, sampleRate);

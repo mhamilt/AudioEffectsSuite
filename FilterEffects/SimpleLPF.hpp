@@ -25,8 +25,8 @@ public:
 	*/
 	SimpleLPF(int order)
 	{
-		setSimpleLpf(order);		
-//		setChebyICoefficients(.01, false, .1, order);
+//		setSimpleLpf(order);		
+		setChebyICoefficients(.01, false, .1, order);
 	};
 public:
 	/** destructor*/

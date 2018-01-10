@@ -37,7 +37,25 @@ public:		// methods
 	 */
 	double applyFilter(double sampVal);
 	//==========================================================================
+	/***/
 	void printBuffers();
+	/***/
+	void printCoefs();
+	//==========================================================================
+	/** changes the current Chebyshev type 1 coefficients without altering the filter
+		order. This allows for use in an audio process thread as it avoids dynamic allocation
+		of memory. Filter sample and coefficient buffers are unaltered
+		
+		for initialising a chebyshev type 1 filter @see setChebyICoefficients
+		
+		@params cutFreq		normalised cutoff frequency (0 < x < .5)
+		@params shelfType	bool filter shelf type, false = low pass, true = high pass
+		@params ripple		percentage ripple (<.2929)
+		
+		@returns boolean false on error and true on success
+	 */
+	bool changeChebyICoefficients(double cutFreq, bool shelfType, double ripple);
+	//==========================================================================
 protected:	// methods
 	//==========================================================================
 	/** set firCoefficients and iirCoefficients
@@ -47,15 +65,15 @@ protected:	// methods
 		@params cutFreq		normalised cutoff frequency (0 < x < .5)
 		@params shelfType	bool filter shelf type, false = low pass, true = high pass
 		@params ripple		percentage ripple (<.2929)
-		@params order		number of poles
+		@params poles		number of poles
 		
 		@returns boolean false on error and true on success
 	 */
-	bool setChebyICoefficients(double cutFreq, bool shelfType, double ripple,int order);
-	//==========================================================================
+	bool setChebyICoefficients(double cutFreq, bool shelfType, double ripple,int poles);
 	/** a simple normalised fir low pass filter
 		@params order	number of delay coefficients
 		*/
+	//==========================================================================
 	bool setSimpleLpf(int order);
 private:	// methods
 	//==========================================================================
@@ -86,8 +104,12 @@ protected:  // variables
 		@see firCoefficients
 	 */
 	double* iirCoefficients = 0;
+	/** hold temporary values for fir coeffcient buffer*/
+	double* firTemp = 0;
+	/** hold temporary values for iir coeffcient buffer*/
+	double* iirTemp = 0;
 	/** buffer to hold forward delay sample data
-	 */
+	 */	
 	double* firBuffer = 0;
 	/** buffer to hold backward delay sample data
 	 */

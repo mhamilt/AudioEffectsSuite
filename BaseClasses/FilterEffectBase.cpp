@@ -36,22 +36,17 @@ void FilterEffectBase::incBufferIndex()
 }
 
 //==============================================================================
-bool FilterEffectBase::setChebyICoefficients(double cutFreq, bool shelfType, double ripple,int order)
+
+bool FilterEffectBase::changeChebyICoefficients(double cutFreq, bool shelfType, double ripple)
 {
-	double poles = (double)order;
-	filterOrder = order+1;
-	clearMemory();
-	allocateBufferMemory();
-	firCoefficients = new double[22];
-	iirCoefficients = new double[22];
-	double* firTemp = new double[22];
-	double* iirTemp = new double[22];
+	//NOTE: coefficient buffers must be cleared as are additive in the following
+	//		code
 	std::fill(firCoefficients, firCoefficients+22, 0);
 	std::fill(iirCoefficients, iirCoefficients+22, 0);
-	std::fill(firTemp, firTemp+22, 0);
-	std::fill(iirTemp, iirTemp+22, 0);
 	
-	
+	double poles = (double)filterOrder-1;
+	int order = (int)poles;
+
 	firCoefficients[2] = 1;
 	iirCoefficients[2] = 1;
 	
@@ -166,8 +161,16 @@ bool FilterEffectBase::setChebyICoefficients(double cutFreq, bool shelfType, dou
 		firCoefficients[j] /= gain;
 	}
 	
-	delete[] firTemp;
-	delete[] iirTemp;
+	return true;
+}
+
+bool FilterEffectBase::setChebyICoefficients(double cutFreq, bool shelfType, double ripple,int poles)
+{
+	filterOrder = poles+1;
+	clearMemory();
+	allocateBufferMemory();
+	changeChebyICoefficients(cutFreq, shelfType, ripple);
+
 	return true;
 }
 
@@ -231,7 +234,37 @@ void FilterEffectBase::allocateBufferMemory()
 	firBuffer = new double[filterOrder];
 	iirBuffer = new double[filterOrder];
 	std::fill(firBuffer, firBuffer+filterOrder, 0);
-	std::fill(iirBuffer, iirBuffer+filterOrder, .5);
+	std::fill(iirBuffer, iirBuffer+filterOrder, 0);
+	
+		if(firCoefficients)
+	{
+		delete[] firCoefficients;
+	}
+	
+	if(iirCoefficients)
+	{
+		delete[] iirCoefficients;
+	}
+	
+		if(firTemp)
+	{
+		delete[] firTemp;
+	}
+	
+	if(iirTemp)
+	{
+		delete[] iirTemp;
+	}
+	
+	firCoefficients = new double[22];
+	iirCoefficients = new double[22];
+	firTemp = new double[22];
+	iirTemp = new double[22];
+	std::fill(firCoefficients, firCoefficients+22, 0);
+	std::fill(iirCoefficients, iirCoefficients+22, 0);
+	std::fill(firTemp, firTemp+22, 0);
+	std::fill(iirTemp, iirTemp+22, 0);
+
 }
 //==============================================================================
 
@@ -245,4 +278,13 @@ void FilterEffectBase::printBuffers()
  printf("\n");
 }
 
+void FilterEffectBase::printCoefs()
+{
+	printf("FIR\t\tIIR\n");
+ for (int i = 0; i<filterOrder;i++)
+ {
+	 printf("%.4e\t%.4e\n",firCoefficients[i],iirCoefficients[i]);
+ }
+ printf("\n");
+}
 #endif /* FilterEffectBase_hpp */
