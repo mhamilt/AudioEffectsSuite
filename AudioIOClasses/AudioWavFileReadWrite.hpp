@@ -9,21 +9,21 @@
 /*!
  @class AudioWavFileReadWrite
  @abstract
-     A class with methods to read and write wav files.
+ A class with methods to read and write wav files.
  
  @discussion
 	Currently this class only tackles 16-bit PCM audio. Sample values read from
 	a wav file are normalised in a double type array between 1.0 and -1.0. Basic
 	functionality to cover
-
-		- Read wav file as a single stream
-		- Read multi-channel files and store as an array of pointer (2D Array)
-		- Read/Write Header files
-		- Memory allocation of read file
  
-	Currently memory allocation of written file is dealt with outside the class 
+ - Read wav file as a single stream
+ - Read multi-channel files and store as an array of pointer (2D Array)
+ - Read/Write Header files
+ - Memory allocation of read file
+ 
+	Currently memory allocation of written file is dealt with outside the class
 	but will be expanded upon
-*/
+ */
 
 //==============================================================================
 class AudioWavFileReadWrite
@@ -93,7 +93,10 @@ public:
 	/**
 	 Constructor
 	 */
-	AudioWavFileReadWrite();
+	AudioWavFileReadWrite()
+	{
+		srand (static_cast <unsigned> (time(0)));
+	};
 	/**
 	 Destructor
 	 */
@@ -118,7 +121,7 @@ public:
 	 @param cmdLineArgV command line variables from main()
 	 @returns a pointer to a const char array containing path and filename
 	 */
-//	virtual const char* cmdLineSetFilename(const char *cmdLineArgV[]) = 0;
+	//	virtual const char* cmdLineSetFilename(const char *cmdLineArgV[]) = 0;
 	
 	//==============================================================================
 	/** writes audio data to a mono wav file
@@ -130,8 +133,8 @@ public:
 	void writeWavMS(double* audio,const char outputFile[], int numberOfFrames, double sampleRate);
 	
 	/** writes audio data to a mono wav file
-		@param audioData double pointer to a 2D array of audio data 
-						 audioData[channel][sample]
+		@param audioData double pointer to a 2D array of audio data
+	 audioData[channel][sample]
 		@param outputFile character array of path and filename
 		@param numberOfFrames number of frames to be written
 		@param sampleRate sampling rate of file
@@ -153,13 +156,22 @@ public:
 		Will read first channel only on multichannel files
 		@param filename pointer to character array of path and filename
 		@param sampsPerChan	int pointer that will be set to total number of samples
-							per channel
+	 per channel
 		@param sampleRate int pointer that is set to
-						  sampling rate of read file
+	 sampling rate of read file
 		@returns a double pointer to a 2D array of type double or NULL on error
 		audioData[channel][sample]
 	 */
 	double **readStereoWav(const char *filename, int *sampsPerChan, int *sampleRate);
+	
+	/** creates a stereo buffer of white noise of specified length
+	 
+		@param sampsPerChan	int: number of samples for each channel
+		@param sampleRate  int: sampling rate
+		@returns a double pointer to a 2D array of type double or NULL on error
+		audioData[channel][sample]
+	 */
+	double** whiteNoise(int sampsPerChan, int sampleRate);
 	
 private: // Methods
 	//==============================================================================

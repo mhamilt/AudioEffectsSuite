@@ -9,7 +9,6 @@
 #include "AudioWavFileReadWrite.hpp"
 
 //==============================================================================
-AudioWavFileReadWrite::AudioWavFileReadWrite(){}
 AudioWavFileReadWrite::~AudioWavFileReadWrite(){/*free(&wavWriteFileHeader)*/}
 
 //==============================================================================
@@ -392,5 +391,24 @@ void AudioWavFileReadWrite::writeWavMS(double* audio,const char outputFile[], in
 }
 
 //==============================================================================
+double** AudioWavFileReadWrite::whiteNoise(int sampsPerChan, int sampleRate)
+{
+	const double lo = -1.;
+	const double hi =  1.;
+	double** data = new double*[2];
+	
+	for(int i = 0; i < 2; ++i)
+	{
+		data[i] = new double[sampsPerChan];
+	}
+
+	for(int i = 0; i < sampsPerChan; ++i)
+	{
+		data[0][i] = lo + static_cast <float> (rand()) /( static_cast <float> (RAND_MAX/(hi-lo)));
+		data[1][i] = lo + static_cast <float> (rand()) /( static_cast <float> (RAND_MAX/(hi-lo)));
+	}
+	return data;
+}
+
 //EOF
 

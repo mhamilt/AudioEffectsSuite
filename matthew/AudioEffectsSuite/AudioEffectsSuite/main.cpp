@@ -49,7 +49,10 @@ int main(int argc, const char * argv[])
 	AudioWavFileReadWrite audioReadWriter;
 	int numOfFrames, sampleRate;
 	double **stereoIn;
-	stereoIn = audioReadWriter.readStereoWav(ifile, &numOfFrames, &sampleRate);
+//	stereoIn = audioReadWriter.readStereoWav(ifile, &numOfFrames, &sampleRate);
+	numOfFrames = 44100;
+	sampleRate = 44100;
+	stereoIn = audioReadWriter.whiteNoise(numOfFrames, sampleRate);
 	
 	double** stereoOut = new double*[2];
 	stereoOut[0] = new double[numOfFrames];
@@ -68,12 +71,13 @@ int main(int argc, const char * argv[])
 	for (int i = 0; i<numOfFrames;i++)
 //		for (int i = 0; i<10;i++)
 	{
-		stereoOut[0][i] = filterDelayLeft.process(stereoIn[0][i]);
-		stereoOut[1][i] = filterDelayRight.process(stereoIn[1][i]);
+		stereoOut[0][i] = stereoIn[0][i];
+		stereoOut[1][i] = stereoIn[1][i];
+//		std::cout << stereoIn[1][i] << '\n';
 	}
 	//==============================================================================
 	audioReadWriter.writeWavSS(stereoOut, ofile, numOfFrames, sampleRate);
-	//==============================================================================
+//	==============================================================================
 	playAudio(ofile);
 	//==============================================================================
 	
