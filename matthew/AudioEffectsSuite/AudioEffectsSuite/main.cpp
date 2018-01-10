@@ -12,6 +12,7 @@
 #include "../../../BaseClasses/FilterEffectBase.cpp"
 #include "../../../DelayEffects/SimpleDelay.cpp"
 #include "../../../DelayEffects/SimpleFlanger.cpp"
+#include "../../../DelayEffects/FilteredDelay.cpp"
 #include "../../../AudioIOClasses/AudioWavFileReadWrite.cpp"
 #include "../../../AudioIOClasses/AudioPlayer.cpp"
 #include "../../../FilterEffects/SimpleLPF.cpp"
@@ -25,19 +26,20 @@ double whiteNoise()
 
 int main(int argc, const char * argv[])
 {
+	//initialise randomiser
+	srand (static_cast <unsigned> (time(0)));
+	
 	//==============================================================================
 	//	printf("Path relative to the working directory is: %s\n", argv[0]);
 	SimpleLPF filterLeft(4), filterRight(4);
+	FilteredDelay filterDelayLeft(10000),filterDelayRight(10000);
 	
-	double hi = 1., lo = -1.;
-	srand (static_cast <unsigned> (time(0)));
-	float r3 = lo + static_cast <float> (rand()) /( static_cast <float> (RAND_MAX/(hi-lo)));
 	// Delay class initiliases with a delay value in samples.
 	SimpleDelay delayLeft(8000);
 	SimpleDelay delayRight(800);
 	SimpleFlanger flangerLeft;
 	SimpleFlanger flangerRight;
-	const char ifile[] = "/Users/admin/Documents/Masters/PBMMI/Audio_Examples/GuitarStrum_12s_MN.wav";
+	const char ifile[] = "/Users/admin/Downloads/Space Lion.wav";
 	//	"/Users/admin/Documents/Masters/PBMMI/Audio_Examples/GuitarStrum_12s_MN.wav"
 	//	"/Users/admin/Downloads/Space Lion.wav"
 	//	"/Users/admin/Documents/Masters/PBMMI/Audio_Examples/trigen.wav"
@@ -54,10 +56,10 @@ int main(int argc, const char * argv[])
 	stereoOut[1] = new double[numOfFrames];
 	//==============================================================================
 	// // Change Parameters
-	delayLeft.setDelayGain(.75);
-	delayLeft.setFeedbackGain(0.0);
-	delayRight.setDelayGain(.75);
-	delayRight.setFeedbackGain(0.0);
+	filterDelayLeft.setDelayGain(.85);
+	filterDelayLeft.setFeedbackGain(0.2);
+	filterDelayRight.setDelayGain(.95);
+	filterDelayRight.setFeedbackGain(0.5);
 	
 	const double flangeDepth = sampleRate*0.001;
 	flangerLeft.setEffectParams(1, flangeDepth*2, .15);
@@ -66,12 +68,8 @@ int main(int argc, const char * argv[])
 	for (int i = 0; i<numOfFrames;i++)
 //		for (int i = 0; i<10;i++)
 	{
-		stereoOut[0][i] = filterLeft.applyFilter(whiteNoise());
-		stereoOut[1][i] = filterRight.applyFilter(whiteNoise());
-		double freq = .01 +double(i)/double(4*numOfFrames);
-		
-		filterLeft.changeChebyICoefficients(freq, false, freq);
-		filterRight.changeChebyICoefficients(freq, false, freq);
+		stereoOut[0][i] = filterDelayLeft.process(stereoIn[0][i]);
+		stereoOut[1][i] = filterDelayRight.process(stereoIn[1][i]);
 	}
 	//==============================================================================
 	audioReadWriter.writeWavSS(stereoOut, ofile, numOfFrames, sampleRate);
