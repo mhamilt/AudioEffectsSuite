@@ -17,18 +17,10 @@
 #include "../../../AudioIOClasses/AudioPlayer.cpp"
 #include "../../../FilterEffects/SimpleLPF.cpp"
 
-double whiteNoise()
-{
-	const double lo = -1.;
-	const double hi =  1.;
-	return lo + static_cast <float> (rand()) /( static_cast <float> (RAND_MAX/(hi-lo)));
-}
 
 int main(int argc, const char * argv[])
 {
-	//initialise randomiser
-	srand (static_cast <unsigned> (time(0)));
-	
+
 	//==============================================================================
 	//	printf("Path relative to the working directory is: %s\n", argv[0]);
 	SimpleLPF filterLeft(4), filterRight(4);
