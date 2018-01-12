@@ -16,6 +16,8 @@
 /** Class for applying a FIR lowpass filter
 	
 	Intialised with the order of FIR filter
+	
+	object declared with order of low pass filter
 	*/
 class SimpleLPF : public FilterEffectBase
 {
@@ -25,8 +27,7 @@ public:
 	*/
 	SimpleLPF(int order)
 	{
-//		setSimpleLpf(order);		
-		setChebyICoefficients(.01, false, .1, order);
+		changeChebyICoefficients(.01, false, .1, order);
 	};
 public:
 	/** destructor*/

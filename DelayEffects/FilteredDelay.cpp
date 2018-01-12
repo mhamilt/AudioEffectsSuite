@@ -11,7 +11,7 @@
 
 double FilteredDelay::process(double inputSample)
 {
-	delaySample(applyFilter((inputSample*delayGain)+ applyFilter(feedbackGain*getInterpolatedOut(currentDelayWriteIndex))));
+	delaySample(applyFilter((inputSample*delayGain)+ feedbackGain*getInterpolatedOut(currentDelayWriteIndex)));
 	const double out = getInterpolatedOut(currentDelayWriteIndex) + inputSample;
 	return out;
 }

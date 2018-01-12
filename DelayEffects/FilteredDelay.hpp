@@ -23,7 +23,7 @@ public:
 	FilteredDelay(int delayInSamples) : DelayEffectBase(44100)
 	{
 	delayTimeSamples = delayInSamples;
-	setChebyICoefficients(.05, true, .1, 4);
+	changeChebyICoefficients(.05, true, .1, 4);
 	};
 	/** Destructor */
 	~FilteredDelay(){};

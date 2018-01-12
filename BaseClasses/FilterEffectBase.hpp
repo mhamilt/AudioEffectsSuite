@@ -24,7 +24,7 @@ class FilterEffectBase
 public:		// methods
 	//==========================================================================
 	/** Constructor. */
-	FilterEffectBase(){};
+	FilterEffectBase(){std::fill(rmsBuffer, rmsBuffer+rmsWindowSize, 0);};
 	/** Destructor. */
 	~FilterEffectBase(){};
 	//==========================================================================
@@ -36,6 +36,13 @@ public:		// methods
 	 @returns filtered audio sample
 	 */
 	double applyFilter(double sampVal);
+	/** detect the envelop of an incoming signal
+	 
+	 @param sample		the incoming signal sample value
+	 
+	 @returns returns envelope dection signal sample value
+	 */
+	 double envelope(double sample);
 	//==========================================================================
 	/***/
 	void printBuffers();
@@ -54,7 +61,7 @@ public:		// methods
 		
 		@returns boolean false on error and true on success
 	 */
-	bool changeChebyICoefficients(double cutFreq, bool shelfType, double ripple);
+	bool setChebyICoefficients(double cutFreq, bool shelfType, double ripple);
 	//==========================================================================
 protected:	// methods
 	//==========================================================================
@@ -69,7 +76,7 @@ protected:	// methods
 		
 		@returns boolean false on error and true on success
 	 */
-	bool setChebyICoefficients(double cutFreq, bool shelfType, double ripple,int poles);
+	bool changeChebyICoefficients(double cutFreq, bool shelfType, double ripple,int poles);
 	/** a simple normalised fir low pass filter
 		@params order	number of delay coefficients
 		*/
@@ -90,6 +97,8 @@ private:	// methods
 		all values == 0.00
 		*/
 	void allocateBufferMemory();
+	/** root mean square of signal over a specific sample window */
+	double rms(double sample);
 	
 public:		// variables
 	//==========================================================================
@@ -120,6 +129,12 @@ protected:  // variables
 	int filterOrder = 0;
 	/***/
 	int samplingRate = 0;
+	/** window size in samples of rms window*/
+	const int rmsWindowSize = 128;
+	/** current write index of rmsBuffer */
+	int rmsBufferIndex = 0;
+	/** RMS window buffer */
+	double* rmsBuffer = new double[rmsWindowSize];
 private:	// variables
 	//==========================================================================
 	/***/

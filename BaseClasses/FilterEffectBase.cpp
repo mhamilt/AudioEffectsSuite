@@ -28,6 +28,33 @@ double FilterEffectBase::applyFilter(double sampVal)
 }
 
 //==============================================================================
+double FilterEffectBase::rms(double sample)
+{
+	rmsBuffer[rmsBufferIndex] = sample;
+	double rmsValue = 0;
+	for(int j = 0; j < rmsBufferIndex; j++)
+	{
+	int i = ((rmsBufferIndex-j)+rmsWindowSize)%rmsWindowSize;
+	rmsValue += rmsBuffer[i]*rmsBuffer[i];
+	}
+	
+//	printf("samp: %e\tsum: %e\n", sample, rmsValue);
+	
+	rmsValue /= rmsWindowSize;
+	rmsValue = sqrt(rmsValue);
+	
+	rmsBufferIndex++;
+	rmsBufferIndex%= rmsWindowSize;
+	
+	return rmsValue;
+}
+//==============================================================================
+double FilterEffectBase::envelope(double sample)
+{
+	return applyFilter(rms(sample));
+}
+
+//==============================================================================
 
 void FilterEffectBase::incBufferIndex()
 {
@@ -37,7 +64,7 @@ void FilterEffectBase::incBufferIndex()
 
 //==============================================================================
 
-bool FilterEffectBase::changeChebyICoefficients(double cutFreq, bool shelfType, double ripple)
+bool FilterEffectBase::setChebyICoefficients(double cutFreq, bool shelfType, double ripple)
 {
 	//NOTE: coefficient buffers must be cleared as are additive in the following
 	//		code
@@ -164,12 +191,12 @@ bool FilterEffectBase::changeChebyICoefficients(double cutFreq, bool shelfType, 
 	return true;
 }
 
-bool FilterEffectBase::setChebyICoefficients(double cutFreq, bool shelfType, double ripple,int poles)
+bool FilterEffectBase::changeChebyICoefficients(double cutFreq, bool shelfType, double ripple,int poles)
 {
 	filterOrder = poles+1;
 	clearMemory();
 	allocateBufferMemory();
-	changeChebyICoefficients(cutFreq, shelfType, ripple);
+	setChebyICoefficients(cutFreq, shelfType, ripple);
 
 	return true;
 }
@@ -219,6 +246,7 @@ void FilterEffectBase::clearMemory()
 		delete[] iirCoefficients;
 	}
 }
+
 
 void FilterEffectBase::allocateBufferMemory()
 {
