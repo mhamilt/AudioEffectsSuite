@@ -8,15 +8,15 @@
 
 #include <iostream>
 #include <vector>
-#include "../../../BaseClasses/DelayEffectBase.cpp"
-#include "../../../BaseClasses/FilterEffectBase.cpp"
-#include "../../../DelayEffects/SimpleDelay.cpp"
-#include "../../../DelayEffects/SimpleFlanger.cpp"
-#include "../../../DelayEffects/FilteredDelay.cpp"
-#include "../../../AudioIOClasses/AudioWavFileReadWrite.cpp"
-#include "../../../AudioIOClasses/AudioPlayer.cpp"
-#include "../../../FilterEffects/SimpleLPF.cpp"
-#include "../../../FilterEffects/EnvelopeFilter.cpp"
+#include "../../../../BaseClasses/DelayEffectBase.cpp"
+#include "../../../../BaseClasses/FilterEffectBase.cpp"
+#include "../../../../DelayEffects/SimpleDelay.cpp"
+#include "../../../../DelayEffects/SimpleFlanger.cpp"
+#include "../../../../DelayEffects/FilteredDelay.cpp"
+#include "../../../../AudioIOClasses/AudioWavFileReadWrite.cpp"
+#include "../../../../AudioIOClasses/AudioPlayer.cpp"
+#include "../../../../FilterEffects/SimpleLPF.cpp"
+#include "../../../../FilterEffects/EnvelopeFilter.cpp"
 
 
 int main(int argc, const char * argv[])
