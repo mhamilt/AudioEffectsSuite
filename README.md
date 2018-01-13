@@ -12,7 +12,9 @@ collaborate on effects under construction.
 ### AudioIOClasses
 The AudioIOClasses allow for easy command line audio file read and write capability and limited playback
 fascilities. These are to assist in prototyping effects. As such, read and write is limited 16 bit WAV files
-and audio playback is currently only capable on macOS with COreFoundation and AudioToolbox frameworks.
+and audio playback is currently only capable on macOS with CoreFoundation and AudioToolbox frameworks.
+
+Included in the folder are some example files to assist with usage.
 
 ### BaseClasses
 BaseClasses folder consists of base classes for particular branches of audio effects.
