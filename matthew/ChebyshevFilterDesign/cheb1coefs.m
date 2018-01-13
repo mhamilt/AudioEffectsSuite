@@ -16,7 +16,7 @@ B(3) = 1;
 
 %% Main variables
 SR = 44.1e3;
-Fc = .001; %% normalised cutoff frequency
+Fc = 2/SR; %% normalised cutoff frequency
 LH = 0;  %% filter shelf type, 0 = low pass, 1 = high pass
 Pr = 0; %% percentage ripple < .2929
 Np = 4;  %% number of poles
@@ -124,7 +124,7 @@ a = A;
 SR = 44.1e3;
 % x = zeros(SR,1);
 % x(1) = 1;
-% x = (rand(SR*4,1));
+x = (rand(SR*10,1));
 % x = ones(2000 ,1);
 % x = sin(2*pi*100*[0:44100]/SR)';
 % [file, path] =  uigetfile({'*.wav';'*.flac';'*.ogg';...
@@ -134,33 +134,35 @@ SR = 44.1e3;
 % if file == 0
 %   error('Load file cancelled')
 % end
-[x, SR] = audioread('/Users/admin/Documents/Masters/PBMMI/Audio_Examples/TestGuitarPhraseMono.wav');
+% [x, SR] = audioread('/Users/admin/Documents/Masters/PBMMI/Audio_Examples/TestGuitarPhraseMono.wav');
 
 
 N = length(x);
 m = Np;
 % x=[zeros(m,1);x];
+
 % y=[zeros(N+m,1)];
-y=[zeros(N,1)];
+% y=[zeros(N,1)];
+y=[ones(N,1)*.5];
 
 xrms= zeros(N,1);
-win = 40;
+win = 128;
 for n = win+1:N
-  % xrms(n) = sqrt(sum(x(n:-1:n-(win-1)).^2)/(win));
-  xrms(n) = sum(x(n:-1:n-(win-1)).^2)/(win);
+  xrms(n) = sqrt(sum(x(n:-1:n-(win-1)).^2)/(win));
+  % xrms(n) = sum(x(n:-1:n-(win-1)).^2)/(win);
 end
 % xrms = 2*x.*x;
 % xrms = abs(x);
 for n = m+1:N
-  y(n) = a*xrms(n:-1:n-m) + b*y(n:-1:n-m);
+  y(n) = a*x(n:-1:n-m) + b*y(n:-1:n-m);
 end
 
-y = sqrt(y);
+% y = sqrt(y);
 figure(1)
-plot(x);
+% plot(x);
 hold on
 % plot(xrms);
-plot(2*y,'k','LineWidth',2)
+plot(y,'k','LineWidth',2)
 hold off
 
 XF = fft(x);
@@ -176,7 +178,16 @@ subplot(2,1,1)
 plot(fx,XF)
 subplot(2,1,2)
 % plot(fy,abs(YF));
-plot(y)
+
+ymin = 0.493;
+ymax = 0.507;
+ynorm = 1/(ymax-ymin);
+
+swing = SR*0.015;
+base = SR*0.01;
+
+delaySig = (((y-ymin)*ynorm)*swing) + base;
+plot(delaySig);
 
 
 % (y - (.4 + depth(1 ~ 10)*.08)) * depth*intensity*constant

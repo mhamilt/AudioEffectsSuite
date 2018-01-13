@@ -37,7 +37,8 @@ int main(int argc, const char * argv[])
 	//==============================================================================
 	const char ifile[] = "/Users/admin/Documents/Masters/PBMMI/Audio_Examples/GuitarStrum_12s_MN.wav";
 	//	"/Users/admin/Documents/Masters/PBMMI/Audio_Examples/GuitarStrum_12s_MN.wav"
-	//	"/Users/admin/Downloads/Space Lion.wav"
+	//	"/Users/admin/Music/Space Lion.wav"
+	//	"/Users/admin/Documents/Masters/PBMMI/Audio_Examples/TestGuitarPhraseMono.wav"
 	//	"/Users/admin/Documents/Masters/PBMMI/Audio_Examples/trigen.wav"
 	//	"/Users/admin/Documents/Masters/PBMMI/Audio_Examples/Dance_Stereo.wav"
 	const char ofile[] = "/Users/admin/Downloads/MtoS_delayed.wav";

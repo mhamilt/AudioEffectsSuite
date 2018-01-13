@@ -23,6 +23,9 @@ class SimpleLPF : public FilterEffectBase
 {
 public:
 /** Constructor: Intialised with the order of FIR filter
+	
+	minimum cutoff frequency is 1/sampleRate
+	
 	@param order	filter order
 	*/
 	SimpleLPF(int order)
