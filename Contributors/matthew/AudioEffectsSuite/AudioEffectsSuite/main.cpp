@@ -35,21 +35,31 @@ int main(int argc, const char * argv[])
 	
 	EnvelopeFilter envFiltL,envFiltR;
 	//==============================================================================
-	const char ifile[] = "/Users/admin/Documents/Masters/PBMMI/Audio_Examples/GuitarStrum_12s_MN.wav";
+	const char ifile[] = "/Users/admin/Music/Space Lion.wav";
 	//	"/Users/admin/Documents/Masters/PBMMI/Audio_Examples/GuitarStrum_12s_MN.wav"
 	//	"/Users/admin/Music/Space Lion.wav"
 	//	"/Users/admin/Documents/Masters/PBMMI/Audio_Examples/TestGuitarPhraseMono.wav"
 	//	"/Users/admin/Documents/Masters/PBMMI/Audio_Examples/trigen.wav"
 	//	"/Users/admin/Documents/Masters/PBMMI/Audio_Examples/Dance_Stereo.wav"
+    // "/Users/admin/Documents/MATLAB/FinalProject/PianoSamples/Piano2/080609-086.wav"
+//    "/Users/admin/Documents/Masters/PBMMI/Audio_Examples/220hz16bit.wav"
+//    "/Users/admin/Documents/Masters/PBMMI/Audio_Examples/220hz24bit.wav"
+//    "/Users/admin/Documents/Masters/PBMMI/Audio_Examples/220hz32bit.wav"
+//    "/Users/admin/Documents/Masters/PBMMI/Audio_Examples/220hzu8bit.wav"
+//    "/Users/admin/Documents/Masters/PBMMI/Audio_Examples/stereo24bit.wav"
+    
 	const char ofile[] = "/Users/admin/Downloads/MtoS_delayed.wav";
+    //==============================================================================
+    //    audioReadWriter.printWavHeader(ifile);
 	//==============================================================================
 	AudioWavFileReadWrite audioReadWriter;
 	int numOfFrames = 44100, sampleRate = 44100;
 	
 //	double** stereoIn = audioReadWriter.whiteNoise(numOfFrames, sampleRate);;
 	double** stereoIn = audioReadWriter.readStereoWav(ifile, &numOfFrames, &sampleRate);
-	
-	double** stereoOut = new double*[2];
+//    double* audioData = audioReadWriter.readWav(ifile, &numOfFrames, &sampleRate);
+    
+    double** stereoOut = new double*[2];
 	stereoOut[0] = new double[numOfFrames];
 	stereoOut[1] = new double[numOfFrames];
 	//==============================================================================
@@ -62,21 +72,22 @@ int main(int argc, const char * argv[])
 	envelopeDetectorLeft.setChebyICoefficients(.00006, false, 0);
 	envelopeDetectorRight.setChebyICoefficients(.00006, false, 0);
 	
-	const double flangeDepth = sampleRate*0.001;
-	flangerLeft.setEffectParams(1, flangeDepth*2, .15);
-	flangerRight.setEffectParams(1, flangeDepth, .215);
-	//==============================================================================
+	const double flangeDepth = sampleRate*0.0015;
+	flangerLeft.setEffectParams(1., flangeDepth, .15);
+	flangerRight.setEffectParams(1., flangeDepth, .215);
 	
-	for (int i = 0; i<numOfFrames;i++)
-//		for (int i = 0; i<2000;i++)
+    //==============================================================================
+    	for (int i = 0; i<numOfFrames;i++)
+//		for (int i = 0; i<20;i++)
 	{
-		stereoOut[0][i] = envFiltL.process(stereoIn[0][i]);
-		stereoOut[1][i] = envFiltR.process(stereoIn[1][i]);
+		stereoOut[0][i] = flangerLeft.process(stereoIn[0][i]);
+		stereoOut[1][i] = flangerRight.process(stereoIn[1][i]);
 	}
-	
 	//==============================================================================
-	audioReadWriter.writeWavSS(stereoOut, ofile, numOfFrames, sampleRate);
-//	==============================================================================
+    	audioReadWriter.writeWavSS(stereoOut, ofile, numOfFrames, sampleRate);
+//      audioReadWriter.writeWavSS(stereoIn, ofile, numOfFrames, sampleRate);
+//      audioReadWriter.writeWavMS(audioData, ofile, numOfFrames, sampleRate);
+	//==============================================================================
 	playAudio(ofile);
 	//==============================================================================
 	

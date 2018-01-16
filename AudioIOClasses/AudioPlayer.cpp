@@ -40,7 +40,7 @@ static void HandleOutputBuffer (void                *aqData,
 	AQPlayerState *pAqData = (AQPlayerState *) aqData;      // 1
 	if (pAqData->mIsRunning == 0)
 	{
-		return;													//2
+		return;												// 2
 	}
 	UInt32 numBytesReadFromFile;                            // 3
 	UInt32 numPackets = pAqData->mNumPacketsToRead;         // 4
@@ -367,7 +367,22 @@ AudioPlayer* AudioPlayer::file(const char *fn)
 
 
 //==============================================================================
-/***/
+/**
+ Play a sound file from command line
+ @attention This is only going to work with AudioToolbox and CoreFoundation
+ frameworks included. 
+ 
+ ## BEWARE:
+ The directory the code is being run from will affect which path name can be used.
+ It is both easier and safer to use absolute path. If there is still an error,
+ check the directory of the build and whether you have read access (macOS Only)
+ 
+ @param filename the filename of the audiofile from the build directory
+ 
+ @returns bool true on completion or false on error
+ 
+ @version 1.0
+ */
 bool playAudio(const char* filename)
 {
 	AudioPlayer* ap = AudioPlayer::file(filename);

@@ -24,7 +24,6 @@
 	Currently memory allocation of written file is dealt with outside the class
 	but will be expanded upon
  */
-
 //==============================================================================
 class AudioWavFileReadWrite
 {
@@ -34,8 +33,7 @@ public: // Type definitions
 	 this will be filled in with the initial read of a .wav.
 	 */
 	struct waveFormatHeader {
-		/**waveFormatHeader: The first 4 bytes of a wav file should be the characters
-		 "RIFF"
+        /**waveFormatHeader: The first 4 bytes of a wav file should be the characters "RIFF"
 		 */
 		char     chunkID[4];
 		
@@ -239,11 +237,43 @@ private: // Methods
 		@returns true if it is a wav file or false if not
 		*/
 	bool checkHeader (waveFormatHeader fileHeader);
+    /**
+     Reads through open wav file and returns data scaled to between -1 and 1
+     in array. Reads the first channel of the wav file only. Bit-depth agnostic,
+     will parse data that is u8, 16, 24 or 32 bit.
+     
+     @param data pointer to array of audio data of type double to be filled
+     @param f an open wav file where the header has been read
+     @return returns a bool on sucess or false on failure.
+     */
+    bool parseWavMonoFile(double* data, FILE *f);
+    /**
+     Reads through an open wav file and save data to an array in a
+     range of -1 to 1. Will parse u8, 16, 24 and 32 bit files.
+     \see parseWavMonoFile
+     
+     @param data 2D array in format data[channel][sampleIndex]
+     @param f open wav file to be read
+     @return true on success, false on failure
+     */
+    bool parseWavFile(double** data, FILE *f);
 	
 private: // Variables
-	int wavReadFileSampRate, wavFileFrameNum;
-	waveFormatHeader  wavReadFileHeader, wavWriteFileHeader;
-	double *monoAudioData, *rightAudioData, *leftAudioData;
+	/***/
+	int wavReadFileSampRate;
+    /***/
+	int wavFileFrameNum;
+    /***/
+	waveFormatHeader wavReadFileHeader;
+    /***/
+	waveFormatHeader wavWriteFileHeader;
+    /***/
+	double *monoAudioData;
+    /***/
+	double *rightAudioData;
+    /***/
+	double *leftAudioData;
+    /***/
 	char* wavReadFilename;
 };
 #endif /* AudioWavFileReader_hpp */
