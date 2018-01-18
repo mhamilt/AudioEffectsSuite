@@ -17,7 +17,6 @@ void AudioWavFileReadWrite::printWavHeader(const char *filename)
 {
     FILE *f;
     waveFormatHeader hdr;
-    
     f = fopen(filename, "rb");
     
     if (!f)
@@ -29,10 +28,10 @@ void AudioWavFileReadWrite::printWavHeader(const char *filename)
         fread(&hdr, 1, sizeof(hdr), f);
         
         printf("--- .WAV HEADER --- \n\n");
-        printf("Chunk ID        : %s\n", hdr.chunkID);
+        printf("Chunk ID        : %.4s\n", hdr.chunkID);
         printf("Chunk Size      : %u\n", hdr.chunkSize);
-        printf("Format          : %s\n", hdr.format);
-        printf("Sub-Chunk 1     : %s\n", hdr.subChunk1ID);
+        printf("Format          : %.4s\n", hdr.format);
+        printf("Sub-Chunk 1     : %.4s\n", hdr.subChunk1ID);
         printf("Sub-Chunk 1 size: %d\n", hdr.subChunk1Size);
         printf("Audio Format    : %d\n", hdr.audioFormat);
         printf("Num Channels    : %d\n", hdr.numChannels);
@@ -40,14 +39,13 @@ void AudioWavFileReadWrite::printWavHeader(const char *filename)
         printf("Byte Rate       : %u\n", hdr.byteRate);
         printf("Block Align     : %u\n", hdr.blockAlign);
         printf("Bits Per Samp   : %u\n", hdr.bitsPerSample);
-        printf("Sub-Chunk 2     : %s\n", hdr.subChunk2ID);
+        printf("Sub-Chunk 2     : %.4s\n", hdr.subChunk2ID);
         printf("Sub-Chunk 2 size: %u\n", hdr.subChunk2Size);
-//        printf("SampsPerChan    : %u\n", hdr.subChunk2Size*8/(hdr.numChannels*hdr.bitsPerSample));
+        //        printf("SampsPerChan    : %u\n", hdr.subChunk2Size*8/(hdr.numChannels*hdr.bitsPerSample));
         printf("\n");
         fclose(f);
     }
 }
-
 //==============================================================================
 
 //	virtual const char* cmdLineSetFilename(const char *cmdLineArgV[]) = 0;
@@ -129,19 +127,19 @@ bool AudioWavFileReadWrite::parseWavMonoFile(double* data, FILE *f)
     const int numberOfFrames = wavReadFileHeader.subChunk2Size * 8 /(wavReadFileHeader.bitsPerSample * wavReadFileHeader.numChannels);
     const int byteOffset = (4-byteNum);
     
-    for (int i = 0; i < numberOfFrames; i++)
+    for (int sample = 0; sample < numberOfFrames; sample++)
     {
-        for (int j = 0; j < wavReadFileHeader.numChannels; j++)
+        for (int channel = 0; channel < wavReadFileHeader.numChannels; channel++)
         {
             int32_t data_in_channel = 0;
             size_t readCheck = fread(buf, byteNum, 1, f);
             if(readCheck == 1)
             {
-                if (j==0)
+                if (channel==0)
                 {
                     if(byteNum==1)
                     {
-                        data[i] = ((double)buf[0]-127.5) * wav8BitScale;
+                        data[sample] = ((double)buf[0]-127.5) * wav8BitScale;
                     }
                     else
                     {
@@ -149,7 +147,7 @@ bool AudioWavFileReadWrite::parseWavMonoFile(double* data, FILE *f)
                         {
                             data_in_channel |= (buf[k] << (k+byteOffset)*8);
                         }
-                        data[i] = ((double)data_in_channel) * wavBitScale;
+                        data[sample] = ((double)data_in_channel) * wavBitScale;
                     }
                 }
             }
@@ -175,9 +173,9 @@ bool AudioWavFileReadWrite::parseWavFile(double** data, FILE *f)
     const int numberOfFrames = wavReadFileHeader.subChunk2Size * 8 /(wavReadFileHeader.bitsPerSample * wavReadFileHeader.numChannels);
     const int byteOffset = (4-byteNum);
     
-    for (int i = 0; i < numberOfFrames; i++)
+    for (int sample = 0; sample < numberOfFrames; sample++)
     {
-        for (int j = 0; j < wavReadFileHeader.numChannels; j++)
+        for (int channel = 0; channel < wavReadFileHeader.numChannels; channel++)
         {
             int32_t data_in_channel = 0;
             size_t readCheck = fread(buf, byteNum, 1, f);
@@ -185,7 +183,7 @@ bool AudioWavFileReadWrite::parseWavFile(double** data, FILE *f)
             {
                 if(byteNum==1)
                 {
-                    data[j][i] = ((double)buf[0]-127.5) * wav8BitScale;
+                    data[channel][sample] = ((double)buf[0]-127.5) * wav8BitScale;
                 }
                 else
                 {
@@ -193,8 +191,8 @@ bool AudioWavFileReadWrite::parseWavFile(double** data, FILE *f)
                     {
                         data_in_channel |= (buf[k] << (k+byteOffset)*8);
                     }
-
-                    data[j][i] = ((double)data_in_channel) * wavBitScale;
+                    
+                    data[channel][sample] = ((double)data_in_channel) * wavBitScale;
                 }
             }
             else
@@ -227,7 +225,7 @@ double** AudioWavFileReadWrite::readStereoWav(const char *filename, int *sampsPe
         printf("NOT A WAV FILE\n");
         return NULL;
     }
-
+    
     if ((wavReadFileHeader.numChannels != 2))
     {
         fclose(f);
@@ -258,7 +256,7 @@ double** AudioWavFileReadWrite::readStereoWav(const char *filename, int *sampsPe
 
 void AudioWavFileReadWrite::setBasicHeader()
 {
-    wavWriteFileHeader = *new waveFormatHeader;
+//    wavWriteFileHeader = *new waveFormatHeader;
     memcpy(wavWriteFileHeader.chunkID, &"RIFF", 4);
     memcpy(wavWriteFileHeader.format, &"WAVE", 4);
     memcpy(wavWriteFileHeader.subChunk1ID, &"fmt ", 4); //notice the space at the end!
@@ -394,7 +392,6 @@ size_t AudioWavFileReadWrite::writeWaveHeaderToFile(FILE * file)
 
 void AudioWavFileReadWrite::writeWavMS(double* audio,const char outputFile[], int numberOfFrames, double sampleRate)
 {
-    
     normaliseBuffer(audio ,numberOfFrames);
     
     FILE * file;

@@ -191,8 +191,7 @@ public:
 	bool isPlaying() const { return aqData.mIsRunning; }
 	
 	//==========================================================================
-	/**
-	 */
+	/***/
 	void primeBuffer()
 	{
 		OSStatus status;
@@ -376,12 +375,13 @@ AudioPlayer* AudioPlayer::file(const char *fn)
  The directory the code is being run from will affect which path name can be used.
  It is both easier and safer to use absolute path. If there is still an error,
  check the directory of the build and whether you have read access (macOS Only)
+ @version 0.1
  
  @param filename the filename of the audiofile from the build directory
  
  @returns bool true on completion or false on error
  
- @version 1.0
+ @throws Nothing
  */
 bool playAudio(const char* filename)
 {

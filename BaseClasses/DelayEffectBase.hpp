@@ -12,11 +12,12 @@
 #include <iostream>
 #include <cmath>
 
-class DelayEffectBase;
 //==============================================================================
 /**
 	A Base class for delay based digital effects. Provides the basic methods
 	that are shared amongst Flanger, Delay, Chorus and Phaser
+    
+    @version 0.1
  
  @see DelayEffectBase
  */
