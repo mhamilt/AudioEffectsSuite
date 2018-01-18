@@ -7,7 +7,20 @@
 //
 
 #include "ModulationBaseClass.hpp"
-
+//==============================================================================
+double ModulationBaseClass::readTable(double freq)
+{
+    const double out = getInterpolatedOut(tableIndex);
+    //    const double out  = waveTable[int(tableIndex)%sampleRate];
+    //    const double out  = waveTable[int(tableIndex)];
+    tableIndex += freq;
+    if (tableIndex-sampleRate > 0) {
+        tableIndex -= sampleRate;
+    }
+    
+    return out;
+}
+//==============================================================================
 bool ModulationBaseClass::allocateMemory()
 {
     waveTable = new double[sampleRate];
@@ -20,35 +33,8 @@ bool ModulationBaseClass::allocateMemory()
 
 //==============================================================================
 
-void ModulationBaseClass::setSine()
-{
-    const double radPerSec = 2*3.1415926536*timeStep;
-    for(int i = 0; i < sampleRate; i++)
-    {
-            waveTable[i] = (sin(i*radPerSec) + 1)*.5;
-    }
-}
-//==============================================================================
-double ModulationBaseClass::readTable(double freq)
-{
-    return NULL;
-}
-//==============================================================================
-
 bool ModulationBaseClass::setInterpoationTable()
 {
-//    const int order = interpOrder;
-//    const int res = interpResolution;
-//    double** interpTable = new double*[order];
-//    if(!interpTable){return NULL;}
-    
-//    for(int i=0;i<order;i++)
-//    {
-//        interpTable[i] = new double[res+1];
-//        if(!interpTable[i]){return NULL;}
-//        std::fill(interpTable[i], interpTable[i]+res, 1);
-//    }
-    
     double *polynomial_normaliser = new double [order];
     if(!polynomial_normaliser){return false;}
     std::fill(polynomial_normaliser, polynomial_normaliser+order, 1);
@@ -67,9 +53,10 @@ bool ModulationBaseClass::setInterpoationTable()
         for(int i = 0; i<order;i++)
         {
             anchors[i] = -(double(order) - 1)*0.5 + double(i);
-            
+            std::fill(interpTable[i], interpTable[i]+res, 1);
         }
     }
+    
     else
     {
         for(int i = 0; i<order;i++)
@@ -91,12 +78,13 @@ bool ModulationBaseClass::setInterpoationTable()
                         polynomial_normaliser[j] = polynomial_normaliser[j]*(anchors[j]-anchors[m]);
                     }
                     interpTable[j][q] *= (alphas[q]-anchors[m]);
-                    
                 }
             }
             interpTable[j][q] /= polynomial_normaliser[j];
         }
     }
+    
+    
     delete[] polynomial_normaliser;
     delete[] alphas;
     delete[] anchors;
@@ -120,7 +108,32 @@ double ModulationBaseClass::getInterpolatedOut(double bufferIndex)
     return interpOut;
 }
 
+void ModulationBaseClass::printInterpTable()
+{
+    for (int j = 0; j < res; j++){
+        for (int i = 0; i < order; i++) {
+            std::cout << interpTable[i][j] << '\t';
+        }
+        std::cout << '\n';
+    }
+}
 //==============================================================================
+void ModulationBaseClass::setSine()
+{
+    const double radPerSec = 2*3.1415926536*timeStep;
+    for(int i = 0; i < sampleRate; i++)
+        waveTable[i] = sin(i*radPerSec);
+}
+//==============================================================================
+void ModulationBaseClass::setOffSine()
+{
+    const double radPerSec = 2*3.1415926536*timeStep;
+    for(int i = 0; i < sampleRate; i++)
+        waveTable[i] = (sin(i*radPerSec) + 1)*.5;
+}
+
+//==============================================================================
+
 void ModulationBaseClass::setSawtooth()
 {
     std::fill(waveTable, waveTable+sampleRate, 0);

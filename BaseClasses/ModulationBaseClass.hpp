@@ -24,6 +24,7 @@ public:
         sampleRate = extSampRate;
         timeStep = 1./extSampRate;
         allocateMemory();
+        setInterpoationTable();
     };
     /** Destructor */
     ~ModulationBaseClass(){};
@@ -45,10 +46,14 @@ public:
      */
     void setSawtooth();
     /**
-     sets wavetable to one period of a sine wave
+     sets wavetable to one period of a sine wave oscillating between -1 and 1
      */
     void setSine();
-    
+    /**
+     sets wavetable to one period of a sine wave oscillating between 0 and 1
+     */
+    void setOffSine();
+    //==============================================================================
     /**
      Read through values in waveTable as a given frequency
      
@@ -57,37 +62,51 @@ public:
      @return value from table as double
      */
     double readTable(double freq);
+    //==============================================================================
+    void printInterpTable();
+    //==============================================================================
+    /**
+     populates the internal interpolation table
+     
+     @return return tru on success, else false
+     */
+    bool setInterpoationTable();
 private:
+    //==============================================================================
     /**
      allocate memory to internal wave table based on sample rate
      
      @return returns true on success or false on failure
      */
     bool allocateMemory();
-    
+    //==============================================================================
     /**
      get the interpolated output of the waveTable from the
      given buffer index
-
+     
      @param bufferIndex buffer index as double
      @return returns interpolated value from surrounding wavtable indices
      */
     double getInterpolatedOut(double bufferIndex);
     
-    bool setInterpoationTable();
-private:
+
+public:
+    //==============================================================================
+    /** current table read index */
+    double tableIndex = 0;
     /** Internal Sample Rate */
     int sampleRate;
     /** time between samples: 1/sampRate */
     double timeStep;
-    /** current table read index */
-    int tableIndex = 0;
+    
+private:
+    //==============================================================================
     /** store modulation signal as*/
     double* waveTable;
     
     static const int order = 4;
     static const int res = 100;
-    double interpTable[order][res] = {0};
+    double interpTable[order][res] = {1};
 };
 
 #endif /* ModulationBaseClass_hpp */

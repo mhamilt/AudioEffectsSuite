@@ -53,16 +53,21 @@ int main(int argc, const char * argv[])
     //    audioReadWriter.printWavHeader(ifile);
     //==============================================================================
     AudioWavFileReadWrite audioReadWriter;
-    int numOfFrames = 44100, sampleRate = 44100;
+    int numOfFrames = 44100*4, sampleRate = 44100;
     
     
-    //	double** stereoIn = audioReadWriter.whiteNoise(numOfFrames, sampleRate);;
+//    	double** stereoIn = audioReadWriter.whiteNoise(numOfFrames, sampleRate);;
     double** stereoIn = audioReadWriter.readStereoWav(ifile, &numOfFrames, &sampleRate);
     //    double* audioData = audioReadWriter.readWav(ifile, &numOfFrames, &sampleRate);
     
     double** stereoOut = new double*[2];
     stereoOut[0] = new double[numOfFrames];
     stereoOut[1] = new double[numOfFrames];
+    
+    ModulationBaseClass waveTabLeft(sampleRate),waveTabRight(sampleRate);
+    waveTabLeft.setOffSine();
+    waveTabRight.setOffSine();
+//    waveTabRight.setSquare();
     //==============================================================================
     // // Change Parameters
 //    filterDelayLeft.setDelayGain(.85);
@@ -77,20 +82,19 @@ int main(int argc, const char * argv[])
 //    flangerLeft.setEffectParams(1., flangeDepth, .15);
 //    flangerRight.setEffectParams(1., flangeDepth, .215);
     //==============================================================================
-    
     for (int i = 0; i<numOfFrames;i++)
         //		for (int i = 0; i<20;i++)
     {
-        stereoOut[0][i] = stereoIn[0][i];
-        stereoOut[1][i] = stereoIn[1][i];
+        stereoOut[0][i] = stereoIn[0][i]*waveTabLeft.readTable(4.5);
+        stereoOut[1][i] = stereoIn[1][i]*waveTabRight.readTable(4.25);
     }
     //==============================================================================
     audioReadWriter.writeWavSS(stereoOut, ofile, numOfFrames, sampleRate);
     //      audioReadWriter.writeWavSS(stereoIn, ofile, numOfFrames, sampleRate);
     //      audioReadWriter.writeWavMS(audioData, ofile, numOfFrames, sampleRate);
     //==============================================================================
-    audioReadWriter.printWavHeader(ifile);
-    audioReadWriter.printWavHeader(ofile);
+    //    audioReadWriter.printWavHeader(ifile);
+    //    audioReadWriter.printWavHeader(ofile);
     //==============================================================================
     for (int chan = 0; chan < 2; chan++)
     {
