@@ -35,7 +35,7 @@ int main(int argc, const char * argv[])
     
 //    EnvelopeFilter envFiltL,envFiltR;
     //==============================================================================
-    const char ifile[] = "/Users/admin/Music/Space Lion.wav";
+    const char ifile[] = "/Users/admin/Documents/Masters/PBMMI/Audio_Examples/GuitarStrum_12s_MN.wav";
     //	"/Users/admin/Documents/Masters/PBMMI/Audio_Examples/GuitarStrum_12s_MN.wav"
     //	"/Users/admin/Music/Space Lion.wav"
     //	"/Users/admin/Documents/Masters/PBMMI/Audio_Examples/TestGuitarPhraseMono.wav"
@@ -54,10 +54,9 @@ int main(int argc, const char * argv[])
     //==============================================================================
     AudioWavFileReadWrite audioReadWriter;
     int numOfFrames = 44100*4, sampleRate = 44100;
-    
-    
-//    	double** stereoIn = audioReadWriter.whiteNoise(numOfFrames, sampleRate);;
-    double** stereoIn = audioReadWriter.readStereoWav(ifile, &numOfFrames, &sampleRate);
+
+    	double** stereoIn = audioReadWriter.whiteNoise(numOfFrames, sampleRate);;
+//    double** stereoIn = audioReadWriter.readStereoWav(ifile, &numOfFrames, &sampleRate);
     //    double* audioData = audioReadWriter.readWav(ifile, &numOfFrames, &sampleRate);
     
     double** stereoOut = new double*[2];
@@ -65,9 +64,11 @@ int main(int argc, const char * argv[])
     stereoOut[1] = new double[numOfFrames];
     
     ModulationBaseClass waveTabLeft(sampleRate),waveTabRight(sampleRate);
-    waveTabLeft.setOffSine();
-    waveTabRight.setOffSine();
+    waveTabLeft.setSine();
+    waveTabRight.setSine();
 //    waveTabRight.setSquare();
+//    waveTabLeft.setWhiteNoise();
+//    waveTabLeft.clipWave(10.);
     //==============================================================================
     // // Change Parameters
 //    filterDelayLeft.setDelayGain(.85);
@@ -82,11 +83,13 @@ int main(int argc, const char * argv[])
 //    flangerLeft.setEffectParams(1., flangeDepth, .15);
 //    flangerRight.setEffectParams(1., flangeDepth, .215);
     //==============================================================================
+    
     for (int i = 0; i<numOfFrames;i++)
         //		for (int i = 0; i<20;i++)
     {
-        stereoOut[0][i] = stereoIn[0][i]*waveTabLeft.readTable(4.5);
-        stereoOut[1][i] = stereoIn[1][i]*waveTabRight.readTable(4.25);
+//        double amp = 2*(waveTabRight.readTable(400)+.1);
+        stereoOut[0][i] = waveTabLeft.readTable(200);
+        stereoOut[1][i] = waveTabRight.readTable(200);
     }
     //==============================================================================
     audioReadWriter.writeWavSS(stereoOut, ofile, numOfFrames, sampleRate);

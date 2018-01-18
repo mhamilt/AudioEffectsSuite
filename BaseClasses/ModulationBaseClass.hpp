@@ -11,6 +11,7 @@
 
 #include <iostream>
 #include <cmath>
+#include <cstdint>
 
 /**
  <#Description#>
@@ -25,6 +26,7 @@ public:
         timeStep = 1./extSampRate;
         allocateMemory();
         setInterpoationTable();
+        srand (static_cast <unsigned> (time(0)));
     };
     /** Destructor */
     ~ModulationBaseClass(){};
@@ -53,6 +55,22 @@ public:
      sets wavetable to one period of a sine wave oscillating between 0 and 1
      */
     void setOffSine();
+    /**
+     
+     */
+    /**
+     reads out white noise
+
+     @return random number between -1 and 1
+     */
+    double readNoise();
+    /**
+     clip wave table values with a tanh function. Effect change with a variable
+     amp to control intensity.
+
+     @param amp <#amp description#>
+     */
+    void clipWave(double amp);
     //==============================================================================
     /**
      Read through values in waveTable as a given frequency
@@ -89,7 +107,18 @@ private:
      */
     double getInterpolatedOut(double bufferIndex);
     
-
+    /**
+     get a cubic spline interpolated out from the wave table
+     
+     Derived from code by Alec Wright at repository:
+     https://github.com/Alec-Wright/Chorus
+     
+     @authors Matthew Hamilton, Alec Wright
+     @param bufferIndex the required buffer index
+     @param freq (speed) that the table is being read through
+     @return returns interpolated value as double
+     */
+    double getSplineOut(double bufferIndex, int freq);
 public:
     //==============================================================================
     /** current table read index */

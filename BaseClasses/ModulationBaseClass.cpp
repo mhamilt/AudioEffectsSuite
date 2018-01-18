@@ -10,9 +10,8 @@
 //==============================================================================
 double ModulationBaseClass::readTable(double freq)
 {
-    const double out = getInterpolatedOut(tableIndex);
-    //    const double out  = waveTable[int(tableIndex)%sampleRate];
-    //    const double out  = waveTable[int(tableIndex)];
+//    const double out = getInterpolatedOut(tableIndex);
+    const double out = getSplineOut(tableIndex, int(freq));
     tableIndex += freq;
     if (tableIndex-sampleRate > 0) {
         tableIndex -= sampleRate;
@@ -118,6 +117,25 @@ void ModulationBaseClass::printInterpTable()
     }
 }
 //==============================================================================
+double ModulationBaseClass::getSplineOut(double bufferIndex, int freq)
+{
+    
+    if (freq<1) {
+        freq = 1;
+    }
+    const int n0 = floor(bufferIndex);
+    const int n1 = (n0+freq)%sampleRate;
+    const int n2 = (n0+(2*freq))%sampleRate;
+    const double alpha = bufferIndex - n0;
+    const double a = waveTable[n1];
+    const double c = ((3*(waveTable[n2] - waveTable[n1])) -  (3*(waveTable[n1] - waveTable[n0]))) *.25;
+    const double b = (waveTable[n2] - waveTable[n1]) - ((2*c))/3;
+    const double d = (-c)/3;
+    return a + (b*alpha) + (c*alpha*alpha) + (d*alpha*alpha*alpha);
+}
+
+//==============================================================================
+
 void ModulationBaseClass::setSine()
 {
     const double radPerSec = 2*3.1415926536*timeStep;
@@ -168,3 +186,25 @@ void ModulationBaseClass::setTriangle()
             waveTable[i] += pow(-1.,j)*(sin((2.*double(j) + 1)*i*radPerSec))/(2.*double(j) +1);
     }
 }
+
+//==============================================================================
+
+void ModulationBaseClass::clipWave(double amp)
+{
+    if (amp < .01)
+    {
+        amp = .01;
+    }
+    
+    
+    for(int i = 0; i < sampleRate; i++)
+        waveTable[i] = tanh(amp*waveTable[i])/tanh(amp);
+}
+
+double ModulationBaseClass::readNoise()
+{
+    const double lo = -1.;
+    const double hi =  1.;
+    return lo + static_cast <double> (rand()) /( static_cast <double> (RAND_MAX/(hi-lo)));
+}
+
