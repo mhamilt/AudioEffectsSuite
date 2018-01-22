@@ -191,3 +191,32 @@ plot(delaySig);
 
 
 % (y - (.4 + depth(1 ~ 10)*.08)) * depth*intensity*constant
+
+% Joining LFOs
+ly = length(y);
+fadeSize = 880000;
+i = 1:fadeSize;
+t = (i/(.5*fadeSize)) - 1;
+
+fadeIn = sqrt(.5*(1+t));
+fadeOut = sqrt(.5*(1-t));
+w = zeros((2*ly)-(fadeSize*.5),1);
+w1 = w;
+w2 = w;
+y1 = y;
+y2 = y(end:-1:1);
+
+
+% y1 = ones(size(y));
+% y2 = y1;
+
+y1(end-fadeSize+1:end) = y1(end-fadeSize+1:end).*fadeOut';
+y2(i) = y2(i).*fadeIn';
+
+figure(4)
+w1(1:ly) = y1;
+plot(w1)
+hold on
+w2(ly-(fadeSize)+1:end-(fadeSize*.5)) = y2;
+plot(w2);
+plot(w1+w2);

@@ -14,7 +14,11 @@
 #include <cstdint>
 
 /**
- <#Description#>
+ Class provides a wave table that can be populated with a number of preallocated
+ waveforms. These can be used to generate audio in themselves or to modulate
+ The parameters of another effect.
+ 
+ Class initialised with sample rate.
  */
 class ModulationBaseClass {
 public:
@@ -25,16 +29,12 @@ public:
         sampleRate = extSampRate;
         timeStep = 1./extSampRate;
         allocateMemory();
-        setInterpoationTable();
+//        setInterpTable();
         srand (static_cast <unsigned> (time(0)));
     };
     /** Destructor */
     ~ModulationBaseClass(){};
     //==============================================================================
-    /**
-     sets a randomised white noise signal in the waveTable
-     */
-    void setRandLfo();
     /**
      sets wavetable to one period of a triangle wave
      */
@@ -88,7 +88,7 @@ public:
      
      @return return tru on success, else false
      */
-    bool setInterpoationTable();
+    bool setInterpTable();
 private:
     //==============================================================================
     /**
@@ -105,7 +105,7 @@ private:
      @param bufferIndex buffer index as double
      @return returns interpolated value from surrounding wavtable indices
      */
-    double getInterpolatedOut(double bufferIndex);
+    double getInterpOut(double bufferIndex);
     
     /**
      get a cubic spline interpolated out from the wave table
@@ -127,12 +127,11 @@ public:
     int sampleRate;
     /** time between samples: 1/sampRate */
     double timeStep;
-    
-private:
-    //==============================================================================
     /** store modulation signal as*/
     double* waveTable;
     
+private:
+    //==============================================================================
     static const int order = 4;
     static const int res = 100;
     double interpTable[order][res] = {1};

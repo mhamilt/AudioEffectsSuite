@@ -24,7 +24,10 @@ class FilterEffectBase
 public:		// methods
 	//==========================================================================
 	/** Constructor. */
-	FilterEffectBase(){std::fill(rmsBuffer, rmsBuffer+rmsWindowSize, 0);};
+	FilterEffectBase()
+    {
+        std::fill(rmsBuffer, rmsBuffer+rmsWindowSize, 0);
+    };
 	/** Destructor. */
 	~FilterEffectBase(){};
 	//==========================================================================

@@ -5,12 +5,14 @@
 //  Created by admin on 16/01/2018.
 //  Copyright © 2018 AudioEffectsSuiteTeam. All rights reserved.
 //
+#ifndef ModulationBaseClass_cpp
+#define ModulationBaseClass_cpp
 
 #include "ModulationBaseClass.hpp"
 //==============================================================================
 double ModulationBaseClass::readTable(double freq)
 {
-//    const double out = getInterpolatedOut(tableIndex);
+//    const double out = getInterpOut(tableIndex);
     const double out = getSplineOut(tableIndex, int(freq));
     tableIndex += freq;
     if (tableIndex-sampleRate > 0) {
@@ -32,7 +34,7 @@ bool ModulationBaseClass::allocateMemory()
 
 //==============================================================================
 
-bool ModulationBaseClass::setInterpoationTable()
+bool ModulationBaseClass::setInterpTable()
 {
     double *polynomial_normaliser = new double [order];
     if(!polynomial_normaliser){return false;}
@@ -90,7 +92,7 @@ bool ModulationBaseClass::setInterpoationTable()
     return true;
 }
 
-double ModulationBaseClass::getInterpolatedOut(double bufferIndex)
+double ModulationBaseClass::getInterpOut(double bufferIndex)
 {
     const int order = 4;
     const int orderHalf = order*.5;
@@ -208,3 +210,4 @@ double ModulationBaseClass::readNoise()
     return lo + static_cast <double> (rand()) /( static_cast <double> (RAND_MAX/(hi-lo)));
 }
 
+#endif

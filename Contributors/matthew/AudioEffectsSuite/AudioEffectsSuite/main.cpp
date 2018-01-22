@@ -12,6 +12,7 @@
 #include "../../../../BaseClasses/FilterEffectBase.cpp"
 #include "../../../../BaseClasses/ModulationBaseClass.cpp"
 #include "../../../../DelayEffects/SimpleDelay.cpp"
+#include "../../../../DelayEffects/SimpleChorus.cpp"
 #include "../../../../DelayEffects/SimpleFlanger.cpp"
 #include "../../../../DelayEffects/FilteredDelay.cpp"
 #include "../../../../AudioIOClasses/AudioWavFileReadWrite.cpp"
@@ -19,21 +20,13 @@
 #include "../../../../FilterEffects/SimpleLPF.cpp"
 #include "../../../../FilterEffects/EnvelopeFilter.cpp"
 
+
 int main(int argc, const char * argv[])
 {
-    
-    //==============================================================================
     //	printf("Path relative to the working directory is: %s\n", argv[0]);
-//    SimpleLPF filterLeft(4), filterRight(4), envelopeDetectorLeft(4),envelopeDetectorRight(4);
-//    FilteredDelay filterDelayLeft(10000),filterDelayRight(10000);
+    //==============================================================================
+    // // Audio Effects
     
-    // Delay class initiliases with a delay value in samples.
-//    SimpleDelay delayLeft(8000);
-//    SimpleDelay delayRight(800);
-//    SimpleFlanger flangerLeft;
-//    SimpleFlanger flangerRight;
-    
-//    EnvelopeFilter envFiltL,envFiltR;
     //==============================================================================
     const char ifile[] = "/Users/admin/Documents/Masters/PBMMI/Audio_Examples/GuitarStrum_12s_MN.wav";
     //	"/Users/admin/Documents/Masters/PBMMI/Audio_Examples/GuitarStrum_12s_MN.wav"
@@ -50,47 +43,33 @@ int main(int argc, const char * argv[])
     
     const char ofile[] = "/Users/admin/Downloads/MtoS_delayed.wav";
     //==============================================================================
-    //    audioReadWriter.printWavHeader(ifile);
-    //==============================================================================
     AudioWavFileReadWrite audioReadWriter;
-    int numOfFrames = 44100*4, sampleRate = 44100;
-
-    	double** stereoIn = audioReadWriter.whiteNoise(numOfFrames, sampleRate);;
-//    double** stereoIn = audioReadWriter.readStereoWav(ifile, &numOfFrames, &sampleRate);
+    int numOfFrames = 44100, sampleRate = 44100;
+    
+//    double** stereoIn = audioReadWriter.whiteNoise(numOfFrames, sampleRate);;
+        double** stereoIn = audioReadWriter.readStereoWav(ifile, &numOfFrames, &sampleRate);
     //    double* audioData = audioReadWriter.readWav(ifile, &numOfFrames, &sampleRate);
     
     double** stereoOut = new double*[2];
     stereoOut[0] = new double[numOfFrames];
     stereoOut[1] = new double[numOfFrames];
+    //==============================================================================
+    // // Sample Rate Dependant Effects
+    SimpleChorus chorusLeft(sampleRate), chorusRight(sampleRate);
     
-    ModulationBaseClass waveTabLeft(sampleRate),waveTabRight(sampleRate);
-    waveTabLeft.setSine();
-    waveTabRight.setSine();
-//    waveTabRight.setSquare();
-//    waveTabLeft.setWhiteNoise();
-//    waveTabLeft.clipWave(10.);
     //==============================================================================
     // // Change Parameters
-//    filterDelayLeft.setDelayGain(.85);
-//    filterDelayLeft.setFeedbackGain(0.2);
-//    filterDelayRight.setDelayGain(.95);
-//    filterDelayRight.setFeedbackGain(0.5);
     
-//    envelopeDetectorLeft.setChebyICoefficients(.00006, false, 0);
-//    envelopeDetectorRight.setChebyICoefficients(.00006, false, 0);
-    
-//    const double flangeDepth = sampleRate*0.0015;
-//    flangerLeft.setEffectParams(1., flangeDepth, .15);
-//    flangerRight.setEffectParams(1., flangeDepth, .215);
     //==============================================================================
-    
+    //    const double radPerSec = 2*3.1415926536/double(sampleRate);
+    //==============================================================================
+//    for (int i = 0; i<20;i++)
     for (int i = 0; i<numOfFrames;i++)
-        //		for (int i = 0; i<20;i++)
     {
-//        double amp = 2*(waveTabRight.readTable(400)+.1);
-        stereoOut[0][i] = waveTabLeft.readTable(200);
-        stereoOut[1][i] = waveTabRight.readTable(200);
+        stereoOut[0][i] = chorusLeft.process(stereoIn[0][i]);
+        stereoOut[1][i] = chorusRight.process(stereoIn[1][i]);
     }
+    
     //==============================================================================
     audioReadWriter.writeWavSS(stereoOut, ofile, numOfFrames, sampleRate);
     //      audioReadWriter.writeWavSS(stereoIn, ofile, numOfFrames, sampleRate);
@@ -108,6 +87,7 @@ int main(int argc, const char * argv[])
     delete [] stereoOut;
     //==============================================================================
     playAudio(ofile);
+    
     //==============================================================================
     
     return EXIT_SUCCESS;

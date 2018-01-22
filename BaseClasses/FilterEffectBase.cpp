@@ -247,6 +247,7 @@ void FilterEffectBase::clearMemory()
 	}
 }
 
+//==============================================================================
 
 void FilterEffectBase::allocateBufferMemory()
 {

@@ -17,7 +17,7 @@ class EnvelopeFilter : public FilterEffectBase
 {
 public:
 	/** Constructor */
-	EnvelopeFilter(): envelopeFollower(4)
+	EnvelopeFilter(): envelopeFollower(.00006, 4)
 	{
 	// NOTE: Initialising chebyshev coeffcients allocates memory, perhaps alter so that memory is already pre allocated
 	changeChebyICoefficients(.01, false, .1, 4);

@@ -15,7 +15,7 @@
 
 /** Class for applying a FIR lowpass filter
 	
-	Intialised with the order of FIR filter
+	Intialised with the order of filter and the normalised cutoff frequency
 	
 	object declared with order of low pass filter
 	*/
@@ -26,11 +26,12 @@ public:
 	
 	minimum cutoff frequency is 1/sampleRate
 	
-	@param order	filter order
+	@param cutoff	normalised cutoff frequency [0, 1);
+    @param order	filter order
 	*/
-	SimpleLPF(int order)
+	SimpleLPF(double cutoff, int order)
 	{
-		changeChebyICoefficients(.01, false, .1, order);
+		changeChebyICoefficients(cutoff, false, .1, order);
 	};
 public:
 	/** destructor*/
