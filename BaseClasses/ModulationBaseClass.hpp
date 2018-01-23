@@ -29,12 +29,20 @@ public:
         sampleRate = extSampRate;
         timeStep = 1./extSampRate;
         allocateMemory();
-        //        setInterpTable();
+//                setInterpTable();
         srand (static_cast <unsigned> (time(0)));
     };
     /** Destructor */
     ~ModulationBaseClass(){};
     //==============================================================================
+    /**
+     setup the class with a given sample rate. Basically reperforming the
+     constructor
+
+     @param extSampRate External sample rate
+     */
+    void setup(double extSampRate);
+    
     /**
      sets wavetable to one period of a triangle wave
      */

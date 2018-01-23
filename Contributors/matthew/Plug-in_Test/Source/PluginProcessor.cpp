@@ -13,7 +13,7 @@
 
 
 //==============================================================================
-Plugin_testAudioProcessor::Plugin_testAudioProcessor() :
+Plugin_testAudioProcessor::Plugin_testAudioProcessor() : ampTremolo(getSampleRate()),
 #ifndef JucePlugin_PreferredChannelConfigurations
       AudioProcessor (BusesProperties()
                      #if ! JucePlugin_IsMidiEffect
@@ -22,10 +22,10 @@ Plugin_testAudioProcessor::Plugin_testAudioProcessor() :
                       #endif
                        .withOutput ("Output", AudioChannelSet::stereo(), true)
                      #endif
-                       ),
+                       )
 #endif
-      ampTremolo(getSampleRate())
 {
+    
 }
 
 Plugin_testAudioProcessor::~Plugin_testAudioProcessor()
@@ -97,6 +97,8 @@ void Plugin_testAudioProcessor::changeProgramName (int index, const String& newN
 //==============================================================================
 void Plugin_testAudioProcessor::prepareToPlay (double sampleRate, int samplesPerBlock)
 {
+    ampTremolo.setup(getSampleRate());
+    ampTremolo.setOffSine();
     // Use this method as the place to do any pre-playback
     // initialisation that you need..
 }
@@ -150,18 +152,12 @@ void Plugin_testAudioProcessor::processBlock (AudioSampleBuffer& buffer, MidiBuf
     // audio processing...
     const float* inputData  = buffer.getReadPointer (0);
     float* const outputData = buffer.getWritePointer (0);
-    for (int samp = 0; samp < buffer.getNumSamples(); samp++) {
-        outputData[samp] = ampTremolo.readTable(1)*inputData[samp];
-    }
+    
+    for (int samp = 0; samp < buffer.getNumSamples(); samp++)
+        outputData[samp] = inputData[samp]*ampTremolo.readTable(3);
     
     for (int channel = 1; channel < totalNumOutputChannels; ++channel)
-    {
-        float* channelData = buffer.getWritePointer (channel);
-        
-        for (int samp = 0; samp < buffer.getNumSamples(); samp++) {
-            channelData[i]
-        }
-    }
+        buffer.copyFrom(channel, 0, outputData, buffer.getNumSamples());
 }
 
 //==============================================================================

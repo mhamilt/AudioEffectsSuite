@@ -72,11 +72,11 @@ int main(int argc, const char * argv[])
     {
 //        const double amp = ampMod.readTable(1.9);
 //        const double amp = (tanh(ampMod.readTable(125.9))+1)*.5;
-        const double sweep = ampMod.readTable(1.2);
-        const double flux = i/double(numOfFrames);
+//        const double sweep = ampMod.readTable(1.2);
+//        const double flux = i/double(numOfFrames);
         
-//        stereoOut[0][i] = waveTableLeft.readTable(2525);
-//        stereoOut[1][i] = waveTableRight.readTable(2475);
+        stereoOut[0][i] = waveTableLeft.readTable(2525);
+        stereoOut[1][i] = waveTableRight.readTable(2475);
     }
     
     //==============================================================================

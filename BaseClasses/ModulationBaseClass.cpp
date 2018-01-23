@@ -9,6 +9,13 @@
 #define ModulationBaseClass_cpp
 
 #include "ModulationBaseClass.hpp"
+void ModulationBaseClass::setup(double extSampRate)
+{
+    sampleRate = extSampRate;
+    timeStep = 1./extSampRate;
+    allocateMemory();
+}
+
 //==============================================================================
 double ModulationBaseClass::readTable(double freq)
 {

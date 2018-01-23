@@ -12,8 +12,8 @@
 
 #include "../JuceLibraryCode/JuceHeader.h"
 #include "../../../../BaseClasses/BaseClasses.h"
-#include "../../../../DelayEffects/DelayEffects.h"
-#include "../../../../FilterEffects/FilterEffects.h"
+//#include "../../../../DelayEffects/DelayEffects.h"
+//#include "../../../../FilterEffects/FilterEffects.h"
 
 //==============================================================================
 /**
