@@ -5,7 +5,7 @@
 //  Created by admin on 15/12/2017.
 //  Copyright © 2017 admin. All rights reserved.
 //
-
+#ifndef AudioWavFileReadWrite_hpp
 #include "AudioWavFileReadWrite.hpp"
 
 //==============================================================================
@@ -431,5 +431,5 @@ double** AudioWavFileReadWrite::whiteNoise(int sampsPerChan, int sampleRate)
     return data;
 }
 
+#endif /* AudioWavFileReader_hpp */
 //EOF
-

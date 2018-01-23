@@ -5,7 +5,7 @@
 //  Created by admin on 20/12/2017.
 //  Copyright © 2017 AudioEffectsSuiteTeam. All rights reserved.
 //
-
+#ifndef SimpleFlanger_hpp
 #include "SimpleFlanger.hpp"
 //==============================================================================
 
@@ -59,3 +59,5 @@ void SimpleFlanger::setEffectParams(double gain, double depth, double rate)
 	modulationRate  = rate;
 	setAngleDelta();
 }
+
+#endif /* SimpleFlanger_hpp */

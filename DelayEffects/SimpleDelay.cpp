@@ -5,7 +5,7 @@
 //  Created by admin on 18/12/2017.
 //  Copyright © 2017 AudioEffectsSuiteTeam. All rights reserved.
 //
-
+#ifndef SimpleDelay_hpp
 #include "SimpleDelay.hpp"
 
 //==============================================================================
@@ -44,3 +44,4 @@ void SimpleDelay::setFeedbackGain(double gain)
 	feedbackGain = gain;
 }
 //==============================================================================
+#endif /* SimpleDelay_hpp */

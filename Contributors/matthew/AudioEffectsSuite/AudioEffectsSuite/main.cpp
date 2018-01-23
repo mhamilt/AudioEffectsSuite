@@ -8,17 +8,12 @@
 
 #include <iostream>
 #include <vector>
-#include "../../../../BaseClasses/DelayEffectBase.cpp"
-#include "../../../../BaseClasses/FilterEffectBase.cpp"
-#include "../../../../BaseClasses/ModulationBaseClass.cpp"
-#include "../../../../DelayEffects/SimpleDelay.cpp"
-#include "../../../../DelayEffects/SimpleChorus.cpp"
-#include "../../../../DelayEffects/SimpleFlanger.cpp"
-#include "../../../../DelayEffects/FilteredDelay.cpp"
 #include "../../../../AudioIOClasses/AudioWavFileReadWrite.cpp"
 #include "../../../../AudioIOClasses/AudioPlayer.cpp"
-#include "../../../../FilterEffects/SimpleLPF.cpp"
-#include "../../../../FilterEffects/EnvelopeFilter.cpp"
+
+#include "../../../../BaseClasses/BaseClasses.h"
+#include "../../../../DelayEffects/DelayEffects.h"
+#include "../../../../FilterEffects/FilterEffects.h"
 
 #include "/Users/admin/Documents/GitHub/moog-filter-plugin/recent/NonLinearJoeyMoogSC.cpp"
 

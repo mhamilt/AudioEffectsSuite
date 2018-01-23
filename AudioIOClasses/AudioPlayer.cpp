@@ -1,4 +1,5 @@
 
+#ifndef EPOXY_AUDIOPLAYER_H
 #include <AudioToolbox/AudioToolbox.h>
 #include <CoreFoundation/CoreFoundation.h>
 #include "AudioPlayer.h"
@@ -425,3 +426,4 @@ bool playAudio(const char* filename)
 	return true;
 }
 
+#endif /*EPOXY_AUDIOPLAYER_H*/

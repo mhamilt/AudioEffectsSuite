@@ -5,7 +5,7 @@
 //  Created by admin on 10/01/2018.
 //
 //
-
+#ifndef FilteredDelay_hpp
 #include "FilteredDelay.hpp"
 //==============================================================================
 
@@ -43,3 +43,4 @@ void FilteredDelay::setFeedbackGain(double gain)
 	feedbackGain = gain;
 }
 //==============================================================================
+#endif /* FilteredDelay_hpp */
