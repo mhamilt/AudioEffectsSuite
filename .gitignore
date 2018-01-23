@@ -36,7 +36,12 @@
 *.DS_Store
 **/DerivedData
 
+########################
+# JUCE
+########################
 
+**/Builds
+**/JuceLibraryCode
 
 # User-specific files
 *.suo
