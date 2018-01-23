@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<JUCERPROJECT id="V364Uo" name="SimpleFlanger" displaySplashScreen="0" reportAppUsage="0"
+              splashScreenColour="Dark" projectType="audioplug" version="1.0.0"
+              bundleIdentifier="com.yourcompany.SimpleFlanger" includeBinaryInAppConfig="1"
+              cppLanguageStandard="11" companyCopyright="" buildVST="1" buildVST3="0"
+              buildAU="1" buildAUv3="0" buildRTAS="0" buildAAX="0" buildStandalone="1"
+              enableIAA="0" pluginName="SimpleFlanger" pluginDesc="SimpleFlanger"
+              pluginManufacturer="yourcompany" pluginManufacturerCode="Manu"
+              pluginCode="V364" pluginChannelConfigs="" pluginIsSynth="0" pluginWantsMidiIn="0"
+              pluginProducesMidiOut="0" pluginIsMidiEffectPlugin="0" pluginEditorRequiresKeys="0"
+              pluginAUExportPrefix="SimpleFlangerAU" pluginRTASCategory=""
+              aaxIdentifier="com.yourcompany.SimpleFlanger" pluginAAXCategory="AAX_ePlugInCategory_Dynamics"
+              jucerVersion="5.2.0" headerPath="../../AudioEffectsSuite/DelayEffects">
+  <MAINGROUP id="EZAvrC" name="SimpleFlanger">
+    <GROUP id="{865FAB73-1BBF-0905-6FA9-3B17856B2EB9}" name="BaseClasses">
+      <FILE id="jJmJSx" name="BaseClasses.h" compile="0" resource="0" file="../../../BaseClasses/BaseClasses.h"/>
+      <FILE id="vx7ug5" name="DelayEffectBase.cpp" compile="1" resource="0"
+            file="../../../BaseClasses/DelayEffectBase.cpp"/>
+      <FILE id="dEIyC4" name="DelayEffectBase.hpp" compile="0" resource="0"
+            file="../../../BaseClasses/DelayEffectBase.hpp"/>
+      <FILE id="ORkepb" name="FilterEffectBase.cpp" compile="1" resource="0"
+            file="../../../BaseClasses/FilterEffectBase.cpp"/>
+      <FILE id="WVBsXQ" name="FilterEffectBase.hpp" compile="0" resource="0"
+            file="../../../BaseClasses/FilterEffectBase.hpp"/>
+      <FILE id="EoPk1x" name="ModulationBaseClass.cpp" compile="1" resource="0"
+            file="../../../BaseClasses/ModulationBaseClass.cpp"/>
+      <FILE id="SydK0F" name="ModulationBaseClass.hpp" compile="0" resource="0"
+            file="../../../BaseClasses/ModulationBaseClass.hpp"/>
+    </GROUP>
+    <GROUP id="{72214C16-76D9-FD23-ED79-F75AF2746241}" name="DelayEffects">
+      <FILE id="knupoj" name="DelayEffects.h" compile="0" resource="0" file="../../../DelayEffects/DelayEffects.h"/>
+      <FILE id="FA8nDl" name="FilteredDelay.cpp" compile="1" resource="0"
+            file="../../../DelayEffects/FilteredDelay.cpp"/>
+      <FILE id="NYEJ6N" name="FilteredDelay.hpp" compile="0" resource="0"
+            file="../../../DelayEffects/FilteredDelay.hpp"/>
+      <FILE id="gcDxGZ" name="SimpleChorus.cpp" compile="1" resource="0"
+            file="../../../DelayEffects/SimpleChorus.cpp"/>
+      <FILE id="ioCcg0" name="SimpleChorus.hpp" compile="0" resource="0"
+            file="../../../DelayEffects/SimpleChorus.hpp"/>
+      <FILE id="vFDrX8" name="SimpleDelay.cpp" compile="1" resource="0" file="../../../DelayEffects/SimpleDelay.cpp"/>
+      <FILE id="QrZItP" name="SimpleDelay.hpp" compile="0" resource="0" file="../../../DelayEffects/SimpleDelay.hpp"/>
+      <FILE id="LG656p" name="SimpleFlanger.cpp" compile="1" resource="0"
+            file="../../../DelayEffects/SimpleFlanger.cpp"/>
+      <FILE id="HwAbI8" name="SimpleFlanger.hpp" compile="0" resource="0"
+            file="../../../DelayEffects/SimpleFlanger.hpp"/>
+    </GROUP>
+    <GROUP id="{9E9C9F44-3B79-2B87-DBBE-4C8BCBD9D46E}" name="Source">
+      <FILE id="ph9ahC" name="PluginProcessor.cpp" compile="1" resource="0"
+            file="Source/PluginProcessor.cpp"/>
+      <FILE id="bc9NFy" name="PluginProcessor.h" compile="0" resource="0"
+            file="Source/PluginProcessor.h"/>
+      <FILE id="T6Pbw9" name="PluginEditor.cpp" compile="1" resource="0"
+            file="Source/PluginEditor.cpp"/>
+      <FILE id="ltc5ty" name="PluginEditor.h" compile="0" resource="0" file="Source/PluginEditor.h"/>
+    </GROUP>
+  </MAINGROUP>
+  <EXPORTFORMATS>
+    <XCODE_MAC targetFolder="Builds/MacOSX">
+      <CONFIGURATIONS>
+        <CONFIGURATION name="Debug" enablePluginBinaryCopyStep="1" isDebug="1" optimisation="1"
+                       linkTimeOptimisation="0" targetName="SimpleFlanger"/>
+        <CONFIGURATION name="Release" enablePluginBinaryCopyStep="1" isDebug="0" optimisation="3"
+                       linkTimeOptimisation="1" targetName="SimpleFlanger"/>
+      </CONFIGURATIONS>
+      <MODULEPATHS>
+        <MODULEPATH id="juce_core" path="../../../../JUCE/modules"/>
+        <MODULEPATH id="juce_events" path="../../../../JUCE/modules"/>
+        <MODULEPATH id="juce_graphics" path="../../../../JUCE/modules"/>
+        <MODULEPATH id="juce_data_structures" path="../../../../JUCE/modules"/>
+        <MODULEPATH id="juce_gui_basics" path="../../../../JUCE/modules"/>
+        <MODULEPATH id="juce_gui_extra" path="../../../../JUCE/modules"/>
+        <MODULEPATH id="juce_cryptography" path="../../../../JUCE/modules"/>
+        <MODULEPATH id="juce_video" path="../../../../JUCE/modules"/>
+        <MODULEPATH id="juce_opengl" path="../../../../JUCE/modules"/>
+        <MODULEPATH id="juce_audio_basics" path="../../../../JUCE/modules"/>
+        <MODULEPATH id="juce_audio_devices" path="../../../../JUCE/modules"/>
+        <MODULEPATH id="juce_audio_formats" path="../../../../JUCE/modules"/>
+        <MODULEPATH id="juce_audio_processors" path="../../../../JUCE/modules"/>
+        <MODULEPATH id="juce_audio_plugin_client" path="../../../../JUCE/modules"/>
+        <MODULEPATH id="juce_audio_utils" path="../../../../JUCE/modules"/>
+      </MODULEPATHS>
+    </XCODE_MAC>
+    <LINUX_MAKE targetFolder="Builds/LinuxMakefile">
+      <CONFIGURATIONS>
+        <CONFIGURATION name="Debug" isDebug="1" optimisation="1" linkTimeOptimisation="0"
+                       targetName="SimpleFlanger"/>
+        <CONFIGURATION name="Release" isDebug="0" optimisation="3" linkTimeOptimisation="1"
+                       targetName="SimpleFlanger"/>
+      </CONFIGURATIONS>
+      <MODULEPATHS>
+        <MODULEPATH id="juce_core" path="../../../../JUCE/modules"/>
+        <MODULEPATH id="juce_events" path="../../../../JUCE/modules"/>
+        <MODULEPATH id="juce_graphics" path="../../../../JUCE/modules"/>
+        <MODULEPATH id="juce_data_structures" path="../../../../JUCE/modules"/>
+        <MODULEPATH id="juce_gui_basics" path="../../../../JUCE/modules"/>
+        <MODULEPATH id="juce_gui_extra" path="../../../../JUCE/modules"/>
+        <MODULEPATH id="juce_cryptography" path="../../../../JUCE/modules"/>
+        <MODULEPATH id="juce_video" path="../../../../JUCE/modules"/>
+        <MODULEPATH id="juce_opengl" path="../../../../JUCE/modules"/>
+        <MODULEPATH id="juce_audio_basics" path="../../../../JUCE/modules"/>
+        <MODULEPATH id="juce_audio_devices" path="../../../../JUCE/modules"/>
+        <MODULEPATH id="juce_audio_formats" path="../../../../JUCE/modules"/>
+        <MODULEPATH id="juce_audio_processors" path="../../../../JUCE/modules"/>
+        <MODULEPATH id="juce_audio_plugin_client" path="../../../../JUCE/modules"/>
+        <MODULEPATH id="juce_audio_utils" path="../../../../JUCE/modules"/>
+      </MODULEPATHS>
+    </LINUX_MAKE>
+  </EXPORTFORMATS>
+  <MODULES>
+    <MODULE id="juce_audio_basics" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+    <MODULE id="juce_audio_devices" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+    <MODULE id="juce_audio_formats" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+    <MODULE id="juce_audio_plugin_client" showAllCode="1" useLocalCopy="0"
+            useGlobalPath="1"/>
+    <MODULE id="juce_audio_processors" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+    <MODULE id="juce_audio_utils" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+    <MODULE id="juce_core" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+    <MODULE id="juce_cryptography" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+    <MODULE id="juce_data_structures" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+    <MODULE id="juce_events" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+    <MODULE id="juce_graphics" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+    <MODULE id="juce_gui_basics" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+    <MODULE id="juce_gui_extra" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+    <MODULE id="juce_opengl" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+    <MODULE id="juce_video" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+  </MODULES>
+  <JUCEOPTIONS JUCE_QUICKTIME="disabled"/>
+</JUCERPROJECT>
