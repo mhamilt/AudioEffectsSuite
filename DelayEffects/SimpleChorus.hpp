@@ -34,8 +34,8 @@ public:
                                  DelayEffectBase(double(sampRate)*.031),
                                  SimpleLPF(0.0004,4)
     {
-        swing = 0.01*sampRate;
-        base = 0.01*sampRate;
+        swing = 0.005*sampRate;
+        base = 0.015*sampRate;
         setRandLfo();
     }
 	//==============================================================================

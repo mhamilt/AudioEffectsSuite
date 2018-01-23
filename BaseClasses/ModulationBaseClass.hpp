@@ -29,7 +29,7 @@ public:
         sampleRate = extSampRate;
         timeStep = 1./extSampRate;
         allocateMemory();
-//        setInterpTable();
+        //        setInterpTable();
         srand (static_cast <unsigned> (time(0)));
     };
     /** Destructor */
@@ -56,18 +56,21 @@ public:
      */
     void setOffSine();
     /**
-     
+     sets wavetable to DC one
      */
+    void setDC();
+    /** set wave table to be a ramp from 0 to 1 */
+    void setRamp();
     /**
      reads out white noise
-
+     
      @return random number between -1 and 1
      */
     double readNoise();
     /**
      clip wave table values with a tanh function. Effect change with a variable
      amp to control intensity.
-
+     
      @param amp <#amp description#>
      */
     void clipWave(double amp);

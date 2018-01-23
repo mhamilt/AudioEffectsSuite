@@ -12,7 +12,7 @@
 //==============================================================================
 double ModulationBaseClass::readTable(double freq)
 {
-//    const double out = getInterpOut(tableIndex);
+    //    const double out = getInterpOut(tableIndex);
     const double out = getSplineOut(tableIndex, int(freq));
     tableIndex += freq;
     if (tableIndex-sampleRate > 0) {
@@ -191,13 +191,28 @@ void ModulationBaseClass::setTriangle()
 
 //==============================================================================
 
+void ModulationBaseClass::setDC()
+{
+    for (int i = 0; i < sampleRate; i++)
+        waveTable[i] = 1.0;
+}
+
+//==============================================================================
+
+void ModulationBaseClass::setRamp()
+{
+    for (int i = 0; i < sampleRate; i++)
+        waveTable[i] = i / double(sampleRate);
+}
+
+//==============================================================================
+
 void ModulationBaseClass::clipWave(double amp)
 {
     if (amp < .01)
     {
         amp = .01;
     }
-    
     
     for(int i = 0; i < sampleRate; i++)
         waveTable[i] = tanh(amp*waveTable[i])/tanh(amp);

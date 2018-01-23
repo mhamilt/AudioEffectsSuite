@@ -20,6 +20,7 @@
 #include "../../../../FilterEffects/SimpleLPF.cpp"
 #include "../../../../FilterEffects/EnvelopeFilter.cpp"
 
+#include "/Users/admin/Documents/GitHub/moog-filter-plugin/recent/NonLinearJoeyMoogSC.cpp"
 
 int main(int argc, const char * argv[])
 {
@@ -44,10 +45,10 @@ int main(int argc, const char * argv[])
     const char ofile[] = "/Users/admin/Downloads/MtoS_delayed.wav";
     //==============================================================================
     AudioWavFileReadWrite audioReadWriter;
-    int numOfFrames = 44100, sampleRate = 44100;
+    int numOfFrames = 44100*.25, sampleRate = 44100;
     
-//    double** stereoIn = audioReadWriter.whiteNoise(numOfFrames, sampleRate);;
-        double** stereoIn = audioReadWriter.readStereoWav(ifile, &numOfFrames, &sampleRate);
+    double** stereoIn = audioReadWriter.whiteNoise(numOfFrames, sampleRate);;
+//        double** stereoIn = audioReadWriter.readStereoWav(ifile, &numOfFrames, &sampleRate);
     //    double* audioData = audioReadWriter.readWav(ifile, &numOfFrames, &sampleRate);
     
     double** stereoOut = new double*[2];
@@ -56,18 +57,31 @@ int main(int argc, const char * argv[])
     //==============================================================================
     // // Sample Rate Dependant Effects
     SimpleChorus chorusLeft(sampleRate), chorusRight(sampleRate);
+    JoeyNonLinearMoogSC MoogVCFLeft(sampleRate),MoogVCFRight(sampleRate);
+    ModulationBaseClass waveTableLeft(sampleRate),  waveTableRight(sampleRate);
     
+    ModulationBaseClass ampMod(sampleRate);
     //==============================================================================
     // // Change Parameters
+    waveTableLeft.setSine();
+    waveTableRight.setSine();
+    ampMod.setRamp();
     
+    waveTableLeft.clipWave(5);
+//    ampMod.clipWave(3);
     //==============================================================================
     //    const double radPerSec = 2*3.1415926536/double(sampleRate);
     //==============================================================================
 //    for (int i = 0; i<20;i++)
     for (int i = 0; i<numOfFrames;i++)
     {
-        stereoOut[0][i] = chorusLeft.process(stereoIn[0][i]);
-        stereoOut[1][i] = chorusRight.process(stereoIn[1][i]);
+//        const double amp = ampMod.readTable(1.9);
+//        const double amp = (tanh(ampMod.readTable(125.9))+1)*.5;
+        const double sweep = ampMod.readTable(1.2);
+        const double flux = i/double(numOfFrames);
+        
+//        stereoOut[0][i] = waveTableLeft.readTable(2525);
+//        stereoOut[1][i] = waveTableRight.readTable(2475);
     }
     
     //==============================================================================
