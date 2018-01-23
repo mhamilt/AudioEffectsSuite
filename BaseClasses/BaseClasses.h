@@ -7,6 +7,6 @@
 //
 //
 
-#include "DelayEffectBase.cpp"
-#include "FilterEffectBase.cpp"
-#include "ModulationBaseClass.cpp"
+#include "DelayEffectBase.hpp"
+#include "FilterEffectBase.hpp"
+#include "ModulationBaseClass.hpp"

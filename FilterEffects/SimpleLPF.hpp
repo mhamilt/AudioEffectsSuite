@@ -11,7 +11,7 @@
 
 #include <iostream>
 #include <cmath>
-#include "../BaseClasses/FilterEffectBase.cpp"
+#include "../BaseClasses/FilterEffectBase.hpp"
 
 /** Class for applying a FIR lowpass filter
 	

@@ -10,8 +10,9 @@
 #define EnvelopeFilter_hpp
 
 #include <cmath>
-#include "../BaseClasses/DelayEffectBase.cpp"
-#include "../BaseClasses/FilterEffectBase.cpp"
+#include "../BaseClasses/DelayEffectBase.hpp"
+#include "../BaseClasses/FilterEffectBase.hpp"
+#include "../FilterEffects/SimpleLPF.hpp"
 
 class EnvelopeFilter : public FilterEffectBase
 {

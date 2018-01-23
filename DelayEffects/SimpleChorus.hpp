@@ -9,10 +9,10 @@
 #ifndef SimpleChorus_hpp
 #define SimpleChorus_hpp
 
-#include "../BaseClasses/DelayEffectBase.cpp"
+#include "../BaseClasses/DelayEffectBase.hpp"
 //#include "../BaseClasses/FilterEffectBase.cpp"
-#include "../FilterEffects/SimpleLPF.cpp"
-#include "../BaseClasses/ModulationBaseClass.cpp"
+#include "../FilterEffects/SimpleLPF.hpp"
+#include "../BaseClasses/ModulationBaseClass.hpp"
 
 
 /** Simple Chorus effect with a single delay voice and mono output

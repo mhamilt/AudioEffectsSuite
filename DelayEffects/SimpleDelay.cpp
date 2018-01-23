@@ -5,7 +5,9 @@
 //  Created by admin on 18/12/2017.
 //  Copyright © 2017 AudioEffectsSuiteTeam. All rights reserved.
 //
-#ifndef SimpleDelay_hpp
+#ifndef SimpleDelay_cpp
+#define SimpleDelay_cpp
+
 #include "SimpleDelay.hpp"
 
 //==============================================================================

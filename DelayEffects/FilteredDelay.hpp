@@ -11,8 +11,8 @@
 
 #include <iostream>
 #include <cmath>
-#include "../BaseClasses/DelayEffectBase.cpp"
-#include "../BaseClasses/FilterEffectBase.cpp"
+#include "../BaseClasses/DelayEffectBase.hpp"
+#include "../BaseClasses/FilterEffectBase.hpp"
 
 /** Delay effect that filters the repeat delay */
 class FilteredDelay: public DelayEffectBase,

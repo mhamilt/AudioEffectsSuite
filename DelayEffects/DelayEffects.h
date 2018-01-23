@@ -1,4 +1,4 @@
-#include "SimpleDelay.cpp"
-#include "SimpleChorus.cpp"
-#include "SimpleFlanger.cpp"
-#include "FilteredDelay.cpp"
+#include "SimpleDelay.hpp"
+#include "SimpleChorus.hpp"
+#include "SimpleFlanger.hpp"
+#include "FilteredDelay.hpp"

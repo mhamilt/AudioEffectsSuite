@@ -13,17 +13,18 @@
 
 
 //==============================================================================
-Plugin_testAudioProcessor::Plugin_testAudioProcessor()
+Plugin_testAudioProcessor::Plugin_testAudioProcessor() :
 #ifndef JucePlugin_PreferredChannelConfigurations
-     : AudioProcessor (BusesProperties()
+      AudioProcessor (BusesProperties()
                      #if ! JucePlugin_IsMidiEffect
                       #if ! JucePlugin_IsSynth
                        .withInput  ("Input",  AudioChannelSet::stereo(), true)
                       #endif
                        .withOutput ("Output", AudioChannelSet::stereo(), true)
                      #endif
-                       )
+                       ),
 #endif
+      ampTremolo(getSampleRate())
 {
 }
 
@@ -147,11 +148,19 @@ void Plugin_testAudioProcessor::processBlock (AudioSampleBuffer& buffer, MidiBuf
 
     // This is the place where you'd normally do the guts of your plugin's
     // audio processing...
-    for (int channel = 0; channel < totalNumInputChannels; ++channel)
+    const float* inputData  = buffer.getReadPointer (0);
+    float* const outputData = buffer.getWritePointer (0);
+    for (int samp = 0; samp < buffer.getNumSamples(); samp++) {
+        outputData[samp] = ampTremolo.readTable(1)*inputData[samp];
+    }
+    
+    for (int channel = 1; channel < totalNumOutputChannels; ++channel)
     {
         float* channelData = buffer.getWritePointer (channel);
-
-        // ..do something to the data...
+        
+        for (int samp = 0; samp < buffer.getNumSamples(); samp++) {
+            channelData[i]
+        }
     }
 }
 

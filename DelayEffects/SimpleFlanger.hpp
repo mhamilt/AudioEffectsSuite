@@ -11,7 +11,7 @@
 
 #include <iostream>
 #include <cmath>
-#include "../BaseClasses/DelayEffectBase.cpp"
+#include "../BaseClasses/DelayEffectBase.hpp"
 
 class SimpleFlanger;
 //==============================================================================

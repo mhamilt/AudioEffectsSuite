@@ -11,7 +11,9 @@
 #pragma once
 
 #include "../JuceLibraryCode/JuceHeader.h"
-
+#include "../../../../BaseClasses/BaseClasses.h"
+#include "../../../../DelayEffects/DelayEffects.h"
+#include "../../../../FilterEffects/FilterEffects.h"
 
 //==============================================================================
 /**
@@ -22,7 +24,7 @@ public:
     //==============================================================================
     Plugin_testAudioProcessor();
     ~Plugin_testAudioProcessor();
-
+    
     //==============================================================================
     void prepareToPlay (double sampleRate, int samplesPerBlock) override;
     void releaseResources() override;
@@ -58,5 +60,8 @@ public:
 
 private:
     //==============================================================================
+    ModulationBaseClass ampTremolo;
+    
+    
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (Plugin_testAudioProcessor)
 };

@@ -1,2 +1,2 @@
-#include "EnvelopeFilter.cpp"
-#include "SimpleLPF.cpp"
+#include "EnvelopeFilter.hpp"
+#include "SimpleLPF.hpp"
