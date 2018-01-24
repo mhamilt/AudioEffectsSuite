@@ -9,8 +9,9 @@
 #define ModulationBaseClass_cpp
 
 #include "ModulationBaseClass.hpp"
-void ModulationBaseClass::setup(double extSampRate)
+void ModulationBaseClass::setupModulationBaseClass(double extSampRate)
 {
+    delete [] waveTable;
     sampleRate = extSampRate;
     timeStep = 1./extSampRate;
     allocateMemory();
@@ -19,14 +20,20 @@ void ModulationBaseClass::setup(double extSampRate)
 //==============================================================================
 double ModulationBaseClass::readTable(double freq)
 {
-    //    const double out = getInterpOut(tableIndex);
-    const double out = getSplineOut(tableIndex, int(freq));
-    tableIndex += freq;
-    if (tableIndex-sampleRate > 0) {
-        tableIndex -= sampleRate;
+    if (freq > 0)
+    {
+        //    const double out = getInterpOut(tableIndex);
+        const double out = getSplineOut(tableIndex, int(freq));
+        tableIndex += freq;
+        if (tableIndex-sampleRate > 0)
+            tableIndex -= sampleRate;
+        
+        return out;
     }
-    
-    return out;
+    else
+    {
+        return 0.;
+    }
 }
 //==============================================================================
 bool ModulationBaseClass::allocateMemory()
@@ -167,7 +174,7 @@ void ModulationBaseClass::setSawtooth()
     const double radPerSec = 2*3.1415926536*timeStep;
     for(int i = 0; i < sampleRate; i++)
     {
-        for (int j = 1; j <35; j+=1)
+        for (int j = 1; j <11; j+=1)
             waveTable[i] += pow(-1,j)*sin(j*radPerSec*i)/double(j);
     }
 }

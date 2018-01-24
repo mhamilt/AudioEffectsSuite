@@ -8,6 +8,28 @@
 #ifndef SimpleChorus_hpp
 #include "SimpleChorus.hpp"
 
+void SimpleChorus::setSwing(double swingAmount)
+{
+    swing = swingAmount*sampleRate;
+}
+
+void SimpleChorus::setBase(double baseAmount)
+{
+    base = baseAmount*sampleRate;
+}
+
+void SimpleChorus::setupChorus(double extSampleRate)
+{
+    setupModulationBaseClass(extSampleRate);
+    setupDelayEffectBase(double(extSampleRate)*.04);
+    //    SimpleLPF(0.0004,4)
+    
+    swing = 0.005*extSampleRate;
+    base = 0.01*extSampleRate;
+    delete [] waveTable;
+    setRandLfo();
+}
+
 //==============================================================================
 double SimpleChorus::process(double inputSample)
 {
@@ -53,19 +75,11 @@ void SimpleChorus::setRandLfo()
         const int fadeIndex = ((sampleRate-fadeSize/2)+i)%sampleRate;
         waveTable[fadeIndex] *= (1+cos(fadeSpeed*i))*.5;
     }
-    
-    std::cout << modMin << '\t';
-    std::cout << modMax << '\t';
-    std::cout << modNorm << '\n';
-    
-    std::cout << base << '\t';
-    std::cout << swing << '\n';
-    
 }
 //==============================================================================
 double SimpleChorus::getModSignal()
 {
-    return (readTable(.15)*swing) + base;
+    return (readTable(2)*swing) + base;
 }
 
 

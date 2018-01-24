@@ -11,6 +11,13 @@
 
 #include "DelayEffectBase.hpp"
 
+void DelayEffectBase::setupDelayEffectBase(double extSampleRate)
+{
+    const int bufferSizeSamples = int(extSampleRate);
+    delete [] delayBuffer;
+    error = setDelayBuffer(bufferSizeSamples);
+    delayTimeSamples = bufferSizeSamples;
+}
 //==============================================================================
 double** DelayEffectBase::setInterpolationTable()
 {
@@ -123,7 +130,8 @@ void DelayEffectBase::storeSample(double inputSample)
 void DelayEffectBase::incDelayBuffWriteIndex()
 {
 	currentDelayWriteIndex++;
-	if(currentDelayWriteIndex>=delayTimeSamples){currentDelayWriteIndex=0;}
+    currentDelayWriteIndex %= delayTimeSamples;
+//	if(currentDelayWriteIndex>=delayTimeSamples){currentDelayWriteIndex=0;}
 }
 
 void DelayEffectBase::incDelayBuffReadIndex(double indexInc)

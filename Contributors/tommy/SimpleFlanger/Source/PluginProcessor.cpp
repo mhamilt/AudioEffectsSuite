@@ -98,6 +98,9 @@ void SimpleFlangerAudioProcessor::prepareToPlay (double sampleRate, int samplesP
 {
     // Use this method as the place to do any pre-playback
     // initialisation that you need..
+    
+    flanger.setupSimpleFlanger(sampleRate);
+
 }
 
 void SimpleFlangerAudioProcessor::releaseResources()
@@ -147,15 +150,14 @@ void SimpleFlangerAudioProcessor::processBlock (AudioSampleBuffer& buffer, MidiB
 
     // This is the place where you'd normally do the guts of your plugin's
     // audio processing...
-    for (int channel = 0; channel < totalNumInputChannels; ++channel)
-    {
-        float* channelData = buffer.getWritePointer (channel);
-
-        for(long sample = 0; sample < buffer.getNumSamples(); ++sample)
-        {
-            channelData[sample] = this->flanger.process(channelData[sample]);
-        }
-    }
+    const float* inputData  = buffer.getReadPointer (0);
+    float* const outputData = buffer.getWritePointer (0);
+    
+    for (int samp = 0; samp < buffer.getNumSamples(); samp++)
+        outputData[samp] = flanger.process(inputData[samp]);
+    
+    for (int channel = 1; channel < totalNumOutputChannels; ++channel)
+        buffer.copyFrom(channel, 0, outputData, buffer.getNumSamples());
 }
 
 //==============================================================================
@@ -185,7 +187,7 @@ void SimpleFlangerAudioProcessor::setStateInformation (const void* data, int siz
 
 void SimpleFlangerAudioProcessor::setParams(double depth, double rate)
 {
-    this->flanger.setEffectParams(.707, depth, rate);
+//    this->flanger.setEffectParams(.707, depth, rate);
 }
 
 //==============================================================================

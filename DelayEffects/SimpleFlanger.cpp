@@ -7,25 +7,28 @@
 //
 #ifndef SimpleFlanger_hpp
 #include "SimpleFlanger.hpp"
+void SimpleFlanger::setupSimpleFlanger(double extSampleRate)
+{
+    setupDelayEffectBase(extSampleRate*.02);
+    timeStep = 1./extSampleRate;
+    setEffectParams(.707, extSampleRate*.02, .1);
+}
 //==============================================================================
 
 double SimpleFlanger::process(double inputSample)
 {
 	delaySample(inputSample);
-	const double out = (inputSample)+(getInterpolatedOut(modulationIndex));
+	const double out = ((1-fabs(effectGain*.2))*(inputSample) + (effectGain * getInterpolatedOut(modulationIndex)));
 	updateModulation();
 	return out;
 }
 //==============================================================================
-// possibly add clipping of mudulation via tan or similar
-// offset with
-// tanh(sin(x))+tanh(1);
-// (tanh(amp*sin(x))/(tanh(amp)) + 1)*.5 // tanh(1) is constant // amp controls level of clipping
-void SimpleFlanger::updateModulation()
+void SimpleFlanger::updateModulation() //TODO: swap for usage of ModulationBaseClassInheritance
 {
-	modulationAngle+= angleDelta;
-	modulationIndex = currentDelayWriteIndex-(modulationDepth*(1+(sin(modulationAngle))));
-	return;
+	modulationAngle += angleDelta;
+	modulationIndex = (currentDelayWriteIndex-(modulationDepth*(1+(sin(modulationAngle))))) - 1;
+    modulationIndex = ( (int(modulationIndex) + delayTimeSamples) % delayTimeSamples)
+                      + (modulationIndex - floor(modulationIndex) );
 }
 //==============================================================================
 
@@ -55,7 +58,12 @@ void SimpleFlanger::setAngleDelta()
 
 void SimpleFlanger::setEffectParams(double gain, double depth, double rate)
 {
-	modulationDepth = depth*.5;
+    effectGain = gain;
+    modulationDepth = depth*.5;
+    
+    if (modulationDepth > double(delayTimeSamples))
+        modulationDepth = double(delayTimeSamples);
+    
 	modulationRate  = rate;
 	setAngleDelta();
 }

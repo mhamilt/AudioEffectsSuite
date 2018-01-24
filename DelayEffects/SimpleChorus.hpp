@@ -10,7 +10,6 @@
 #define SimpleChorus_hpp
 
 #include "../BaseClasses/DelayEffectBase.hpp"
-//#include "../BaseClasses/FilterEffectBase.cpp"
 #include "../FilterEffects/SimpleLPF.hpp"
 #include "../BaseClasses/ModulationBaseClass.hpp"
 
@@ -30,13 +29,17 @@ public:
      
      @params sampRate	The sample rate of incoming audio.
      */
-    SimpleChorus(int sampRate) : ModulationBaseClass(sampRate),
-                                 DelayEffectBase(double(sampRate)*.031),
-                                 SimpleLPF(0.0004,4)
+    SimpleChorus() : SimpleLPF(0.0004,4)
     {
-        swing = 0.005*sampRate;
-        base = 0.015*sampRate;
-        setRandLfo();
+    }
+    SimpleChorus(int extSampleRate) : ModulationBaseClass(extSampleRate),
+                                      DelayEffectBase(double(extSampleRate)*.031),
+                                      SimpleLPF(0.0004,4)
+    {
+        swing = 0.005*sampleRate;
+        base = 0.015*sampleRate;
+        if (sampleRate != 0)
+            setRandLfo();
     }
 	//==============================================================================
     /**
@@ -46,6 +49,29 @@ public:
      @return processed audio sample
      */
     double process(double inputSample);
+    
+    /**
+     set parameters and internal sample rate
+
+     @param extSampleRate external sample rate
+     */
+    void setupChorus(double extSampleRate);
+    
+    /**
+     set the 'swing' of the chorus: The amount intensity of vibrato in the delay
+     signal
+
+     @param swingAmount <#swingAmount description#>
+     */
+    void setSwing(double swingAmount);
+    
+    
+    /**
+     sets the 'base' of the chorus: the minimum delay in the signal.
+
+     @param baseAmount <#baseAmount description#>
+     */
+    void setBase(double baseAmount);
 private:
     //==============================================================================
 	/** swing range of delayed audio index in samples

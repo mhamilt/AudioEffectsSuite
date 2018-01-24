@@ -33,7 +33,7 @@ public: // Methods
 		
 		@see DelayEffectBase constructor
 	 */
-	SimpleDelay(int delayInSamples) : DelayEffectBase(44100){delayTimeSamples=delayInSamples;};
+	SimpleDelay(int delayInSamples, double extSampleRate) : DelayEffectBase(44100){delayTimeSamples=delayInSamples;};
 	
 	/** Destructor. */
 	~SimpleDelay(){};
@@ -62,6 +62,7 @@ public: // Methods
 	/**apply the DSP effect*/
 	double process(double inputSample) override;
 	
+    void setupSimpleDelay(int delayInSamples, double extSampleRate);
 private: //Methods
 	/** capGain: caps gain to a range of 1 and -1;
 	*	@param gain address of gain value

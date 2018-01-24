@@ -17,7 +17,8 @@
 //==============================================================================
 /**
 */
-class Plugin_testAudioProcessorEditor  : public AudioProcessorEditor
+class Plugin_testAudioProcessorEditor  : public AudioProcessorEditor,
+                                         private Slider::Listener
 {
 public:
     Plugin_testAudioProcessorEditor (Plugin_testAudioProcessor&);
@@ -28,9 +29,13 @@ public:
     void resized() override;
 
 private:
+    //==============================================================================
+    void sliderValueChanged (Slider* slider) override;
+    
     // This reference is provided as a quick way for your editor to
     // access the processor object that created it.
     Plugin_testAudioProcessor& processor;
-
+    
+    Slider tremoloRate, gain;
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (Plugin_testAudioProcessorEditor)
 };

@@ -26,6 +26,8 @@ class DelayEffectBase
 public: // Methods
 	//==============================================================================
 	/** Constructor. */
+    DelayEffectBase(){};
+    
 	DelayEffectBase(int bufferSizeSamples)
 	{
 		error = setDelayBuffer(bufferSizeSamples);
@@ -44,6 +46,12 @@ public:
 	 */
 	virtual double process(double inputSample) = 0;
 
+    /**
+     setupDelayEffectBase
+
+     @param extSampleRate <#extSampleRate description#>
+     */
+    void setupDelayEffectBase(double extSampleRate);
 private:	//Methods
 	//==============================================================================
 	/** Sets the internal lagrange interpolation table. Ideally it should be shared

@@ -13,7 +13,9 @@
 
 
 //==============================================================================
-Plugin_testAudioProcessor::Plugin_testAudioProcessor() : ampTremolo(getSampleRate()),
+Plugin_testAudioProcessor::Plugin_testAudioProcessor() : //ampTremolo(getSampleRate()),
+                                                         //chorusEffect(getSampleRate()),
+//                                                         delayEffect(4000,getSampleRate()),
 #ifndef JucePlugin_PreferredChannelConfigurations
       AudioProcessor (BusesProperties()
                      #if ! JucePlugin_IsMidiEffect
@@ -97,10 +99,14 @@ void Plugin_testAudioProcessor::changeProgramName (int index, const String& newN
 //==============================================================================
 void Plugin_testAudioProcessor::prepareToPlay (double sampleRate, int samplesPerBlock)
 {
-    ampTremolo.setup(getSampleRate());
-    ampTremolo.setOffSine();
-    // Use this method as the place to do any pre-playback
-    // initialisation that you need..
+//    ampTremolo.setupModulationBaseClass(sampleRate);
+//    ampTremolo.setSquare();
+//    
+    //chorusEffect.setupChorus(sampleRate);
+    
+//
+//    delayEffect.setupSimpleDelay(4000, sampleRate);
+    flangerEffect.setupSimpleFlanger(sampleRate);
 }
 
 void Plugin_testAudioProcessor::releaseResources()
@@ -154,7 +160,7 @@ void Plugin_testAudioProcessor::processBlock (AudioSampleBuffer& buffer, MidiBuf
     float* const outputData = buffer.getWritePointer (0);
     
     for (int samp = 0; samp < buffer.getNumSamples(); samp++)
-        outputData[samp] = inputData[samp]*ampTremolo.readTable(3);
+        outputData[samp] = flangerEffect.process(inputData[samp])*gain;
     
     for (int channel = 1; channel < totalNumOutputChannels; ++channel)
         buffer.copyFrom(channel, 0, outputData, buffer.getNumSamples());

@@ -42,8 +42,8 @@ int main(int argc, const char * argv[])
     AudioWavFileReadWrite audioReadWriter;
     int numOfFrames = 44100*.25, sampleRate = 44100;
     
-    double** stereoIn = audioReadWriter.whiteNoise(numOfFrames, sampleRate);;
-//        double** stereoIn = audioReadWriter.readStereoWav(ifile, &numOfFrames, &sampleRate);
+//    double** stereoIn = audioReadWriter.whiteNoise(numOfFrames, sampleRate);;
+        double** stereoIn = audioReadWriter.readStereoWav(ifile, &numOfFrames, &sampleRate);
     //    double* audioData = audioReadWriter.readWav(ifile, &numOfFrames, &sampleRate);
     
     double** stereoOut = new double*[2];
@@ -51,32 +51,20 @@ int main(int argc, const char * argv[])
     stereoOut[1] = new double[numOfFrames];
     //==============================================================================
     // // Sample Rate Dependant Effects
-    SimpleChorus chorusLeft(sampleRate), chorusRight(sampleRate);
-    JoeyNonLinearMoogSC MoogVCFLeft(sampleRate),MoogVCFRight(sampleRate);
-    ModulationBaseClass waveTableLeft(sampleRate),  waveTableRight(sampleRate);
-    
-    ModulationBaseClass ampMod(sampleRate);
+    SimpleFlanger flangeLeft, flangeRight;
     //==============================================================================
     // // Change Parameters
-    waveTableLeft.setSine();
-    waveTableRight.setSine();
-    ampMod.setRamp();
-    
-    waveTableLeft.clipWave(5);
-//    ampMod.clipWave(3);
+    flangeLeft.setupSimpleFlanger(sampleRate);
+    flangeRight.setupSimpleFlanger(sampleRate);
+
     //==============================================================================
     //    const double radPerSec = 2*3.1415926536/double(sampleRate);
     //==============================================================================
 //    for (int i = 0; i<20;i++)
     for (int i = 0; i<numOfFrames;i++)
     {
-//        const double amp = ampMod.readTable(1.9);
-//        const double amp = (tanh(ampMod.readTable(125.9))+1)*.5;
-//        const double sweep = ampMod.readTable(1.2);
-//        const double flux = i/double(numOfFrames);
-        
-        stereoOut[0][i] = waveTableLeft.readTable(2525);
-        stereoOut[1][i] = waveTableRight.readTable(2475);
+        stereoOut[0][i] = flangeLeft.process(stereoIn[0][i]) ;
+        stereoOut[1][i] = flangeRight.process(stereoIn[1][i]) ;
     }
     
     //==============================================================================

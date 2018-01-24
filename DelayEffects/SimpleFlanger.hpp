@@ -32,7 +32,8 @@ public: // Methods
 		
 		@see DelayEffectBase constructor
 	 */
-	SimpleFlanger() : DelayEffectBase(int(44100*0.02)){};
+    SimpleFlanger(){}
+	SimpleFlanger(double extSampleRate) : DelayEffectBase(int(extSampleRate*0.02)){};
 	
 	/** Destructor. */
 	~SimpleFlanger(){};
@@ -55,6 +56,7 @@ public: // Methods
 	/**Apply the DSP effect*/
 	double process(double inputSample) override;
 	
+    void setupSimpleFlanger(double extSampleRate);
 private: //Methods
 	/** capGain: caps gain to a range of 1 and -1;
 	 *	@param gain address of gain value
@@ -76,7 +78,7 @@ private: //member vairables
 	constexpr static const double internal_Pi = 3.141592653589793;
 	
 	/***/
-	double modulationDepth = 0, modulationRate = 0, effectGain = .707;
+	double modulationDepth = 1000, modulationRate = 0, effectGain = .01;
 	
 	//	M1 = M01*(1+sin(2*pi*f1.*n/FS))
 	/***/

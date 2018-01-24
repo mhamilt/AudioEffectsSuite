@@ -24,6 +24,10 @@ class ModulationBaseClass {
 public:
     //==============================================================================
     /** Constructor */
+    ModulationBaseClass()
+    {
+    srand (static_cast <unsigned> (time(0)));
+    };
     ModulationBaseClass(double extSampRate)
     {
         sampleRate = extSampRate;
@@ -41,7 +45,7 @@ public:
 
      @param extSampRate External sample rate
      */
-    void setup(double extSampRate);
+    void setupModulationBaseClass(double extSampRate);
     
     /**
      sets wavetable to one period of a triangle wave
@@ -79,7 +83,7 @@ public:
      clip wave table values with a tanh function. Effect change with a variable
      amp to control intensity.
      
-     @param amp <#amp description#>
+     @param amp amount to multiply signal before being fed through a tanh function
      */
     void clipWave(double amp);
     //==============================================================================

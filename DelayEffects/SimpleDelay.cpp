@@ -10,6 +10,12 @@
 
 #include "SimpleDelay.hpp"
 
+void SimpleDelay::setupSimpleDelay(int delayInSamples, double extSampleRate)
+{
+    setupDelayEffectBase(extSampleRate);
+    delayTimeSamples = delayInSamples;
+}
+
 //==============================================================================
 
 double SimpleDelay::process(double inputSample)

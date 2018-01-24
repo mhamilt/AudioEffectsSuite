@@ -12,9 +12,8 @@
 
 #include "../JuceLibraryCode/JuceHeader.h"
 #include "../../../../BaseClasses/BaseClasses.h"
-//#include "../../../../DelayEffects/DelayEffects.h"
-//#include "../../../../FilterEffects/FilterEffects.h"
-
+#include "../../../../DelayEffects/DelayEffects.h"
+#include "../../../../FilterEffects/FilterEffects.h"
 //==============================================================================
 /**
 */
@@ -58,10 +57,16 @@ public:
     void getStateInformation (MemoryBlock& destData) override;
     void setStateInformation (const void* data, int sizeInBytes) override;
 
+    
 private:
     //==============================================================================
-    ModulationBaseClass ampTremolo;
-    
+//    ModulationBaseClass ampTremolo;
+//    SimpleChorus chorusEffect;
+//    SimpleDelay delayEffect;
+      SimpleFlanger flangerEffect;
+public:
+    double tremRate = 0; // rate of tremolo in Hz [changed by slider]
+    double gain     = 0; // gain of signal
     
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (Plugin_testAudioProcessor)
 };

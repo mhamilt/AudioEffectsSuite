@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<JUCERPROJECT id="V364Uo" name="SimpleFlanger" displaySplashScreen="0" reportAppUsage="0"
+<JUCERPROJECT id="V364Uo" name="SimpleFlanger" displaySplashScreen="1" reportAppUsage="1"
               splashScreenColour="Dark" projectType="audioplug" version="1.0.0"
               bundleIdentifier="com.yourcompany.SimpleFlanger" includeBinaryInAppConfig="1"
               cppLanguageStandard="11" companyCopyright="" buildVST="1" buildVST3="0"
