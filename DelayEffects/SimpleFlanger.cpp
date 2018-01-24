@@ -32,7 +32,7 @@ void SimpleFlanger::updateModulation() //TODO: swap for usage of ModulationBaseC
 }
 //==============================================================================
 
-void SimpleFlanger::capGain(double& gain)
+double SimpleFlanger::capGain(double gain)
 {
 	if (gain > 1.)
 	{
@@ -42,30 +42,41 @@ void SimpleFlanger::capGain(double& gain)
 	{
 		gain = -1.;
 	}
-	return;
+	return gain;
 }
 
 //==============================================================================
-void SimpleFlanger::setEffectGain(double gain)
+void SimpleFlanger::setEffectGain(const double gain)
 {
+    effectGain = capGain(gain);
 }
 
+
+void SimpleFlanger::setDepth(const double depth)
+{
+    if (depth > double(delayTimeSamples))
+        modulationDepth = double(delayTimeSamples)-1;
+    else
+        modulationDepth = depth;
+}
+
+void SimpleFlanger::setRate(const double rate)
+{
+    modulationRate = rate;
+    setAngleDelta();
+}
+//==============================================================================
 void SimpleFlanger::setAngleDelta()
 {
 	const double cyclesPerSample = modulationRate * timeStep;
 	angleDelta = cyclesPerSample * 2.0 * internal_Pi;
 }
 
-void SimpleFlanger::setEffectParams(double gain, double depth, double rate)
+void SimpleFlanger::setEffectParams(const double gain, const double depth, const double rate)
 {
-    effectGain = gain;
-    modulationDepth = depth*.5;
-    
-    if (modulationDepth > double(delayTimeSamples))
-        modulationDepth = double(delayTimeSamples);
-    
-	modulationRate  = rate;
-	setAngleDelta();
+    setEffectGain(gain);
+    setDepth(depth);
+    setRate(rate);
 }
 
 #endif /* SimpleFlanger_hpp */

@@ -44,14 +44,28 @@ public: // Methods
 	 are capped to the maximum to avoid idiocy.
 	 Negative velus invoke a phase inversion.
 	 */
-	virtual void setEffectGain(double gain);
+	void setEffectGain(double gain);
+    
+    /**
+     <#Description#>
+
+     @param depth <#depth description#>
+     */
+    void setDepth(const double depth);
+    
+    /**
+     <#Description#>
+
+     @param rate <#rate description#>
+     */
+    void setRate(const double rate);
 	
 	/** setEffectGain: sets the parameters for effect
 		@param	gain	effect gain
 		@param	depth	depth of modulation in samples
 		@param	rate	rate of modulation in Hz
 	 */
-	virtual void setEffectParams(double gain, double depth, double rate);
+	void setEffectParams(double gain, double depth, double rate);
 	//==============================================================================
 	/**Apply the DSP effect*/
 	double process(double inputSample) override;
@@ -61,14 +75,14 @@ private: //Methods
 	/** capGain: caps gain to a range of 1 and -1;
 	 *	@param gain address of gain value
 	 */
-	virtual void capGain(double& gain);
+	double capGain(double gain);
 	
 	/** setAngleDelta: sets the angleDelta for delay modulation*/
-	virtual void setAngleDelta();
+    void setAngleDelta();
 	
 	/** updateModulation: updates the modulationIndex by the correct
 		increment*/
-	virtual void updateModulation();
+	void updateModulation();
 	
 private: //member vairables
 	/** internal class declaration of pi

@@ -99,14 +99,8 @@ void Plugin_testAudioProcessor::changeProgramName (int index, const String& newN
 //==============================================================================
 void Plugin_testAudioProcessor::prepareToPlay (double sampleRate, int samplesPerBlock)
 {
-//    ampTremolo.setupModulationBaseClass(sampleRate);
-//    ampTremolo.setSquare();
-//    
-    //chorusEffect.setupChorus(sampleRate);
-    
-//
-//    delayEffect.setupSimpleDelay(4000, sampleRate);
     flangerEffect.setupSimpleFlanger(sampleRate);
+    flangerEffect.setEffectParams(1, sampleRate*.01, .4);
 }
 
 void Plugin_testAudioProcessor::releaseResources()

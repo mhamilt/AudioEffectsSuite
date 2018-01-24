@@ -60,11 +60,8 @@ public:
     
 private:
     //==============================================================================
-//    ModulationBaseClass ampTremolo;
-//    SimpleChorus chorusEffect;
-//    SimpleDelay delayEffect;
-      SimpleFlanger flangerEffect;
 public:
+    SimpleFlanger flangerEffect;
     double tremRate = 0; // rate of tremolo in Hz [changed by slider]
     double gain     = 0; // gain of signal
     
