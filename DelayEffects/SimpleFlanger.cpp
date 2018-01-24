@@ -7,6 +7,20 @@
 //
 #ifndef SimpleFlanger_hpp
 #include "SimpleFlanger.hpp"
+
+SimpleFlanger::SimpleFlanger()
+{
+}
+
+SimpleFlanger::SimpleFlanger(double extSampleRate) : DelayEffectBase(int(extSampleRate*0.02))
+{
+}
+
+/** Destructor. */
+SimpleFlanger::~SimpleFlanger()
+{
+}
+
 void SimpleFlanger::setupSimpleFlanger(double extSampleRate)
 {
     setupDelayEffectBase(extSampleRate*.02);

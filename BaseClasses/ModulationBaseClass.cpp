@@ -9,6 +9,25 @@
 #define ModulationBaseClass_cpp
 
 #include "ModulationBaseClass.hpp"
+
+ModulationBaseClass::ModulationBaseClass()
+{
+    srand (static_cast <unsigned> (time(0)));
+}
+
+ModulationBaseClass::ModulationBaseClass(double extSampRate)
+{
+    sampleRate = extSampRate;
+    timeStep = 1./extSampRate;
+    allocateMemory();
+    //                setInterpTable();
+    srand (static_cast <unsigned> (time(0)));
+}
+
+ModulationBaseClass::~ModulationBaseClass()
+{
+}
+
 void ModulationBaseClass::setupModulationBaseClass(double extSampRate)
 {
     delete [] waveTable;

@@ -26,17 +26,11 @@ class DelayEffectBase
 public: // Methods
 	//==============================================================================
 	/** Constructor. */
-    DelayEffectBase(){};
-    
-	DelayEffectBase(int bufferSizeSamples)
-	{
-		error = setDelayBuffer(bufferSizeSamples);
-		delayTimeSamples = bufferSizeSamples;
-	};
-	
-public:
+    DelayEffectBase();
+    DelayEffectBase(int bufferSizeSamples);
+
 	/** Destructor. */
-	~DelayEffectBase(){delete[] delayBuffer;};
+    ~DelayEffectBase();
 	
 	//==============================================================================
 	/** Main process block for applying audio effect
