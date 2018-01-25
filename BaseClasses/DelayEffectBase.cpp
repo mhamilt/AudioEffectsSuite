@@ -12,6 +12,23 @@
 #include "DelayEffectBase.hpp"
 
 void DelayEffectBase::setupDelayEffectBase(const int bufferSizeSamples)
+=======
+DelayEffectBase::DelayEffectBase()
+{
+}
+
+DelayEffectBase::DelayEffectBase(int bufferSizeSamples)
+{
+    error = setDelayBuffer(bufferSizeSamples);
+    delayTimeSamples = bufferSizeSamples;
+}
+
+DelayEffectBase::~DelayEffectBase()
+{
+    delete[] delayBuffer;
+}
+
+void DelayEffectBase::setupDelayEffectBase(double extSampleRate)
 {
 //    delete [] delayBuffer;
     error = setDelayBuffer(bufferSizeSamples);
