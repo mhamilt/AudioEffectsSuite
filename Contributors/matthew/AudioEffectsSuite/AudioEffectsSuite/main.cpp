@@ -56,7 +56,7 @@ int main(int argc, const char * argv[])
     SimpleFlanger flangeLeft, flangeRight;
     SimpleChorus chorusLeft, chorusRight;
     
-    const int maxVoiceNum = 10;
+    const int maxVoiceNum = 5;
     SimpleChorus** ptrChorusLeft = new SimpleChorus*[maxVoiceNum];
     SimpleChorus** ptrChorusRight = new SimpleChorus*[maxVoiceNum];
     for (int voice = 0; voice < maxVoiceNum; ++voice)
@@ -83,7 +83,7 @@ int main(int argc, const char * argv[])
 //    for (int i = 0; i<20;i++)
     for (int i = 0; i<numOfFrames;i++)
     {
-        stereoOut[0][i] = stereoIn[0][i];
+        stereoOut[0][i] = stereoIn[0][i]    ;
         stereoOut[1][i] = stereoIn[1][i];
         for (int voice = 0; voice < maxVoiceNum; ++voice)
         {
