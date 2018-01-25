@@ -24,12 +24,9 @@ class FilterEffectBase
 public:		// methods
 	//==========================================================================
 	/** Constructor. */
-	FilterEffectBase()
-    {
-        std::fill(rmsBuffer, rmsBuffer+rmsWindowSize, 0);
-    };
+    FilterEffectBase();
 	/** Destructor. */
-	~FilterEffectBase(){};
+    ~FilterEffectBase();
 	//==========================================================================
 	/** with the current filter coefficients this method filters a
 	 sample then stores it the sample Buffer and increments the index

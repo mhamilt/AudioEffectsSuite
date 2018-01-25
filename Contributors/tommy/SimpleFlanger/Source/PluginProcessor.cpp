@@ -100,7 +100,6 @@ void SimpleFlangerAudioProcessor::prepareToPlay (double sampleRate, int samplesP
     // initialisation that you need..
     
     flanger.setupSimpleFlanger(sampleRate);
-
 }
 
 void SimpleFlangerAudioProcessor::releaseResources()
@@ -146,18 +145,29 @@ void SimpleFlangerAudioProcessor::processBlock (AudioSampleBuffer& buffer, MidiB
     // when they first compile a plugin, but obviously you don't need to keep
     // this code if your algorithm always overwrites all the output channels.
     for (int i = totalNumInputChannels; i < totalNumOutputChannels; ++i)
+    {
         buffer.clear (i, 0, buffer.getNumSamples());
+    }
 
     // This is the place where you'd normally do the guts of your plugin's
     // audio processing...
-    const float* inputData  = buffer.getReadPointer (0);
-    float* const outputData = buffer.getWritePointer (0);
+    // TAR: I don't like the channel numbers being hardcoded...
+    const float* inputDataL = buffer.getReadPointer(0);
+    const float* inputDataR = buffer.getReadPointer(1);
+    float* const outputDataL = buffer.getWritePointer(0);
+    float* const outputDataR = buffer.getWritePointer(1);
     
     for (int samp = 0; samp < buffer.getNumSamples(); samp++)
-        outputData[samp] = flanger.process(inputData[samp]);
-    
-    for (int channel = 1; channel < totalNumOutputChannels; ++channel)
-        buffer.copyFrom(channel, 0, outputData, buffer.getNumSamples());
+    {
+        outputDataL[samp] = this->flanger.process(inputDataL[samp]);
+        outputDataR[samp] = this->flanger.process(inputDataR[samp]);
+    }
+
+//    // TAR: I think this just copies channel 1 to channel 2...
+//    for (int channel = 1; channel < totalNumOutputChannels; ++channel)
+//    {
+//        buffer.copyFrom(channel, 0, outputData, buffer.getNumSamples());
+//    }
 }
 
 //==============================================================================
@@ -187,7 +197,7 @@ void SimpleFlangerAudioProcessor::setStateInformation (const void* data, int siz
 
 void SimpleFlangerAudioProcessor::setParams(double depth, double rate)
 {
-//    this->flanger.setEffectParams(.707, depth, rate);
+    this->flanger.setEffectParams(.707, depth, rate);
 }
 
 //==============================================================================

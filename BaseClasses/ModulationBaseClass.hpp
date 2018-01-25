@@ -24,20 +24,10 @@ class ModulationBaseClass {
 public:
     //==============================================================================
     /** Constructor */
-    ModulationBaseClass()
-    {
-    srand (static_cast <unsigned> (time(0)));
-    };
-    ModulationBaseClass(double extSampRate)
-    {
-        sampleRate = extSampRate;
-        timeStep = 1./extSampRate;
-        allocateMemory();
-//                setInterpTable();
-        srand (static_cast <unsigned> (time(0)));
-    };
+    ModulationBaseClass();
+    ModulationBaseClass(double extSampRate);
     /** Destructor */
-    ~ModulationBaseClass(){};
+    ~ModulationBaseClass();
     //==============================================================================
     /**
      setup the class with a given sample rate. Basically reperforming the

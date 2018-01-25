@@ -8,6 +8,15 @@
 #ifndef FilterEffectBase_hpp
 #include "FilterEffectBase.hpp"
 
+FilterEffectBase::FilterEffectBase()
+{
+    std::fill(rmsBuffer, rmsBuffer+rmsWindowSize, 0);
+}
+
+FilterEffectBase::~FilterEffectBase()
+{
+    
+}
 
 //==============================================================================
 double FilterEffectBase::applyFilter(double sampVal)

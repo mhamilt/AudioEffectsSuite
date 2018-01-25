@@ -32,11 +32,11 @@ public: // Methods
 		
 		@see DelayEffectBase constructor
 	 */
-    SimpleFlanger(){}
-	SimpleFlanger(double extSampleRate) : DelayEffectBase(int(extSampleRate*0.02)){};
+    SimpleFlanger();
+    SimpleFlanger(double extSampleRate);
 	
 	/** Destructor. */
-	~SimpleFlanger(){};
+    ~SimpleFlanger();
 	
 	/** setEffectGain: sets the effect gain to a value between 1 and -1
 	 

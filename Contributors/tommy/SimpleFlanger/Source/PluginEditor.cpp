@@ -20,25 +20,25 @@ SimpleFlangerAudioProcessorEditor::SimpleFlangerAudioProcessorEditor (SimpleFlan
     // editor's size to whatever you need it to be.
     setSize (400, 300);
 
-    depthSlider.setSliderStyle (Slider::LinearVertical);
-    depthSlider.setRange(0.0, 750, 5);
-    depthSlider.setTextBoxStyle(Slider::TextBoxBelow, false, 100, 20);
-    depthSlider.setPopupDisplayEnabled (false, false, this);
-    depthSlider.setTextValueSuffix (" Depth");
-    depthSlider.setValue(100);
+    this->depthSlider.setSliderStyle (Slider::LinearVertical);
+    this->depthSlider.setRange(0.0, 750, 5);
+    this->depthSlider.setTextBoxStyle(Slider::TextBoxBelow, false, 100, 20);
+    this->depthSlider.setPopupDisplayEnabled (false, false, this);
+    this->depthSlider.setTextValueSuffix (" Depth");
+    this->depthSlider.setValue(100);
 
-    rateSlider.setSliderStyle (Slider::LinearVertical);
-    rateSlider.setRange(0.0, 10, .02);
-    rateSlider.setTextBoxStyle(Slider::TextBoxBelow, false, 100, 20);
-    rateSlider.setPopupDisplayEnabled (false, false, this);
-    rateSlider.setTextValueSuffix (" Rate (Hz)");
-    rateSlider.setValue(1.0);
+    this->rateSlider.setSliderStyle (Slider::LinearVertical);
+    this->rateSlider.setRange(0.0, 10, .02);
+    this->rateSlider.setTextBoxStyle(Slider::TextBoxBelow, false, 100, 20);
+    this->rateSlider.setPopupDisplayEnabled (false, false, this);
+    this->rateSlider.setTextValueSuffix (" Rate (Hz)");
+    this->rateSlider.setValue(1.0);
 
-    addAndMakeVisible(&depthSlider);
-    addAndMakeVisible(&rateSlider);
+    addAndMakeVisible(&this->depthSlider);
+    addAndMakeVisible(&this->rateSlider);
 
-    depthSlider.addListener(this);
-    rateSlider.addListener(this);
+    this->depthSlider.addListener(this);
+    this->rateSlider.addListener(this);
 }
 
 SimpleFlangerAudioProcessorEditor::~SimpleFlangerAudioProcessorEditor()
@@ -60,14 +60,14 @@ void SimpleFlangerAudioProcessorEditor::resized()
 {
     // This is generally where you'll want to lay out the positions of any
     // subcomponents in your editor..
-    depthSlider.setBounds(40, 30, 100, getHeight() - 60);
-    rateSlider.setBounds(getWidth() - 140, 30, 100, getHeight() - 60);
+    this->depthSlider.setBounds(40, 30, 100, getHeight() - 60);
+    this->rateSlider.setBounds(getWidth() - 140, 30, 100, getHeight() - 60);
 }
 
 void SimpleFlangerAudioProcessorEditor::sliderValueChanged (Slider* slider)
 {
-    double depth = depthSlider.getValue();
-    double rate = rateSlider.getValue();
+    double depth = this->depthSlider.getValue();
+    double rate = this->rateSlider.getValue();
 
-    processor.setParams(depth, rate);
+    this->processor.setParams(depth, rate);
 }
