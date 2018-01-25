@@ -31,10 +31,6 @@ public: // Methods
 
 	/** Destructor. */
 	~DelayEffectBase()
-    {
-        delete[] delayBuffer;
-    };
-=======
     ~DelayEffectBase();
 	
 	//==============================================================================
