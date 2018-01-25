@@ -33,14 +33,11 @@ public: // Methods
 		
 		@see DelayEffectBase constructor
 	 */
-    SimpleDelay() {};
-	SimpleDelay(int delayInSamples, double extSampleRate) : DelayEffectBase(delayInSamples)
-    {
-        delayTimeSamples = delayInSamples;
-    };
+    SimpleDelay();
+    SimpleDelay(int delayInSamples);
 	
 	/** Destructor. */
-	~SimpleDelay(){};
+	~SimpleDelay();
 	
 	/** setDelayGain: sets the delay gain to a value between 1 and -1
 	 

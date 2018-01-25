@@ -9,6 +9,21 @@
 #define SimpleDelay_cpp
 
 #include "SimpleDelay.hpp"
+//==============================================================================
+
+SimpleDelay::SimpleDelay()
+{
+}
+
+SimpleDelay::SimpleDelay(int delayInSamples) : DelayEffectBase(delayInSamples)
+{
+    delayTimeSamples = delayInSamples;
+}
+
+SimpleDelay::~SimpleDelay()
+{
+}
+//==============================================================================
 
 void SimpleDelay::setupSimpleDelay(int delayInSamples)
 {

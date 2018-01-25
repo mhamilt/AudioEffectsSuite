@@ -63,7 +63,7 @@ void AudioWavFileReadWrite::writeWavSS(double **audioData, const char outputFile
     //	const double amp = 32000.0;
     const double amp = 32767.0; // absolute peak value of 16-bit PCM
     
-    for(int i=0;i<numberOfFrames;i++)
+    for(int i = 0; i < numberOfFrames; ++i)
     {
         sdata = (int16_t)(audioData[0][i]*amp);
         fwrite(&sdata, sizeof(int16_t), 1, file); //left channel
@@ -87,7 +87,10 @@ bool AudioWavFileReadWrite::checkHeader(waveFormatHeader fileHeader)
     {
         return false;
     }
-    else {return true;}
+    else
+    {
+        return true;
+    }
 }
 //==============================================================================
 
@@ -106,7 +109,7 @@ double* AudioWavFileReadWrite::readWav(const char *filename, int *sampsPerChan, 
     }
     
     const int totalSamples = wavReadFileHeader.subChunk2Size * 8 /(wavReadFileHeader.bitsPerSample);
-    *sampsPerChan	 = totalSamples/(wavReadFileHeader.numChannels);
+    *sampsPerChan = totalSamples/(wavReadFileHeader.numChannels);
     printf("Length: %d\tSamples: %d \n",totalSamples,*sampsPerChan);
     
     double *data = new double[*sampsPerChan];
@@ -127,9 +130,9 @@ bool AudioWavFileReadWrite::parseWavMonoFile(double* data, FILE *f)
     const int numberOfFrames = wavReadFileHeader.subChunk2Size * 8 /(wavReadFileHeader.bitsPerSample * wavReadFileHeader.numChannels);
     const int byteOffset = (4-byteNum);
     
-    for (int sample = 0; sample < numberOfFrames; sample++)
+    for (int sample = 0; sample < numberOfFrames; ++sample)
     {
-        for (int channel = 0; channel < wavReadFileHeader.numChannels; channel++)
+        for (int channel = 0; channel < wavReadFileHeader.numChannels; ++channel)
         {
             int32_t data_in_channel = 0;
             size_t readCheck = fread(buf, byteNum, 1, f);
@@ -143,7 +146,7 @@ bool AudioWavFileReadWrite::parseWavMonoFile(double* data, FILE *f)
                     }
                     else
                     {
-                        for(int k = 0; k < byteNum; k++)
+                        for(int k = 0; k < byteNum; ++k)
                         {
                             data_in_channel |= (buf[k] << (k+byteOffset)*8);
                         }
@@ -173,9 +176,9 @@ bool AudioWavFileReadWrite::parseWavFile(double** data, FILE *f)
     const int numberOfFrames = wavReadFileHeader.subChunk2Size * 8 /(wavReadFileHeader.bitsPerSample * wavReadFileHeader.numChannels);
     const int byteOffset = (4-byteNum);
     
-    for (int sample = 0; sample < numberOfFrames; sample++)
+    for (int sample = 0; sample < numberOfFrames; ++sample)
     {
-        for (int channel = 0; channel < wavReadFileHeader.numChannels; channel++)
+        for (int channel = 0; channel < wavReadFileHeader.numChannels; ++channel)
         {
             int32_t data_in_channel = 0;
             size_t readCheck = fread(buf, byteNum, 1, f);
@@ -187,7 +190,7 @@ bool AudioWavFileReadWrite::parseWavFile(double** data, FILE *f)
                 }
                 else
                 {
-                    for(int k = 0; k < byteNum; k++)
+                    for(int k = 0; k < byteNum; ++k)
                     {
                         data_in_channel |= (buf[k] << (k+byteOffset)*8);
                     }
@@ -312,15 +315,15 @@ void AudioWavFileReadWrite::normaliseBuffer(double *audioData, int numberOfFrame
     double temp;
     double maxy = 0.0; // Find max abs sample
     
-    for(int n=0;n<numberOfFrames;n++)
+    for(int n = 0; n < numberOfFrames; ++n)
     {
         if(fabs(audioData[n])>maxy) maxy = fabs(audioData[n]);
     }
     
     // Normalise
-    if(maxy>0.00001)
+    if(maxy > 0.00001)
     {
-        for(int n=0;n<numberOfFrames;n++)
+        for(int n = 0; n < numberOfFrames; ++n)
         {
             temp     = audioData[n];
             audioData[n] = temp/maxy;
@@ -328,14 +331,15 @@ void AudioWavFileReadWrite::normaliseBuffer(double *audioData, int numberOfFrame
     }
     
     // Smooth last 500 samples
-    if(numberOfFrames>501)
+    if(numberOfFrames > 501)
     {
         double inc  = 1.0/500.0;
         double ramp = 1.0;
-        for(int n=numberOfFrames-501;n<numberOfFrames;n++)
+        for(int n = numberOfFrames-501; n < numberOfFrames; ++n)
         {
             audioData[n] *= ramp;
-            if(ramp>0) ramp-=inc;
+            if(ramp>0)
+                ramp -= inc;
         }
     }
     
@@ -349,7 +353,7 @@ void AudioWavFileReadWrite::normaliseStereoBuffer(double *audioL, double *audioR
     double temp;
     double maxy = 0.0; // Find max abs sample
     
-    for(int n=0;n<numberOfFrames;n++)
+    for(int n = 0; n < numberOfFrames; ++n)
     {
         if(fabs(audioL[n])>maxy) maxy = fabs(audioL[n]);
         if(fabs(audioR[n])>maxy) maxy = fabs(audioR[n]);
@@ -357,9 +361,9 @@ void AudioWavFileReadWrite::normaliseStereoBuffer(double *audioL, double *audioR
     }
     
     // Normalise
-    if(maxy>0.00001)
+    if(maxy > 0.00001)
     {
-        for(int n=0;n<numberOfFrames;n++)
+        for(int n=0;n<numberOfFrames;++n)
         {
             temp      = audioL[n];
             audioL[n]  = temp/maxy;
@@ -373,7 +377,7 @@ void AudioWavFileReadWrite::normaliseStereoBuffer(double *audioL, double *audioR
     {
         double inc  = 1.0/500.0;
         double ramp = 1.0;
-        for(int n=numberOfFrames-501;n<numberOfFrames;n++)
+        for(int n=numberOfFrames-501;n<numberOfFrames;++n)
         {
             audioL[n] *= ramp;
             audioR[n] *= ramp;
@@ -401,7 +405,7 @@ void AudioWavFileReadWrite::writeWavMS(double* audio,const char outputFile[], in
     int16_t sdata;
     const double amp = 32000.0;
     
-    for(int i=0;i<numberOfFrames;i++)
+    for(int i=0;i<numberOfFrames;++i)
     {
         sdata = (int16_t)(audio[i]*amp);  //set sdata to PCM 16-bit
         fwrite(&sdata, sizeof(int16_t), 1, file);
