@@ -11,7 +11,10 @@
 #include "ModulationBaseClass.hpp"
 void ModulationBaseClass::setupModulationBaseClass(double extSampRate)
 {
-    delete [] waveTable;
+    if (waveTable != nullptr)
+    {
+//        delete [] waveTable;
+    }
     sampleRate = extSampRate;
     timeStep = 1./extSampRate;
     allocateMemory();

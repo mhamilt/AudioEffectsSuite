@@ -99,8 +99,7 @@ void Plugin_testAudioProcessor::changeProgramName (int index, const String& newN
 //==============================================================================
 void Plugin_testAudioProcessor::prepareToPlay (double sampleRate, int samplesPerBlock)
 {
-    flangerEffect.setupSimpleFlanger(sampleRate);
-    flangerEffect.setEffectParams(1, sampleRate*.01, .4);
+    chorus.setupChorus(sampleRate);
 }
 
 void Plugin_testAudioProcessor::releaseResources()
@@ -154,7 +153,7 @@ void Plugin_testAudioProcessor::processBlock (AudioSampleBuffer& buffer, MidiBuf
     float* const outputData = buffer.getWritePointer (0);
     
     for (int samp = 0; samp < buffer.getNumSamples(); samp++)
-        outputData[samp] = flangerEffect.process(inputData[samp])*gain;
+        outputData[samp] = chorus.process(inputData[samp]);
     
     for (int channel = 1; channel < totalNumOutputChannels; ++channel)
         buffer.copyFrom(channel, 0, outputData, buffer.getNumSamples());

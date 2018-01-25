@@ -21,12 +21,13 @@ void SimpleChorus::setBase(double baseAmount)
 void SimpleChorus::setupChorus(double extSampleRate)
 {
     setupModulationBaseClass(extSampleRate);
-    setupDelayEffectBase(double(extSampleRate)*.04);
+    setupDelayEffectBase(double(extSampleRate)*.1);
     //    SimpleLPF(0.0004,4)
+    setChebyICoefficients(0.00005, false, 0);
     
-    swing = 0.005*extSampleRate;
-    base = 0.01*extSampleRate;
-    delete [] waveTable;
+    swing = readSpeed*extSampleRate*5;
+    base = readSpeed*extSampleRate*20;
+//    delete [] waveTable;
     setRandLfo();
 }
 
@@ -35,10 +36,10 @@ double SimpleChorus::process(double inputSample)
 {
     delaySample(inputSample);
     const double waveDelay = getModSignal();
-    const double delayAmount = waveDelay + currentDelayWriteIndex;
+    const double delayAmount = ((int(currentDelayWriteIndex - waveDelay) + delayTimeSamples) % delayTimeSamples)
+                                + ((currentDelayWriteIndex - waveDelay) - trunc(currentDelayWriteIndex - waveDelay));
     
-    //    printf("Delay %.2f\n",waveDelay);
-    const double out = .5*inputSample + getInterpolatedOut(delayAmount);
+    const double out = .0*inputSample + 1.*getInterpolatedOut(delayAmount);
     
     return out;
 }
@@ -48,7 +49,8 @@ void SimpleChorus::setRandLfo()
     std::fill(iirBuffer, iirBuffer+filterOrder, .5);
     for (int i = 0; i < sampleRate; i++)
     {
-        waveTable[i] = applyFilter((readNoise()+1)*.5);
+        waveTable[i] = (readNoise()+1)*.5;
+//        waveTable[i] = applyFilter((readNoise()+1)*.5);
         if (waveTable[i] < modMin)
             modMin = waveTable[i];
         if (waveTable[i] > modMax)
@@ -66,23 +68,23 @@ void SimpleChorus::setRandLfo()
         waveTable[i] *= modNorm;
     }
     
+//    setOffSine();
+    
     // this ocde fades out at the end and fades in at the start
     // to avoid any discontinuities int the signal.
-    const int fadeSize = 10000;
-    const double fadeSpeed = 2*M_PI/fadeSize;
-    for (int i = 0; i < fadeSize; i++)
-    {
-        const int fadeIndex = ((sampleRate-fadeSize/2)+i)%sampleRate;
-        waveTable[fadeIndex] *= (1+cos(fadeSpeed*i))*.5;
-    }
+//    const int fadeSize = 10000;
+//    const double fadeSpeed = 2*M_PI/fadeSize;
+//    for (int i = 0; i < fadeSize; i++)
+//    {
+//        const int fadeIndex = ((sampleRate-fadeSize/2)+i)%sampleRate;
+//        waveTable[fadeIndex] *= (1+cos(fadeSpeed*i))*.5;
+//    }
 }
 //==============================================================================
 double SimpleChorus::getModSignal()
 {
-    return (readTable(2)*swing) + base;
+    return (readTable(readSpeed)*swing) + base;
 }
-
-
 
 //==============================================================================
 #endif /* SimpleChorus_hpp */

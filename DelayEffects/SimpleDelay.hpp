@@ -33,7 +33,11 @@ public: // Methods
 		
 		@see DelayEffectBase constructor
 	 */
-	SimpleDelay(int delayInSamples, double extSampleRate) : DelayEffectBase(44100){delayTimeSamples=delayInSamples;};
+    SimpleDelay() {};
+	SimpleDelay(int delayInSamples, double extSampleRate) : DelayEffectBase(delayInSamples)
+    {
+        delayTimeSamples = delayInSamples;
+    };
 	
 	/** Destructor. */
 	~SimpleDelay(){};
@@ -59,10 +63,20 @@ public: // Methods
 	void setFeedbackGain(double gain);
 	
 	//==============================================================================
-	/**apply the DSP effect*/
+	/**
+	 Apply delay and return input sample along with delay buffer signal
+
+	 @param inputSample <#inputSample description#>
+	 @return <#return value description#>
+	 */
 	double process(double inputSample) override;
 	
-    void setupSimpleDelay(int delayInSamples, double extSampleRate);
+    /**
+     <#Description#>
+
+     @param delayInSamples <#delayInSamples description#>
+     */
+    void setupSimpleDelay(int delayInSamples);
 private: //Methods
 	/** capGain: caps gain to a range of 1 and -1;
 	*	@param gain address of gain value
@@ -71,7 +85,9 @@ private: //Methods
 
 private: //member vairables
 	/***/
-	double delayGain=.707, feedbackGain=0.;
+    double delayGain = .707;
+    /***/
+    double feedbackGain = 0.;
 };
 
 #endif /* SimpleDelay_hpp */

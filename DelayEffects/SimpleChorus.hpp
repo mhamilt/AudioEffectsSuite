@@ -29,12 +29,12 @@ public:
      
      @params sampRate	The sample rate of incoming audio.
      */
-    SimpleChorus() : SimpleLPF(0.0004,4)
+    SimpleChorus() : SimpleLPF(0.0001,4)
     {
     }
     SimpleChorus(int extSampleRate) : ModulationBaseClass(extSampleRate),
                                       DelayEffectBase(double(extSampleRate)*.031),
-                                      SimpleLPF(0.0004,4)
+                                      SimpleLPF(0.0001,4)
     {
         swing = 0.005*sampleRate;
         base = 0.015*sampleRate;
@@ -92,6 +92,8 @@ private:
 		modulates a random white noise signal by lowpass filtering then scaling
 		to a range between 15 to 25 miliseconds of delay.*/
 	double getModSignal();
+    
+    const double readSpeed = ((readNoise()+1)*.5)*.0005;
     
     void setRandLfo();
 };

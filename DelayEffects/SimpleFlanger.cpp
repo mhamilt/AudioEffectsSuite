@@ -26,7 +26,7 @@ double SimpleFlanger::process(double inputSample)
 void SimpleFlanger::updateModulation() //TODO: swap for usage of ModulationBaseClassInheritance
 {
 	modulationAngle += angleDelta;
-	modulationIndex = (currentDelayWriteIndex-(modulationDepth*(1+(sin(modulationAngle))))) - 1;
+	modulationIndex = (currentDelayWriteIndex-(modulationDepth*(1+(sin(modulationAngle))))) - 12;
     modulationIndex = ( (int(modulationIndex) + delayTimeSamples) % delayTimeSamples)
                       + (modulationIndex - floor(modulationIndex) );
 }

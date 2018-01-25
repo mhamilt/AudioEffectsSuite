@@ -10,10 +10,9 @@
 
 #include "SimpleDelay.hpp"
 
-void SimpleDelay::setupSimpleDelay(int delayInSamples, double extSampleRate)
+void SimpleDelay::setupSimpleDelay(int delayInSamples)
 {
-    setupDelayEffectBase(extSampleRate);
-    delayTimeSamples = delayInSamples;
+    setupDelayEffectBase(delayInSamples);
 }
 
 //==============================================================================
@@ -52,4 +51,4 @@ void SimpleDelay::setFeedbackGain(double gain)
 	feedbackGain = gain;
 }
 //==============================================================================
-#endif /* SimpleDelay_hpp */
+#endif /* SimpleDelay_cpp */

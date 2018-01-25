@@ -36,7 +36,10 @@ public: // Methods
 	
 public:
 	/** Destructor. */
-	~DelayEffectBase(){delete[] delayBuffer;};
+	~DelayEffectBase()
+    {
+        delete[] delayBuffer;
+    };
 	
 	//==============================================================================
 	/** Main process block for applying audio effect
@@ -47,11 +50,11 @@ public:
 	virtual double process(double inputSample) = 0;
 
     /**
-     setupDelayEffectBase
+     <#Description#>
 
-     @param extSampleRate <#extSampleRate description#>
+     @param bufferSizeSamples <#bufferSizeSamples description#>
      */
-    void setupDelayEffectBase(double extSampleRate);
+    void setupDelayEffectBase(const int bufferSizeSamples);
 private:	//Methods
 	//==============================================================================
 	/** Sets the internal lagrange interpolation table. Ideally it should be shared

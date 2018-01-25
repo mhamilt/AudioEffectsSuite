@@ -61,7 +61,8 @@ public:
 private:
     //==============================================================================
 public:
-    SimpleFlanger flangerEffect;
+    SimpleChorus chorus;
+    SimpleDelay delay;
     double tremRate = 0; // rate of tremolo in Hz [changed by slider]
     double gain     = 0; // gain of signal
     
