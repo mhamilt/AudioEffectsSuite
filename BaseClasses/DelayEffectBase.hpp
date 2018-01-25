@@ -30,7 +30,6 @@ public: // Methods
     DelayEffectBase(int bufferSizeSamples);
 
 	/** Destructor. */
-	~DelayEffectBase()
     ~DelayEffectBase();
 	
 	//==============================================================================
