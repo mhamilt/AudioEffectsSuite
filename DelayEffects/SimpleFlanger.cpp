@@ -12,7 +12,7 @@ SimpleFlanger::SimpleFlanger()
 {
 }
 
-SimpleFlanger::SimpleFlanger(double extSampleRate) : DelayEffectBase(int(extSampleRate*0.02))
+SimpleFlanger::SimpleFlanger(double extSampleRate) : DelayEffectBase(static_cast<int>(extSampleRate*0.02))
 {
 }
 

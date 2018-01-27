@@ -151,23 +151,30 @@ void SimpleFlangerAudioProcessor::processBlock (AudioSampleBuffer& buffer, MidiB
 
     // This is the place where you'd normally do the guts of your plugin's
     // audio processing...
-    // TAR: I don't like the channel numbers being hardcoded...
+
+//    int numSamples{buffer.getNumSamples()};
+//
+//    for (int channel = 0; channel < totalNumInputChannels; ++channel)
+//    {
+//        const float* inData = buffer.getReadPointer(channel);
+//        float* const outData = buffer.getWritePointer(channel);
+//
+//        for(long sample = 0; sample < numSamples; ++sample)
+//        {
+//            outData[sample] = this->flanger.process(inData[sample]);
+//        }
+//    }
+
     const float* inputDataL = buffer.getReadPointer(0);
     const float* inputDataR = buffer.getReadPointer(1);
     float* const outputDataL = buffer.getWritePointer(0);
     float* const outputDataR = buffer.getWritePointer(1);
-    
+
     for (int samp = 0; samp < buffer.getNumSamples(); samp++)
     {
         outputDataL[samp] = this->flanger.process(inputDataL[samp]);
         outputDataR[samp] = this->flanger.process(inputDataR[samp]);
     }
-
-//    // TAR: I think this just copies channel 1 to channel 2...
-//    for (int channel = 1; channel < totalNumOutputChannels; ++channel)
-//    {
-//        buffer.copyFrom(channel, 0, outputData, buffer.getNumSamples());
-//    }
 }
 
 //==============================================================================
