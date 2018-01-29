@@ -24,19 +24,14 @@ public:
     //==============================================================================
     MainContentComponent()
     {
-//        setFullScreen(true);
-//        setSize(getWidth(), getHeight());
-//        ResizableWindow::setFullScreen();
         startTimerHz (30);
-        setSize(400, 400);
+        setSize(400, 600);
         otherLookAndFeel.setColour(Slider::thumbColourId, Colour (0, 0, 0));
         
         addAndMakeVisible (frequency);
-//        frequency.setSliderStyle(Slider::LinearBarVertical);
         frequency.setSliderStyle(Slider::LinearVertical);
         frequency.setRange (0, 1000.0);
         frequency.setTextBoxStyle (Slider::TextBoxBelow, false, 100, 40);
-//        frequency.setTextValueSuffix("Hz");
         frequency.setLookAndFeel(&otherLookAndFeel);
         frequency.setSkewFactorFromMidPoint (500.0); // [4]
         frequency.addListener (this);
@@ -60,7 +55,7 @@ public:
             otherLookAndFeel.setColour(Slider::thumbColourId, Colour(colouroffset,colouroffset,colouroffset));
             frequency.setLookAndFeel(&otherLookAndFeel);
             freq = frequency.getValue();
-            rotSpeed = normSlide*0.05;
+            rotSpeed = normSlide*0.1;
         }
     }
 
@@ -114,6 +109,8 @@ public:
     //==============================================================================
     void paint (Graphics& g) override
     {
+        
+        
         rot += rotSpeed;
         if (rot>(2*double_Pi)) {
             rot=0;
@@ -122,19 +119,23 @@ public:
         // (Our component is opaque, so we must completely fill the background with a solid colour)
         g.fillAll (getLookAndFeel().findColour (ResizableWindow::backgroundColourId));
         
-        AffineTransform houseTransform;
+        AffineTransform rect1Trans,rect2Trans;
         
-        houseTransform = houseTransform.rotated(rot).translated (rectX,rectY);
-
+        rect1Trans = rect1Trans.rotated(rot).translated (rect1X,rect1Y);
+        rect2Trans = rect2Trans.rotated(-rot).translated (rect2X,rect2Y);
         g.setColour (Colours::white);
-        g.addTransform(houseTransform);
-        
-        g.fillRect(house);
         g.setFont (15.0f);
-//
-//        const int rectSize = jmin (getWidth(), getHeight()) / 2 - 200;
-//        g.setOpacity (getAlpha());
-//        g.drawRect (-100, -100, rectSize, rectSize, 5);
+        g.drawFittedText ("Tremolo Rate (Hz)", 0, 70, getWidth(), 30, Justification::centred,1);
+//        g.addTransform(rect1Trans);
+//        g.fillRect(rect1);
+        
+//        g.addTransform(rect2Trans);
+//        g.fillRect(rect2);
+        Path p1,p2;
+        p1.addRectangle(rect1);
+        p2.addRectangle(rect2);
+        g.strokePath(p1, PathStrokeType(1), rect1Trans);
+        g.strokePath(p2, PathStrokeType(1), rect2Trans);
     }
     
     void resized() override
@@ -143,7 +144,6 @@ public:
         // If you add any child components, this is where you should
         // update their positions.
         frequency.setBounds ((getWidth()/2)-40, 100, 80, 400);
-//        frequency.setBounds(<#int x#>, <#int y#>, <#int width#>, <#int height#>)
     }
     
     void timerCallback() override
@@ -156,17 +156,16 @@ private:
     //==============================================================================
 
     // Your private member variables go here...
-    float rectX = 100;
-    float rectY = 100;
+    float rect1X = 75;
+    float rect1Y = 250;
+    float rect2X = 250;
+    float rect2Y = 250;
+    float sqrSize = 100;
     
-    float rectRad = sqrt((rectX)*(rectX) + (rectY)*(rectY));
-    float rectTheta = atan(rectY/rectX);
-    float deltaX = 0;
-    float deltaY = 0;
+    Rectangle<float> rect1 = Rectangle<float> (-sqrSize/2,-sqrSize/2,sqrSize,sqrSize);
+    Rectangle<float> rect2 = Rectangle<float> (-sqrSize/2,-sqrSize/2,sqrSize,sqrSize);
     
-    Rectangle<float> house = Rectangle<float> (-50,-50,100,100);
-    
-    float rot = .25;
+    float rot = 0;
     float rotSpeed =0.;
 
     ModulationBaseClass waveTab;
