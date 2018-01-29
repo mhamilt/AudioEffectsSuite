@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<JUCERPROJECT id="EKG4EN" name="iOS_test" displaySplashScreen="1" reportAppUsage="1"
+              splashScreenColour="Dark" projectType="guiapp" version="1.0.0"
+              bundleIdentifier="com.yourcompany.iOS_test" includeBinaryInAppConfig="1"
+              cppLanguageStandard="11" companyCopyright="" jucerVersion="5.2.0">
+  <MAINGROUP id="CWgOUJ" name="iOS_test">
+    <GROUP id="{AC7A1D5F-67C7-9B33-0590-09DFA8A29F08}" name="BaseClasses">
+      <FILE id="h9IbOu" name="BaseClasses.h" compile="0" resource="0" file="../../../BaseClasses/BaseClasses.h"/>
+      <FILE id="fvFSwN" name="DelayEffectBase.cpp" compile="1" resource="0"
+            file="../../../BaseClasses/DelayEffectBase.cpp"/>
+      <FILE id="MV6o5j" name="DelayEffectBase.hpp" compile="0" resource="0"
+            file="../../../BaseClasses/DelayEffectBase.hpp"/>
+      <FILE id="zabVC5" name="FilterEffectBase.cpp" compile="1" resource="0"
+            file="../../../BaseClasses/FilterEffectBase.cpp"/>
+      <FILE id="JxGa6V" name="FilterEffectBase.hpp" compile="0" resource="0"
+            file="../../../BaseClasses/FilterEffectBase.hpp"/>
+      <FILE id="GJbaGS" name="ModulationBaseClass.cpp" compile="1" resource="0"
+            file="../../../BaseClasses/ModulationBaseClass.cpp"/>
+      <FILE id="D5LCvR" name="ModulationBaseClass.hpp" compile="0" resource="0"
+            file="../../../BaseClasses/ModulationBaseClass.hpp"/>
+    </GROUP>
+    <GROUP id="{784C0683-B744-2105-A1B2-9B34F30F2C8E}" name="DelayEffects">
+      <FILE id="apIlJD" name="DelayEffects.h" compile="0" resource="0" file="../../../DelayEffects/DelayEffects.h"/>
+      <FILE id="aXDqPW" name="FilteredDelay.cpp" compile="1" resource="0"
+            file="../../../DelayEffects/FilteredDelay.cpp"/>
+      <FILE id="ksk4PM" name="FilteredDelay.hpp" compile="0" resource="0"
+            file="../../../DelayEffects/FilteredDelay.hpp"/>
+      <FILE id="tm7xYZ" name="SimpleChorus.cpp" compile="1" resource="0"
+            file="../../../DelayEffects/SimpleChorus.cpp"/>
+      <FILE id="WNrIdT" name="SimpleChorus.hpp" compile="0" resource="0"
+            file="../../../DelayEffects/SimpleChorus.hpp"/>
+      <FILE id="eRsc3k" name="SimpleDelay.cpp" compile="1" resource="0" file="../../../DelayEffects/SimpleDelay.cpp"/>
+      <FILE id="aSdQFN" name="SimpleDelay.hpp" compile="0" resource="0" file="../../../DelayEffects/SimpleDelay.hpp"/>
+      <FILE id="DEegS8" name="SimpleFlanger.cpp" compile="1" resource="0"
+            file="../../../DelayEffects/SimpleFlanger.cpp"/>
+      <FILE id="YzZzYL" name="SimpleFlanger.hpp" compile="0" resource="0"
+            file="../../../DelayEffects/SimpleFlanger.hpp"/>
+      <FILE id="jG4Ka9" name="TapDelay.cpp" compile="1" resource="0" file="../../../DelayEffects/TapDelay.cpp"/>
+      <FILE id="hPfSQR" name="TapDelay.hpp" compile="0" resource="0" file="../../../DelayEffects/TapDelay.hpp"/>
+    </GROUP>
+    <GROUP id="{FF1EB598-B885-4AB6-AFCF-28B4E27221EE}" name="FilterEffects">
+      <FILE id="B9A1W2" name="EnvelopeFilter.cpp" compile="1" resource="0"
+            file="../../../FilterEffects/EnvelopeFilter.cpp"/>
+      <FILE id="sp3HLI" name="EnvelopeFilter.hpp" compile="0" resource="0"
+            file="../../../FilterEffects/EnvelopeFilter.hpp"/>
+      <FILE id="o5E7KU" name="FilterEffects.h" compile="0" resource="0" file="../../../FilterEffects/FilterEffects.h"/>
+      <FILE id="duhio6" name="SimpleLPF.cpp" compile="1" resource="0" file="../../../FilterEffects/SimpleLPF.cpp"/>
+      <FILE id="Jjq22r" name="SimpleLPF.hpp" compile="0" resource="0" file="../../../FilterEffects/SimpleLPF.hpp"/>
+    </GROUP>
+    <GROUP id="{3151956D-B7C0-C754-8682-5F03C07DCD07}" name="Source">
+      <FILE id="wxgf7z" name="MainComponent.cpp" compile="1" resource="0"
+            file="Source/MainComponent.cpp"/>
+      <FILE id="aJbv7c" name="Main.cpp" compile="1" resource="0" file="Source/Main.cpp"/>
+    </GROUP>
+  </MAINGROUP>
+  <EXPORTFORMATS>
+    <XCODE_MAC targetFolder="Builds/MacOSX">
+      <CONFIGURATIONS>
+        <CONFIGURATION name="Debug" enablePluginBinaryCopyStep="1" isDebug="1" optimisation="1"
+                       linkTimeOptimisation="0" targetName="iOS_test"/>
+        <CONFIGURATION name="Release" enablePluginBinaryCopyStep="1" isDebug="0" optimisation="3"
+                       linkTimeOptimisation="1" targetName="iOS_test"/>
+      </CONFIGURATIONS>
+      <MODULEPATHS>
+        <MODULEPATH id="juce_core" path="../../../../../../../../Applications/JUCE/modules"/>
+        <MODULEPATH id="juce_events" path="../../../../../../../../Applications/JUCE/modules"/>
+        <MODULEPATH id="juce_graphics" path="../../../../../../../../Applications/JUCE/modules"/>
+        <MODULEPATH id="juce_data_structures" path="../../../../../../../../Applications/JUCE/modules"/>
+        <MODULEPATH id="juce_gui_basics" path="../../../../../../../../Applications/JUCE/modules"/>
+        <MODULEPATH id="juce_gui_extra" path="../../../../../../../../Applications/JUCE/modules"/>
+        <MODULEPATH id="juce_cryptography" path="../../../../../../../../Applications/JUCE/modules"/>
+        <MODULEPATH id="juce_video" path="../../../../../../../../Applications/JUCE/modules"/>
+        <MODULEPATH id="juce_opengl" path="../../../../../../../../Applications/JUCE/modules"/>
+        <MODULEPATH id="juce_audio_basics" path="../../../../../../../../Applications/JUCE/modules"/>
+        <MODULEPATH id="juce_audio_devices" path="../../../../../../../../Applications/JUCE/modules"/>
+        <MODULEPATH id="juce_audio_formats" path="../../../../../../../../Applications/JUCE/modules"/>
+        <MODULEPATH id="juce_audio_processors" path="../../../../../../../../Applications/JUCE/modules"/>
+        <MODULEPATH id="juce_audio_utils" path="../../../../../../../../Applications/JUCE/modules"/>
+      </MODULEPATHS>
+    </XCODE_MAC>
+    <XCODE_IPHONE targetFolder="Builds/iOS" iosScreenOrientation="portraitlandscape"
+                  iPadScreenOrientation="portraitlandscape" iosDeviceFamily="1,2">
+      <CONFIGURATIONS>
+        <CONFIGURATION name="Debug" enablePluginBinaryCopyStep="1" isDebug="1" optimisation="1"
+                       linkTimeOptimisation="0" targetName="iOS_test"/>
+        <CONFIGURATION name="Release" enablePluginBinaryCopyStep="1" isDebug="0" optimisation="3"
+                       linkTimeOptimisation="1" targetName="iOS_test"/>
+      </CONFIGURATIONS>
+      <MODULEPATHS>
+        <MODULEPATH id="juce_core" path="../../../../../../../../Applications/JUCE/modules"/>
+        <MODULEPATH id="juce_events" path="../../../../../../../../Applications/JUCE/modules"/>
+        <MODULEPATH id="juce_graphics" path="../../../../../../../../Applications/JUCE/modules"/>
+        <MODULEPATH id="juce_data_structures" path="../../../../../../../../Applications/JUCE/modules"/>
+        <MODULEPATH id="juce_gui_basics" path="../../../../../../../../Applications/JUCE/modules"/>
+        <MODULEPATH id="juce_gui_extra" path="../../../../../../../../Applications/JUCE/modules"/>
+        <MODULEPATH id="juce_cryptography" path="../../../../../../../../Applications/JUCE/modules"/>
+        <MODULEPATH id="juce_video" path="../../../../../../../../Applications/JUCE/modules"/>
+        <MODULEPATH id="juce_opengl" path="../../../../../../../../Applications/JUCE/modules"/>
+        <MODULEPATH id="juce_audio_basics" path="../../../../../../../../Applications/JUCE/modules"/>
+        <MODULEPATH id="juce_audio_devices" path="../../../../../../../../Applications/JUCE/modules"/>
+        <MODULEPATH id="juce_audio_formats" path="../../../../../../../../Applications/JUCE/modules"/>
+        <MODULEPATH id="juce_audio_processors" path="../../../../../../../../Applications/JUCE/modules"/>
+        <MODULEPATH id="juce_audio_utils" path="../../../../../../../../Applications/JUCE/modules"/>
+      </MODULEPATHS>
+    </XCODE_IPHONE>
+  </EXPORTFORMATS>
+  <MODULES>
+    <MODULE id="juce_audio_basics" showAllCode="1" useLocalCopy="0" useGlobalPath="0"/>
+    <MODULE id="juce_audio_devices" showAllCode="1" useLocalCopy="0" useGlobalPath="0"/>
+    <MODULE id="juce_audio_formats" showAllCode="1" useLocalCopy="0" useGlobalPath="0"/>
+    <MODULE id="juce_audio_processors" showAllCode="1" useLocalCopy="0" useGlobalPath="0"/>
+    <MODULE id="juce_audio_utils" showAllCode="1" useLocalCopy="0" useGlobalPath="0"/>
+    <MODULE id="juce_core" showAllCode="1" useLocalCopy="0" useGlobalPath="0"/>
+    <MODULE id="juce_cryptography" showAllCode="1" useLocalCopy="0" useGlobalPath="0"/>
+    <MODULE id="juce_data_structures" showAllCode="1" useLocalCopy="0" useGlobalPath="0"/>
+    <MODULE id="juce_events" showAllCode="1" useLocalCopy="0" useGlobalPath="0"/>
+    <MODULE id="juce_graphics" showAllCode="1" useLocalCopy="0" useGlobalPath="0"/>
+    <MODULE id="juce_gui_basics" showAllCode="1" useLocalCopy="0" useGlobalPath="0"/>
+    <MODULE id="juce_gui_extra" showAllCode="1" useLocalCopy="0" useGlobalPath="0"/>
+    <MODULE id="juce_opengl" showAllCode="1" useLocalCopy="0" useGlobalPath="0"/>
+    <MODULE id="juce_video" showAllCode="1" useLocalCopy="0" useGlobalPath="0"/>
+  </MODULES>
+  <JUCEOPTIONS/>
+</JUCERPROJECT>

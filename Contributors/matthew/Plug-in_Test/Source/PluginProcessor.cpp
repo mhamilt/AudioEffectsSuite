@@ -100,6 +100,7 @@ void Plugin_testAudioProcessor::changeProgramName (int index, const String& newN
 void Plugin_testAudioProcessor::prepareToPlay (double sampleRate, int samplesPerBlock)
 {
     chorus.setupChorus(sampleRate);
+    delay.setupSimpleDelay(80000);
 }
 
 void Plugin_testAudioProcessor::releaseResources()
@@ -153,7 +154,7 @@ void Plugin_testAudioProcessor::processBlock (AudioSampleBuffer& buffer, MidiBuf
     float* const outputData = buffer.getWritePointer (0);
     
     for (int samp = 0; samp < buffer.getNumSamples(); samp++)
-        outputData[samp] = chorus.process(inputData[samp]);
+        outputData[samp] = delay.process(inputData[samp]);
     
     for (int channel = 1; channel < totalNumOutputChannels; ++channel)
         buffer.copyFrom(channel, 0, outputData, buffer.getNumSamples());

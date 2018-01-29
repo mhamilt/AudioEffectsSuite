@@ -55,19 +55,8 @@ int main(int argc, const char * argv[])
     // // Sample Rate Dependant Effects
     SimpleFlanger flangeLeft, flangeRight;
     SimpleChorus chorusLeft, chorusRight;
-    
-    const int maxVoiceNum = 5;
-    SimpleChorus** ptrChorusLeft = new SimpleChorus*[maxVoiceNum];
-    SimpleChorus** ptrChorusRight = new SimpleChorus*[maxVoiceNum];
-    for (int voice = 0; voice < maxVoiceNum; ++voice)
-    {
-        ptrChorusLeft[voice] = new SimpleChorus;
-        ptrChorusLeft[voice]->setupChorus(sampleRate);
-        
-        ptrChorusRight[voice] = new SimpleChorus;
-        ptrChorusRight[voice]->setupChorus(sampleRate);
-        
-    }
+    SimpleDelay delayLeft, delayRight;
+
     //==============================================================================
     // // Change Parameters
     flangeLeft.setupSimpleFlanger(sampleRate);
@@ -76,25 +65,16 @@ int main(int argc, const char * argv[])
     chorusLeft.setupChorus(sampleRate);
     chorusRight.setupChorus(sampleRate);
 
+    delayLeft.setupSimpleDelay(8000);
+    delayRight.setupSimpleDelay(4000);
     //==============================================================================
     //    const double radPerSec = 2*3.1415926536/double(sampleRate);
-        const double radPerSec = 3.1415926536/(2*maxVoiceNum);
     //==============================================================================
 //    for (int i = 0; i<20;i++)
     for (int i = 0; i<numOfFrames;i++)
     {
-        stereoOut[0][i] = stereoIn[0][i]    ;
-        stereoOut[1][i] = stereoIn[1][i];
-        for (int voice = 0; voice < maxVoiceNum; ++voice)
-        {
-            const double pan = voice*radPerSec;
-            const double left = ptrChorusLeft[voice]->process(stereoIn[0][i]);
-            const double right = ptrChorusRight[voice]->process(stereoIn[1][i]);
-//            stereoOut[0][i] += cos(pan)*left + sin(pan)*right;
-//            stereoOut[1][i] += cos(pan)*right + sin(pan)*left;
-            stereoOut[0][i] += left;
-            stereoOut[1][i] += right;
-        }
+        stereoOut[0][i] = flangeLeft.process(stereoIn[0][i]);
+        stereoOut[1][i] = flangeRight.process(stereoIn[1][i]) ;
     }
     
     //==============================================================================

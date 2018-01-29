@@ -70,7 +70,7 @@ void SimpleChorus::setRandLfo()
     
 //    setOffSine();
     
-    // this ocde fades out at the end and fades in at the start
+    // this code fades out at the end and fades in at the start
     // to avoid any discontinuities int the signal.
 //    const int fadeSize = 10000;
 //    const double fadeSpeed = 2*M_PI/fadeSize;

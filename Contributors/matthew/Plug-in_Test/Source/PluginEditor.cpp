@@ -23,7 +23,11 @@ Plugin_testAudioProcessorEditor::Plugin_testAudioProcessorEditor (Plugin_testAud
     //==========================================================================
     //  Sliders
     //==========================================================================
-    
+    // log slider
+    // log2(mltpl)*maxHz/log2(maxHz)
+    // mltpl == frequency/minHz , maxHz == max(frequency)
+    // if slider value is scaled [(1/max(mltpl)), 1]; max(mltpl) == max(frequency)/minHz slider is log
+    // slider slice step val == 0:1/16:16; if val == 0 {set amp = 0}
     tremoloRate.setRange(0.0, 200, .001); // 1046.50 Hz == C6
     tremoloRate.setTextBoxStyle (Slider::TextBoxAbove, false, 90, 30);
     tremoloRate.setValue(processor.tremRate);
@@ -70,6 +74,6 @@ void Plugin_testAudioProcessorEditor::sliderValueChanged (Slider* slider)
 {
 //    if (slider == &tremoloRate)
 //        processor.flangerEffect.setDepth(tremoloRate.getValue());
-//    if (slider == &gain)
-//        processor.gain = gain.getValue();
+    if (slider == &gain)
+        processor.delay.setFeedbackGain(gain.getValue());
 }
