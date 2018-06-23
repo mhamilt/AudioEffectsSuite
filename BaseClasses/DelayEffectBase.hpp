@@ -51,9 +51,6 @@ private:	//Methods
 	/** Sets the internal lagrange interpolation table. Ideally it should be shared
 	 amongst all
 	 
-	 @param interpolationOrder	order of interpolation to be used
-	 @param alphaResolution      the number of discrete alpha values that are represented
-	 
 	 @returns    false and an error description if there's a problem,
 	 or sets the interpolation lookup table and returns true
 	 */
@@ -68,9 +65,6 @@ protected:
 	
 	/** Allocates memory for delay buffer and initialises all elements to 0
 	 
-	 @param inputChannelNum         number of input channels to effect
-	 @param outputChannelNum        number of output channels from effect
-	 @param sampleRate				the sample rate to try to use
 	 @param bufferSizeSamples		the size of delay buffer to be used
 	 
 	 @returns   false and error description if there's a problem,

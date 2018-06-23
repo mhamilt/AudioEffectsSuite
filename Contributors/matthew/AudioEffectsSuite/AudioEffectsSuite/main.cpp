@@ -55,7 +55,8 @@ int main(int argc, const char * argv[])
     // // Sample Rate Dependant Effects
     SimpleFlanger flangeLeft, flangeRight;
     SimpleChorus chorusLeft, chorusRight;
-    SimpleDelay delayLeft, delayRight;
+    SimpleDelay delayLeft(4410, sampleRate), delayRight(4410, sampleRate);
+    
 
     //==============================================================================
     // // Change Parameters
@@ -65,18 +66,30 @@ int main(int argc, const char * argv[])
     chorusLeft.setupChorus(sampleRate);
     chorusRight.setupChorus(sampleRate);
 
-    delayLeft.setupSimpleDelay(8000);
-    delayRight.setupSimpleDelay(4000);
+//    delayLeft.setupSimpleDelay(8000);
+//    delayRight.setupSimpleDelay(4000);
     //==============================================================================
     //    const double radPerSec = 2*3.1415926536/double(sampleRate);
     //==============================================================================
-//    for (int i = 0; i<20;i++)
-    for (int i = 0; i<numOfFrames;i++)
-    {
-        stereoOut[0][i] = flangeLeft.process(stereoIn[0][i]);
-        stereoOut[1][i] = flangeRight.process(stereoIn[1][i]) ;
-    }
+//    for (int i = 0; i < 200 ;i++)
     
+    for (int i = 0; i < numOfFrames;i++)
+    {
+        stereoOut[0][i] = delayLeft.process(stereoIn[0][i]);
+        stereoOut[1][i] = delayRight.process(stereoIn[1][i]);
+        
+//        if (i == 80000)
+//        {
+//            delayLeft.setDelayTime(2000);
+//            delayRight.setDelayTime(2000);
+//        }
+        if (i > numOfFrames/2)
+        {
+            delayLeft.setDelayTime(4409 * (1 - double(i - numOfFrames/2)/double(numOfFrames/2)));
+            delayRight.setDelayTime(4409 * (1 - double(i- numOfFrames/2)/double(numOfFrames/2)));
+        }
+    }
+     
     //==============================================================================
     audioReadWriter.writeWavSS(stereoOut, ofile, numOfFrames, sampleRate);
     //      audioReadWriter.writeWavSS(stereoIn, ofile, numOfFrames, sampleRate);
@@ -92,7 +105,7 @@ int main(int argc, const char * argv[])
     }
     delete [] stereoIn;
     delete [] stereoOut;
-    //==============================================================================
+//    ==============================================================================
     playAudio(ofile);
     
     //==============================================================================

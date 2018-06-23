@@ -27,7 +27,6 @@ public:
      Since the class inherits DelayEffectBase it must set a
      delay buffer size when initialising.
      
-     @params sampRate	The sample rate of incoming audio.
      */
     SimpleChorus() : SimpleLPF(0.0001,4)
     {
