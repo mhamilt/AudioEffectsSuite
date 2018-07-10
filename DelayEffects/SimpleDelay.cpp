@@ -33,13 +33,6 @@ void SimpleDelay::setupSimpleDelay(int delayInSamples)
 
 double SimpleDelay::process(double inputSample)
 {
-//    static int count = 0;
-    // OLD
-    //	delaySample((inputSample*delayGain)+ (feedbackGain*getInterpolatedOut(currentDelayWriteIndex)));
-    //	const double out = getInterpolatedOut(currentDelayWriteIndex) + inputSample;
-    //	return out;
-    // OLD
-    
     // write sample
     delayBuffer[writeHeadIndex] = inputSample;
     writeHeadIndex++;
@@ -47,11 +40,9 @@ double SimpleDelay::process(double inputSample)
     
     // read sample
     double outSample = getSplineOut(readHeadIndex) + (inputSample * 1);
-//    if (currentDelaySamples != targetDelaySamples)
     if (delayTimeChanged)
     {
         count++;
-//        std::cout <<writeHeadIndex-1<< '\t'<< readHeadIndex << '\t' << count << '\n';
         const double difference = (currentDelaySamples - targetDelaySamples);
         const double increment = delayIncrement * (difference / fabs(difference));
         currentDelaySamples -= increment;
@@ -128,9 +119,6 @@ void SimpleDelay::setDelayTime(double delayInSamples)
     targetDelaySamples = delayInSamples;
     const double delayTimeDifference = currentDelaySamples - targetDelaySamples;
     delayIncrement = delayTimeDifference / delayTransitionTimeInSamples;
-//    delayIncrement = delayTimeDifference / 20;
     count = 0;
-//    std::cout << delayIncrement << '\n';
-
 }
 #endif /* SimpleDelay_cpp */
