@@ -1,0 +1,3 @@
+[submodule "cpp-cli-audio-tools"]
+	path = cpp-cli-audio-tools
+	url = https://github.com/mhamilt/cpp-cli-audio-tools

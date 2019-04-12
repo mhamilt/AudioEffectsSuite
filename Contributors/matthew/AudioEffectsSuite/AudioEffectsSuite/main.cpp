@@ -25,7 +25,7 @@ int main(int argc, const char * argv[])
     // // Audio Effects
     
     //==============================================================================
-    const char ifile[] = "/Users/mhamilt7/Documents/comp.wav";
+    const char ifile[] = "/Users/mhamilt7/Documents/GitHub/FDTD-SHO/Matlab/sounds/138147__juskiddink__musical-saw1.wav";
     //    "/Users/admin/Documents/Masters/PBMMI/Audio_Examples/GuitarStrum_12s_MN.wav"
     //    "/Users/admin/Music/Space Lion.wav"
     //    "/Users/admin/Documents/Masters/PBMMI/Audio_Examples/TestGuitarPhraseMono.wav"
@@ -38,14 +38,14 @@ int main(int argc, const char * argv[])
     //    "/Users/admin/Documents/Masters/PBMMI/Audio_Examples/220hzu8bit.wav"
     //    "/Users/admin/Documents/Masters/PBMMI/Audio_Examples/stereo24bit.wav"
     
-    const char ofile[] = "../MtoS_delayed.wav";
+    const char ofile[] = "/Users/mhamilt7/Downloads/test.wav";
     //==============================================================================
     AudioWavFileReadWrite audioReadWriter;
     int numOfFrames = 44100*.25, sampleRate = 44100;
     
-    //    double** stereoIn = audioReadWriter.whiteNoise(numOfFrames, sampleRate);;
+//        double** stereoIn = audioReadWriter.whiteNoise(numOfFrames, sampleRate);;
     double** stereoIn = audioReadWriter.readStereoWav(ifile, &numOfFrames, &sampleRate);
-    //    double* audioData = audioReadWriter.readWav(ifile, &numOfFrames, &sampleRate);
+//        double* audioData = audioReadWriter.readWav(ifile, &numOfFrames, &sampleRate);
     
     double** stereoOut = new double*[2];
     stereoOut[0] = new double[numOfFrames];
@@ -57,7 +57,7 @@ int main(int argc, const char * argv[])
 //    SimpleFlanger flangeLeft, flangeRight;
 //    SimpleChorus chorusLeft, chorusRight;
     SimpleDelay delayLeft(8810, sampleRate), delayRight(8810, sampleRate);
-    
+    printf("hello");
     
     //==============================================================================
     // // Change Parameters
@@ -74,30 +74,12 @@ int main(int argc, const char * argv[])
     //==============================================================================
     //    for (int i = 0; i < 200 ;i++)
     
-    for (int i = 0; i < numOfFrames;i++)
+    for (int i = 0; i < numOfFrames; i++)
     {            
         stereoOut[0][i] = delayLeft.process(stereoIn[0][i]);
         stereoOut[1][i] = delayRight.process(stereoIn[1][i]);
-        
-//                if (i == 44100)
-//                {
-//                    delayLeft.setDelayTime(100);
-//                    delayRight.setDelayTime(100);
-//                }
-        if (i > numOfFrames/2)
-        {
-            delayLeft.setDelayTime(100 * (1 - double(i - numOfFrames/2)/double(numOfFrames/2)));
-            delayRight.setDelayTime(100 * (1 - double(i- numOfFrames/2)/double(numOfFrames/2)));
-        }
-        
-//        if (i > 44100)
-//        {
-//            const int lim = numOfFrames - 44100;
-//            delayLeft.setDelayTime(4409 * (1 - double(i - numOfFrames)/double(numOfFrames/2)));
-//            delayRight.setDelayTime(4409 * (1 - double(i- numOfFrames/2)/double(numOfFrames/2)));
-//        }
     }
-     
+    
     //==============================================================================
     audioReadWriter.writeWavSS(stereoOut, ofile, numOfFrames, sampleRate);
     //      audioReadWriter.writeWavSS(stereoIn, ofile, numOfFrames, sampleRate);
